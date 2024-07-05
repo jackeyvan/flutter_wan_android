@@ -5,7 +5,8 @@ import 'home_provider.dart';
 class HomeController extends GetxController {
   final _provider = Get.find<HomeProvider>();
 
-  RxString? content;
+  var content = "默认数据".obs;
+  var count = 0.obs;
 
   @override
   void onInit() {
@@ -16,9 +17,16 @@ class HomeController extends GetxController {
 
   void buildContent() {
     _provider.loadData().then((value) {
-      content?.value = value;
+      print(value);
+      content.value = value;
     });
   }
 
-  String get result => content?.value ?? "没有数据";
+  String get data => content.value;
+
+  increat() {
+    count++;
+  }
+
+  get number => count;
 }

@@ -7,12 +7,14 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("玩安卓")),
-      body: Column(
-        children: [
-          Text(controller.result),
-        ],
-      ),
-    );
+        appBar: AppBar(title: Text("玩安卓")),
+        floatingActionButton:
+            FloatingActionButton(onPressed: controller.increat),
+        body: Center(
+            child: Obx(
+          () => Column(
+            children: [Text(controller.data), Text("${controller.count}")],
+          ),
+        )));
   }
 }
