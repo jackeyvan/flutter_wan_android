@@ -29,7 +29,7 @@ class StorageService extends GetxService {
   }
 
   /// 清空所有存储
-  Future<void> erase() {
+  Future<void> clear() {
     return _storage.erase();
   }
 }

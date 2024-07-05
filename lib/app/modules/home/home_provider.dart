@@ -1,4 +1,4 @@
-import '../../core/providers/base_provider.dart';
+import '../../../core/core.dart';
 
 abstract class IHomeProvider extends BaseProvider {
   Future<String> loadData();

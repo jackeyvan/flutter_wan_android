@@ -13,7 +13,7 @@ class Storage {
     return StorageService.to.remove(key);
   }
 
-  static Future<void> erase() {
-    return StorageService.to.erase();
+  static Future<void> clear() {
+    return StorageService.to.clear();
   }
 }
