@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import 'app/routes/routes.dart';
 import 'core/core.dart';
-import 'env/build_env.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +19,6 @@ class WanApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      enableLog: Get.find<BuildEnv>().enableLog(),
       title: "玩安卓",
       initialRoute: Routes.splash,
       debugShowCheckedModeBanner: false,

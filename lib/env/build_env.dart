@@ -4,6 +4,7 @@
 /// @soft   : IntelliJ IDEA
 /// @desc   : TODO
 /// ================================
+library;
 
 enum BuildFlavor { dev, test, release }
 

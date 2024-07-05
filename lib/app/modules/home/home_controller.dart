@@ -10,15 +10,17 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    buildContent();
+    loadData();
 
     super.onInit();
   }
 
-  void buildContent() {
+  void loadData() {
     _provider.loadData().then((value) {
-      print(value);
+      // print(value);
       content.value = value;
+    }).catchError((e) {
+      print(e.toString());
     });
   }
 

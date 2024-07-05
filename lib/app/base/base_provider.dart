@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
 import '../../utils/LogUtils.dart';
-import '../base/base_model.dart';
-import '../error/error.dart';
+import '../api/api.dart';
+import 'base_model.dart';
 
 /// ==============================
 /// @author : mac
@@ -12,10 +12,9 @@ import '../error/error.dart';
 /// ================================
 
 abstract class BaseProvider extends GetConnect {
-  final devApiUrl = "http://172.17.18.248:8080";
-
   // final devApiUrl = "http://192.168.0.31:8080";
-  final testApiUrl = "http://101.36.105.73:1339";
+  // final testApiUrl = "http://101.36.105.73:1339";
+  final proApiUrl = Api.baseUrl;
 
   final defaultPageSize = 20;
 
@@ -27,7 +26,7 @@ abstract class BaseProvider extends GetConnect {
     httpClient.baseUrl = apiUrl();
     httpClient.timeout = const Duration(seconds: 10);
 
-    httpClient.defaultDecoder = (json) => BaseModel.fromJson(json);
+    // httpClient.defaultDecoder = (json) => BaseModel.fromJson(json);
 
     httpClient.addRequestModifier<Object?>((request) {
       _headers.forEach((key, value) => request.headers.addIf(true, key, value));
@@ -35,7 +34,7 @@ abstract class BaseProvider extends GetConnect {
       LogUtils.log("REQUEST SUCCESS"
           "REQUEST METHOD：${request.method}\n"
           "REQUEST URL：${request.url}\n"
-          "REQUEST HEADERS：${request.headers.toString()}\n");
+          "REQUEST HEADERS：${request.headers.toString()}");
       return request;
     });
 
@@ -43,14 +42,14 @@ abstract class BaseProvider extends GetConnect {
       LogUtils.log("RESPONSE SUCCESS\n"
           "RESPONSE URL：${response.request?.url.toString()}\n"
           "RESPONSE HEADERS：${response.headers.toString()}\n"
-          "RESPONSE BODY：${response.body.toString()}\n");
+          "RESPONSE BODY：${response.body.toString()}");
 
       return response;
     });
   }
 
   /// 请求的URL，如果要换的话，可以重写本方法
-  String apiUrl() => devApiUrl;
+  String apiUrl() => proApiUrl;
 
   void addHeaders({String? key, String? value, Map<String, dynamic>? headers}) {
     if (key != null && key.isNotEmpty && value != null && value.isNotEmpty) {
@@ -70,30 +69,30 @@ abstract class BaseProvider extends GetConnect {
 
   bool isSuccess(BaseModel model) => model.isSuccess();
 
-  Future convert(Future<Response<BaseModel>> response) {
-    try {
-      return response.then((value) {
-        if (value.status.hasError) {
-          return Future.error(ErrorMode.serverError.emsg());
-        } else {
-          if (value.body != null) {
-            BaseModel model = value.body!;
-            if (isSuccess(model)) {
-              return Future.value(value.body!.data);
-            } else {
-              return Future.error(DefaultError(
-                      code: model.code ?? 0,
-                      msg: model.msg ?? ErrorMode.requestError.msg)
-                  .emsg());
-            }
-          } else {
-            return Future.error(ErrorMode.dataError.emsg());
-          }
-        }
-      });
-    } catch (e) {
-      LogUtils.error(e.toString());
-      return Future.error(ErrorMode.requestError.emsg());
-    }
-  }
+// Future convert(Future<Response<BaseModel>> response) {
+//   try {
+//     return response.then((value) {
+//       if (value.status.hasError) {
+//         return Future.error(ErrorMode.serverError.emsg());
+//       } else {
+//         if (value.body != null) {
+//           BaseModel model = value.body!;
+//           if (isSuccess(model)) {
+//             return Future.value(value.body!.data);
+//           } else {
+//             return Future.error(DefaultError(
+//                     code: model.code ?? 0,
+//                     msg: model.msg ?? ErrorMode.requestError.msg)
+//                 .emsg());
+//           }
+//         } else {
+//           return Future.error(ErrorMode.dataError.emsg());
+//         }
+//       }
+//     });
+//   } catch (e) {
+//     LogUtils.error(e.toString());
+//     return Future.error(ErrorMode.requestError.emsg());
+//   }
+// }
 }
