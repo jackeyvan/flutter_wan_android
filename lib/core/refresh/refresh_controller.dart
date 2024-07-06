@@ -1,8 +1,8 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 
-import '../../widgets/widget.dart';
 // import '../toast/toast.dart';
+import '../widgets/widget.dart';
 import 'refresh_notifier.dart';
 
 /// ==============================

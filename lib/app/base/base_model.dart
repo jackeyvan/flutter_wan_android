@@ -1,4 +1,4 @@
-import '../../utils/LogUtils.dart';
+import '../../core/log/log.dart';
 
 /// ----------------------------
 /// @author : shacoc
@@ -14,7 +14,7 @@ class BaseModel {
   dynamic data;
 
   BaseModel.fromJson(Map<String, dynamic> json) {
-    LogUtils.log(json);
+    Log.i(json);
 
     code = json['code'];
     message = json['message'];

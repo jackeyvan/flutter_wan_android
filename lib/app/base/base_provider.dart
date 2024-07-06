@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../utils/LogUtils.dart';
+import '../../core/log/log.dart';
 import '../api/api.dart';
 import 'base_model.dart';
 
@@ -31,7 +31,7 @@ abstract class BaseProvider extends GetConnect {
     httpClient.addRequestModifier<Object?>((request) {
       _headers.forEach((key, value) => request.headers.addIf(true, key, value));
 
-      LogUtils.log("REQUEST SUCCESS"
+      Log.i("REQUEST SUCCESS"
           "REQUEST METHOD：${request.method}\n"
           "REQUEST URL：${request.url}\n"
           "REQUEST HEADERS：${request.headers.toString()}");
@@ -39,7 +39,7 @@ abstract class BaseProvider extends GetConnect {
     });
 
     httpClient.addResponseModifier((request, response) {
-      LogUtils.log("RESPONSE SUCCESS\n"
+      Log.i("RESPONSE SUCCESS\n"
           "RESPONSE URL：${response.request?.url.toString()}\n"
           "RESPONSE HEADERS：${response.headers.toString()}\n"
           "RESPONSE BODY：${response.body.toString()}");
