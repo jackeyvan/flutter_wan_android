@@ -14,7 +14,14 @@ class ApiProvider {
 
   /// Banner数据
   Future<List<BannerModel>> banner() =>
-      _get<List<BannerModel>>(ApiPaths.banner);
+      _get<List<BannerModel>>(ApiPaths.banner).then((e) {
+        List<BannerModel> data = [];
+
+        /// TODO 特殊数据自己单独解析
+        print(e);
+
+        return Future.value();
+      });
 
   /// 封装最底层的请求
   Future<T> _get<T>(String url, {Cache cache = Cache.cacheFirstThenRemote}) {
@@ -26,16 +33,7 @@ class ApiProvider {
 
         /// 服务端返回成功
         if (result.isSuccess()) {
-          print("result.data = ${result.data.runtimeType}");
-          var data = result.data;
-
-          // if (data is List<dynamic>) {
-          //   return Future.value(data);
-          // }
-
-          /// TODO 做一下数据格式转换
-
-          return Future.value(data);
+          return Future.value(result.data);
         }
       }
       return Future.value();
