@@ -1,7 +1,7 @@
 /// 数据模型的封装
 // @JsonSerializable
-class Result<T> {
-  final T? data;
+class Result {
+  final dynamic data;
   final String? errorMsg;
   final int? errorCode;
 
@@ -22,4 +22,7 @@ class Result<T> {
     json['errorCode'] = errorCode;
     return json;
   }
+
+  /// 请求成功
+  bool isSuccess() => errorCode == 0;
 }

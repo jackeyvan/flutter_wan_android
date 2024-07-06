@@ -1,4 +1,4 @@
-class Api {
+class ApiPaths {
   /// 基础url
   static const baseUrl = "https://www.wanandroid.com/";
 

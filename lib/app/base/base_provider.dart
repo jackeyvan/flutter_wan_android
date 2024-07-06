@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../core/log/log.dart';
-import '../api/api.dart';
+import '../api/api_paths.dart';
 import 'base_model.dart';
 
 /// ==============================
@@ -14,7 +14,7 @@ import 'base_model.dart';
 abstract class BaseProvider extends GetConnect {
   // final devApiUrl = "http://192.168.0.31:8080";
   // final testApiUrl = "http://101.36.105.73:1339";
-  final proApiUrl = Api.baseUrl;
+  final proApiUrl = ApiPaths.baseUrl;
 
   final defaultPageSize = 20;
 
