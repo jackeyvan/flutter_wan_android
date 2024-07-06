@@ -8,7 +8,7 @@ import 'api/api_service.dart';
 
 /// 封装过的父类
 abstract class Service extends GetxService {
-  void init();
+  init();
 
   /// 第一次初始化相关服务
   dependencies() async {

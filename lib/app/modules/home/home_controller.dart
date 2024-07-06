@@ -15,9 +15,9 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  void loadData() {
+  void loadData() async {
     _provider.loadData().then((value) {
-      print(value);
+      // print(value);
       content.value = value;
     }).catchError((e) {
       print(e.toString());

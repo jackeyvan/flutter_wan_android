@@ -13,13 +13,32 @@ import '../env/build_env.dart';
 class Log {
   static final _logger = Get.find<Logger>();
 
-  static void i(dynamic msg) => _logger.i(msg);
+  /// 常规日志，不跟环境，直接打印
+  static void log(dynamic msg) => _logger.i(msg);
 
-  static void d(dynamic msg) => _logger.d(msg);
+  static void i(dynamic msg) {
+    if (enable()) {
+      _logger.i(msg);
+    }
+  }
 
-  static void e(dynamic msg) => _logger.e(msg);
+  static void d(dynamic msg) {
+    if (enable()) {
+      _logger.d(msg);
+    }
+  }
 
-  static void w(dynamic msg) => _logger.w(msg);
+  static void e(dynamic msg) {
+    if (enable()) {
+      _logger.e(msg);
+    }
+  }
+
+  static void w(dynamic msg) {
+    if (enable()) {
+      _logger.w(msg);
+    }
+  }
 
   static bool enable() => Get.find<BuildEnv>().enableLog();
 }
