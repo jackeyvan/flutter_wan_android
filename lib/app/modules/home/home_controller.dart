@@ -1,55 +1,33 @@
 import 'package:get/get.dart';
 
 import '../../api/api_provider.dart';
-import 'home_provider.dart';
+// import 'home_provider.dart';
 
 class HomeController extends GetxController {
-  final _provider = Get.find<HomeProvider>();
-
-  var currentBottomIndex = 0.obs;
+  // final _provider = Get.find<HomeProvider>();/
 
   final _apiProvider = Get.find<ApiProvider>();
 
-  var content = "默认数据".obs;
-  var count = 0.obs;
+  final testdata = "我是测试数据".obs;
 
   @override
   void onInit() {
-    // loadData();
+    print("------------> HomeController ---- onInit");
+  }
 
-    super.onInit();
+  @override
+  void onClose() {
+    print("------------> HomeController ---- onClose");
+  }
+
+  @override
+  void onReady() {
+    print("------------> HomeController ---- onReady");
   }
 
   void loadData() async {
-    _provider.loadData().then((value) {
-      // print(value);
-      content.value = value;
-    }).catchError((e) {
-      print(e.toString());
+    _apiProvider.banner().then((value) {
+      print("------------> HomeController ---- ${value[0].desc}");
     });
   }
-
-  String get data => content.value;
-
-  increat() {
-    count++;
-  }
-
-  get number => count;
-
-  login() {
-    _apiProvider.login("pgtwo", "123456").then((user) {
-      print("-------> 登录成功, ${user.nickname}");
-    });
-  }
-
-  logout() {
-    _apiProvider.logout();
-  }
-
-  set bottomIndex(index) {
-    currentBottomIndex.value = index;
-  }
-
-  get bottomIndex => currentBottomIndex.value;
 }

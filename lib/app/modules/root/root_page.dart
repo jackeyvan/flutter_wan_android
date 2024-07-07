@@ -34,10 +34,8 @@ class RootPage extends GetView<RootController> {
     return BottomNavigationBar(
         items: items,
         onTap: (index) {
-          /// 更新索引
+          /// 更新索引和页面
           controller.bottomIndex = index;
-
-          /// 切换Page
         },
         currentIndex: controller.bottomIndex);
   }
@@ -87,9 +85,9 @@ class RootPage extends GetView<RootController> {
     return NavigationDrawer(children: items);
   }
 
-  /// 根据选中的底部tab,切换不同的页面
+  /// 与底部Bottom绑定的页面
   Widget _buildBody() {
-    final pages = [
+    final pages = <Widget>[
       HomePage(),
       ProjectPage(),
       SeriesPage(),
