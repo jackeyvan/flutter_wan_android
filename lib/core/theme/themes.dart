@@ -37,10 +37,10 @@ enum Theme {
 }
 
 class AppTheme {
-  static const _KEY_THEME = "THEME";
+  static const _themeKey = "theme";
 
   static ThemeData get theme {
-    var mode = Storage.read<String>(_KEY_THEME);
+    var mode = Storage.read<String>(_themeKey);
     if (mode == Theme.green.name) {
       return _green();
     } else if (mode == Theme.yellow.name) {
@@ -72,7 +72,7 @@ class AppTheme {
         Get.changeTheme(_light());
         break;
     }
-    Storage.write(_KEY_THEME, mode.name);
+    Storage.write(_themeKey, mode.name);
   }
 
   static ThemeData _green() {
@@ -126,7 +126,8 @@ class AppTheme {
             ProgressIndicatorThemeData(color: Colors.yellow.shade700),
         primaryColor: Colors.yellow.shade700,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            selectedItemColor: Colors.yellow.shade700),
+            selectedItemColor: Colors.yellow.shade700,
+            unselectedItemColor: Colors.black54),
         tabBarTheme: const TabBarTheme(
             labelStyle: TextStyle(fontWeight: FontWeight.w500),
             labelColor: Colors.black),
@@ -140,7 +141,6 @@ class AppTheme {
                     MaterialStateProperty.all(Colors.yellow.shade700))),
         checkboxTheme: CheckboxThemeData(
             fillColor: MaterialStateProperty.all(Colors.yellow.shade700)),
-
         textSelectionTheme:
             TextSelectionThemeData(cursorColor: Colors.yellow.shade700),
         floatingActionButtonTheme: FloatingActionButtonThemeData(

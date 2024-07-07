@@ -6,6 +6,8 @@ import 'home_provider.dart';
 class HomeController extends GetxController {
   final _provider = Get.find<HomeProvider>();
 
+  var currentBottomIndex = 0.obs;
+
   final _apiProvider = Get.find<ApiProvider>();
 
   var content = "默认数据".obs;
@@ -44,4 +46,10 @@ class HomeController extends GetxController {
   logout() {
     _apiProvider.logout();
   }
+
+  set bottomIndex(index) {
+    currentBottomIndex.value = index;
+  }
+
+  get bottomIndex => currentBottomIndex.value;
 }
