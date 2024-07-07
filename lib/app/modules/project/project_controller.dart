@@ -5,7 +5,7 @@ import 'model/project_tab_model.dart';
 import 'project_provider.dart';
 
 class ProjectController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetTickerProviderStateMixin {
   final _provider = ProjectProvider();
 
   final _tabs = <ProjectTabModel>[].obs;
@@ -15,14 +15,11 @@ class ProjectController extends GetxController
   @override
   void onInit() {
     super.onInit();
-
-    _tabController = TabController(vsync: this, length: _tabs.length);
-
-    print("------------> ProjectController ---- onInit");
+    _tabController = TabController(vsync: this, length: 0);
 
     _provider.projectTables().then((value) {
-      _tabController.index = value.length;
-      print("------------> ProjectController ---- ${value.length}");
+      _tabController = TabController(vsync: this, length: value.length);
+
       _tabs.addAll(value);
       update();
     });
@@ -30,19 +27,5 @@ class ProjectController extends GetxController
 
   get tabController => _tabController;
 
-  List<Tab> buildTabs() {
-    var tabs = <Tab>[];
-    for (var tab in _tabs) {
-      tabs.add(Tab(text: tab.name));
-    }
-    return tabs;
-  }
-
-  List<Widget> buildPages() {
-    var pages = <Widget>[];
-    for (var page in _tabs) {
-      pages.add(Text("${page.name}"));
-    }
-    return pages;
-  }
+  List<ProjectTabModel> get tabs => _tabs;
 }

@@ -1,4 +1,3 @@
-import 'package:flutter_wan_android/core/log/log.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -80,8 +79,6 @@ class StorageService extends GetxService {
       "expire": duration?.inMilliseconds ?? 0,
       "data": value,
     };
-
-    Log.i("Storage Write: 写入本地缓存成功");
     return _storage.write(key, results);
   }
 

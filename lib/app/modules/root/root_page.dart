@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/widgets/keep_alive_wrapper.dart';
 import '../home/home_page.dart';
 import '../platform/platform_page.dart';
 import '../project/project_page.dart';
@@ -8,6 +9,8 @@ import '../series/series_page.dart';
 import 'root_controller.dart';
 
 class RootPage extends GetView<RootController> {
+  const RootPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,10 +91,10 @@ class RootPage extends GetView<RootController> {
   /// 与底部Bottom绑定的页面
   Widget _buildBody() {
     final pages = <Widget>[
-      HomePage(),
-      ProjectPage(),
-      SeriesPage(),
-      PlatformPage(),
+      KeepAliveWrapper(child: HomePage()),
+      KeepAliveWrapper(child: ProjectPage()),
+      KeepAliveWrapper(child: SeriesPage()),
+      KeepAliveWrapper(child: PlatformPage()),
     ];
 
     return pages[controller.bottomIndex];
