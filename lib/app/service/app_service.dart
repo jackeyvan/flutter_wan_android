@@ -11,6 +11,6 @@ class AppService extends Service {
     /// 设置baseurl
     ApiService.to().url = ApiPaths.baseUrl;
 
-    Get.put(ApiProvider().initData());
+    Get.put(ApiProvider());
   }
 }

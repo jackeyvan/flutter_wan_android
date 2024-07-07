@@ -1,16 +1,19 @@
 import 'package:get/get.dart';
 
+import '../../api/api_provider.dart';
 import 'home_provider.dart';
 
 class HomeController extends GetxController {
   final _provider = Get.find<HomeProvider>();
+
+  final _apiProvider = Get.find<ApiProvider>();
 
   var content = "默认数据".obs;
   var count = 0.obs;
 
   @override
   void onInit() {
-    loadData();
+    // loadData();
 
     super.onInit();
   }
@@ -31,4 +34,14 @@ class HomeController extends GetxController {
   }
 
   get number => count;
+
+  login() {
+    _apiProvider.login("pgtwo", "123456").then((user) {
+      print("-------> 登录成功, ${user.nickname}");
+    });
+  }
+
+  logout() {
+    _apiProvider.logout();
+  }
 }

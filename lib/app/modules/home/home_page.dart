@@ -11,10 +11,14 @@ class HomePage extends GetView<HomeController> {
         floatingActionButton:
             FloatingActionButton(onPressed: controller.increat),
         body: Center(
-            child: Obx(
-          () => Column(
-            children: [Text(controller.data), Text("${controller.count}")],
+          child: Column(
+            children: [
+              ElevatedButton(
+                  onPressed: controller.login, child: const Text("登录")),
+              ElevatedButton(
+                  onPressed: controller.logout, child: const Text("退出登录")),
+            ],
           ),
-        )));
+        ));
   }
 }

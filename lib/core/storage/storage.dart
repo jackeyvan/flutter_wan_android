@@ -31,7 +31,7 @@ class Storage {
 /// 本地化存储服务
 class StorageService extends GetxService {
   /// static get service.
-  static StorageService get to => Get.find();
+  static StorageService get to => Get.find<StorageService>();
 
   /// SharedPreferences.
   late final GetStorage _storage;

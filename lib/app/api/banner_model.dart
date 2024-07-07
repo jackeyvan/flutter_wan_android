@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class BannerModel {
   final String? desc;
   final String? imagePath;
@@ -17,6 +19,11 @@ class BannerModel {
       required this.isVisible,
       required this.order,
       required this.type});
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 
   factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
       desc: json['desc'],
