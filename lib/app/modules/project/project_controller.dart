@@ -16,7 +16,7 @@ class ProjectController extends GetxController
   void onInit() {
     super.onInit();
 
-    _tabController = TabController(vsync: this, length: 0);
+    _tabController = TabController(vsync: this, length: _tabs.length);
 
     print("------------> ProjectController ---- onInit");
 
