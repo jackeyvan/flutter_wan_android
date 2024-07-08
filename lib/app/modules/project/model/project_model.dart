@@ -19,7 +19,7 @@ class ProjectModel {
     if (json['datas'] != null) {
       datas = [];
       json['datas'].forEach((v) {
-        datas?.add(Datas.fromJson(v));
+        datas?.add(ProjectItemModel.fromJson(v));
       });
     }
     offset = json['offset'];
@@ -29,7 +29,7 @@ class ProjectModel {
     total = json['total'];
   }
   int? curPage;
-  List<Datas>? datas;
+  List<ProjectItemModel>? datas;
   int? offset;
   bool? over;
   int? pageCount;
@@ -51,11 +51,12 @@ class ProjectModel {
   }
 }
 
-Datas datasFromJson(String str) => Datas.fromJson(json.decode(str));
-String datasToJson(Datas data) => json.encode(data.toJson());
+ProjectItemModel itemFromJson(String str) =>
+    ProjectItemModel.fromJson(json.decode(str));
+String itemToJson(ProjectItemModel data) => json.encode(data.toJson());
 
-class Datas {
-  Datas({
+class ProjectItemModel {
+  ProjectItemModel({
     this.adminAdd,
     this.apkLink,
     this.audit,
@@ -93,7 +94,7 @@ class Datas {
     this.zan,
   });
 
-  Datas.fromJson(dynamic json) {
+  ProjectItemModel.fromJson(dynamic json) {
     adminAdd = json['adminAdd'];
     apkLink = json['apkLink'];
     audit = json['audit'];

@@ -15,20 +15,6 @@ abstract class GetRefreshPage<C extends GetRefreshController>
     extends GetView<C> {
   const GetRefreshPage({Key? key}) : super(key: key);
 
-  Widget buildRefreshView({required Widget Function() builder}) {
-    return EasyRefresh(
-      controller: controller.refreshController,
-      onRefresh: controller.onRefresh,
-      onLoad: controller.onLoad,
-      header: MaterialHeader(),
-      footer: MaterialFooter(),
-      canLoadAfterNoMore: controller.enableControlFinishLoad(),
-      canRefreshAfterNoMore: controller.enableControlFinishRefresh(),
-      // firstRefresh: controller.firstRefresh(),
-      child: builder(),
-    );
-  }
-
   Widget buildRefreshListView<T>(
       {required GetRefreshController<T> controller,
       required Widget Function(T item, int index) itemBuilder,
@@ -38,6 +24,7 @@ abstract class GetRefreshPage<C extends GetRefreshController>
       bool shrinkWrap = false,
       Axis scrollDirection = Axis.vertical}) {
     return buildRefreshView(
+        controller: controller,
         builder: () => buildListView<T>(
             itemBuilder: itemBuilder,
             data: controller.getData(),
@@ -46,6 +33,23 @@ abstract class GetRefreshPage<C extends GetRefreshController>
             physics: physics,
             shrinkWrap: shrinkWrap,
             scrollDirection: scrollDirection));
+  }
+
+  Widget buildRefreshView(
+      {required Widget Function() builder,
+      required GetRefreshController controller}) {
+    return EasyRefresh(
+      controller: controller.refreshController,
+      onRefresh: controller.onRefresh,
+      onLoad: controller.onLoad,
+      header: const MaterialHeader(),
+      footer: const MaterialFooter(),
+      canLoadAfterNoMore: controller.enableControlFinishLoad(),
+      canRefreshAfterNoMore: controller.enableControlFinishRefresh(),
+
+      // firstRefresh: controller.firstRefresh(),
+      child: builder(),
+    );
   }
 
   Widget buildListView<T>(
@@ -66,18 +70,18 @@ abstract class GetRefreshPage<C extends GetRefreshController>
               onTap: () => onItemClick?.call(data[index], index),
             ),
         separatorBuilder: (ctx, index) =>
-            separatorBuilder?.call(data[index], index) ?? Container(),
+            separatorBuilder?.call(data[index], index) ?? const Placeholder(),
         itemCount: data.length);
   }
 
-  // Widget obx(Widget Function() builder,
-  //     {Widget? onLoading,
-  //     Widget? onEmpty,
-  //     Widget Function(String? error)? onError}) {
-  //   return controller.obx((data) => builder.call(),
-  //       onError: onError ??
-  //           (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
-  //       onEmpty: onEmpty ?? const EmptyPage(),
-  //       onLoading: onLoading ?? const LoadingPage());
-  // }
+// Widget obx(Widget Function() builder,
+//     {Widget? onLoading,
+//     Widget? onEmpty,
+//     Widget Function(String? error)? onError}) {
+//   return controller.obx((data) => builder.call(),
+//       onError: onError ??
+//           (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
+//       onEmpty: onEmpty ?? const EmptyPage(),
+//       onLoading: onLoading ?? const LoadingPage());
+// }
 }

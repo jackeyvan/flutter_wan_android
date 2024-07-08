@@ -1,7 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 
-// import '../toast/toast.dart';
 import '../widgets/widget.dart';
 import 'refresh_notifier.dart';
 
@@ -14,12 +13,15 @@ import 'refresh_notifier.dart';
 
 abstract class GetRefreshController<T> extends GetxController
     with RefreshMixin<List<T>> {
-  EasyRefreshController refreshController = EasyRefreshController();
+  EasyRefreshController refreshController = EasyRefreshController(
+      controlFinishRefresh: true, controlFinishLoad: true);
 
   /// 分页的页数
-  final int pageReset = 1;
-  int page = 1;
+  int _page = 0;
   int pageSize = 20;
+
+  /// 子类更改初始的page，默认为0
+  int initPage() => 0;
 
   @override
   void onReady() {
@@ -29,7 +31,7 @@ abstract class GetRefreshController<T> extends GetxController
 
   /// 刷新数据
   Future<void> onRefresh() async {
-    page = pageReset;
+    _page = initPage();
     _loadData(true);
   }
 
@@ -40,7 +42,7 @@ abstract class GetRefreshController<T> extends GetxController
 
   /// 数据加载
   void _loadData(bool isRefresh) async {
-    loadData(page).then((data) {
+    loadData(_page).then((data) {
       var noMore = data.length < pageSize;
 
       /// 如果是刷新就清除数据，并重置状态
@@ -58,13 +60,11 @@ abstract class GetRefreshController<T> extends GetxController
 
         /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
         /// 再调用RefreshController的方法才有用，不然会报错。
-        // refreshController.finishRefresh(noMore: noMore);
+        refreshController.finishRefresh();
 
         /// 刷新的时候，没有更多数据需要去掉上拉加载，没有有更多数据则要重置加载状态
         // if (noMore) {
-        //   refreshController.finishLoad(noMore: noMore);
-        // } else {
-        //   refreshController.resetLoadState();
+        //   refreshController.finishLoad();
         // }
       } else {
         if (data.isNotEmpty) {
@@ -75,12 +75,15 @@ abstract class GetRefreshController<T> extends GetxController
         showSuccessPage();
 
         /// 加载完成
-        // refreshController.finishLoad(noMore: noMore);
+        refreshController.finishLoad();
       }
+
+      /// 更新视图
+      update();
 
       /// 更新页码
       if (data.isNotEmpty) {
-        page += 1;
+        _page += 1;
       }
     }).catchError((e) {
       if (isRefresh) {
@@ -104,13 +107,16 @@ abstract class GetRefreshController<T> extends GetxController
 
   /// 获取数据
   List<T> getData() {
-    return value ??= [];
+    return value ?? [];
   }
 
   /// 添加数据
   void addData(List<T>? data) {
     if (data != null && data.isNotEmpty) {
       getData().addAll(data);
+
+      /// 数据更新后，通知Getx去重新渲染
+      update();
     }
   }
 
@@ -123,7 +129,6 @@ abstract class GetRefreshController<T> extends GetxController
   /// 重新刷新
   void retryRefresh() {
     showLoadingPage();
-    onRefresh();
   }
 
   /// 主动刷新

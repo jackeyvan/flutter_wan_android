@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 
+import '../../../core/refresh/refresh_controller.dart';
+import 'model/project_model.dart';
 import 'provider/project_provider.dart';
 
-class ProjectController extends GetxController {
+class ProjectController extends GetRefreshController<ProjectItemModel> {
   final _provider = ProjectProvider();
 
   final data = "我是测试数据".obs;
@@ -12,25 +14,11 @@ class ProjectController extends GetxController {
   ProjectController({this.id});
 
   @override
-  void onInit() {
-    super.onInit();
-
-    _provider.project(id ?? 0, 1).then((value) {
-      data.value = value.datas![0].desc ?? "请求成功，但是数据为空";
-    });
-
-    print("------------->ProjectController onInit $id----------");
-  }
+  int initPage() => 0;
 
   @override
-  void onReady() {
-    print("------------->ProjectController onReady----$id------");
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    print("------------->ProjectController onClose-----$id-----");
-    super.onClose();
+  Future<List<ProjectItemModel>> loadData(int page) {
+    return _provider.project(id ?? 0, page).then((value) => Future.value(
+        value.datas?.map((e) => ProjectItemModel.fromJson(e)).toList()));
   }
 }
