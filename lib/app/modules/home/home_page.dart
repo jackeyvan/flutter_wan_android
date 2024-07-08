@@ -6,11 +6,11 @@ import 'home_controller.dart';
 class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetX(
         init: HomeController(),
         builder: (c) => Scaffold(
                 body: Center(
-              child: Text(controller.testdata.value),
+              child: Text(controller.data.value),
             )));
   }
 }

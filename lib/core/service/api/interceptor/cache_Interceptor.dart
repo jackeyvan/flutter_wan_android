@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/core/core.dart';
 
-import '../../../log/log.dart';
 import '../api_service.dart';
 
 /// 缓存拦截器
@@ -85,8 +84,8 @@ class CacheInterceptor extends Interceptor {
         /// 网络请求完成之后获取正常的Json-Map
         Map<String, dynamic> json = response.data;
 
-        Log.d('Response 中携带缓存处理逻辑 cacheMode ==== > $cacheMode '
-            'cacheKey ==== > $cacheKey cacheExpire ==== > $cacheExpire');
+        // Log.d('Response 中携带缓存处理逻辑 cacheMode ==== > $cacheMode '
+        //     'cacheKey ==== > $cacheKey cacheExpire ==== > $cacheExpire');
 
         Duration? duration;
         if (cacheExpire != null) {

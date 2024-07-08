@@ -15,6 +15,7 @@ class ProjectPage extends GetView<ProjectController> {
                 preferredSize: const Size.fromHeight(48),
                 child: AppBar(
                   bottom: TabBar(
+                    tabAlignment: TabAlignment.start,
                     indicatorSize: TabBarIndicatorSize.label,
                     isScrollable: true,
                     tabs: buildTabs(),

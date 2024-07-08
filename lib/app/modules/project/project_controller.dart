@@ -10,12 +10,14 @@ class ProjectController extends GetxController
 
   final _tabs = <ProjectTabModel>[].obs;
 
+  final data = "测试".obs;
+
   late TabController _tabController;
 
   @override
   void onInit() {
     super.onInit();
-    _tabController = TabController(vsync: this, length: 0);
+    _tabController = TabController(vsync: this, length: _tabs.length);
 
     _provider.projectTables().then((value) {
       _tabController = TabController(vsync: this, length: value.length);

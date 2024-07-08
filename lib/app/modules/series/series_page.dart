@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SeriesPage extends GetView {
+import 'series_controller.dart';
+
+class SeriesPage extends GetView<SeriesController> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("技术序列"),
-    );
+    return GetX<SeriesController>(
+        init: SeriesController(),
+        builder: (c) => Scaffold(
+                body: Center(
+              child: Text(c.data.value),
+            )));
   }
 }
