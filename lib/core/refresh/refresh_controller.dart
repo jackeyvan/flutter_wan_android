@@ -2,7 +2,6 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 
 import '../widgets/widget.dart';
-import 'refresh_notifier.dart';
 
 /// ==============================
 /// @author : mac
@@ -12,7 +11,7 @@ import 'refresh_notifier.dart';
 /// ================================
 
 abstract class GetRefreshController<T> extends GetxController
-    with RefreshMixin<List<T>> {
+    with StateMixin<List<T>> {
   EasyRefreshController refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
@@ -52,10 +51,10 @@ abstract class GetRefreshController<T> extends GetxController
 
         if (data.isEmpty) {
           /// 如果空数据，展示空试图
-          showEmptyPage();
+          change(null, status: RxStatus.empty());
         } else {
           /// 更新界面
-          showSuccessPage();
+          change(getData(), status: RxStatus.success());
         }
 
         /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
@@ -72,7 +71,7 @@ abstract class GetRefreshController<T> extends GetxController
         }
 
         /// 更新界面
-        showSuccessPage();
+        change(getData(), status: RxStatus.success());
 
         /// 加载完成
         refreshController.finishLoad();
@@ -91,7 +90,8 @@ abstract class GetRefreshController<T> extends GetxController
         if (getData().isNotEmpty) {
           // Toast.show(e.toString());
         } else {
-          showErrorPage(msg: e.toString());
+          // showErrorPage(msg: e.toString());
+          change(null, status: RxStatus.error(e.toString()));
         }
 
         /// 结束刷新状态
@@ -128,7 +128,7 @@ abstract class GetRefreshController<T> extends GetxController
 
   /// 重新刷新
   void retryRefresh() {
-    showLoadingPage();
+    change(null, status: RxStatus.loading());
   }
 
   /// 主动刷新

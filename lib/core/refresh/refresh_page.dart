@@ -1,8 +1,11 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/core/core.dart';
 import 'package:get/get.dart';
 
-import 'refresh_controller.dart';
+import 'status/refresh_empty_page.dart';
+import 'status/refresh_error_page.dart';
+import 'status/refresh_loading_page.dart';
 
 /// ==============================
 /// @author : mac
@@ -74,14 +77,16 @@ abstract class GetRefreshPage<C extends GetRefreshController>
         itemCount: data.length);
   }
 
-// Widget obx(Widget Function() builder,
-//     {Widget? onLoading,
-//     Widget? onEmpty,
-//     Widget Function(String? error)? onError}) {
-//   return controller.obx((data) => builder.call(),
-//       onError: onError ??
-//           (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
-//       onEmpty: onEmpty ?? const EmptyPage(),
-//       onLoading: onLoading ?? const LoadingPage());
-// }
+  Widget buildObx(
+      {required Widget Function() builder,
+      required GetRefreshController controller,
+      Widget? onLoading,
+      Widget? onEmpty,
+      Widget Function(String? error)? onError}) {
+    return controller.obx((data) => builder.call(),
+        onError: onError ??
+            (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
+        onEmpty: onEmpty ?? const EmptyPage(),
+        onLoading: onLoading ?? const LoadingPage());
+  }
 }

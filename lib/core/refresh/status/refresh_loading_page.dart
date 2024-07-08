@@ -8,17 +8,17 @@ import 'package:flutter/material.dart';
 /// ================================
 
 class LoadingPage extends StatelessWidget {
-  const LoadingPage({Key? key}) : super(key: key);
+  const LoadingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           CircularProgressIndicator(),
           SizedBox(height: 12),
-          Text("努力加载中")
+          Text("努力加载中...")
         ],
       ),
     );
