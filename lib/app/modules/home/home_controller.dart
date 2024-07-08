@@ -8,11 +8,13 @@ class HomeController extends GetxController {
 
   final _apiProvider = Get.find<ApiProvider>();
 
-  final testdata = "我是测试数据".obs;
+  final data = "我是测试数据Home".obs;
 
   @override
   void onInit() {
     print("------------> HomeController ---- onInit");
+
+    loadData();
   }
 
   @override
@@ -28,6 +30,8 @@ class HomeController extends GetxController {
   void loadData() async {
     _apiProvider.banner().then((value) {
       print("------------> HomeController ---- ${value[0].desc}");
+
+      data.value = value[0].desc ?? "返回成功，但是数据为空";
     });
   }
 }

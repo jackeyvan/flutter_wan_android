@@ -1,31 +1,36 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'model/project_tab_model.dart';
-import 'project_provider.dart';
+import 'provider/project_provider.dart';
 
-class ProjectController extends GetxController
-    with GetTickerProviderStateMixin {
+class ProjectController extends GetxController {
   final _provider = ProjectProvider();
 
-  final _tabs = <ProjectTabModel>[].obs;
+  final data = "我是测试数据".obs;
 
-  late TabController _tabController;
+  final int? id;
+
+  ProjectController({this.id});
 
   @override
   void onInit() {
     super.onInit();
-    _tabController = TabController(vsync: this, length: 0);
 
-    _provider.projectTables().then((value) {
-      _tabController = TabController(vsync: this, length: value.length);
-
-      _tabs.addAll(value);
-      update();
+    _provider.project(id ?? 0, 1).then((value) {
+      data.value = value.datas![0].desc ?? "请求成功，但是数据为空";
     });
+
+    print("------------->ProjectController onInit $id----------");
   }
 
-  get tabController => _tabController;
+  @override
+  void onReady() {
+    print("------------->ProjectController onReady----$id------");
+    super.onReady();
+  }
 
-  List<ProjectTabModel> get tabs => _tabs;
+  @override
+  void onClose() {
+    print("------------->ProjectController onClose-----$id-----");
+    super.onClose();
+  }
 }

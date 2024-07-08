@@ -69,8 +69,12 @@ class ApiProvider {
           .toList());
 
   /// 封装最底层的Get请求
-  Future<T> get<T>(String url, {Cache cache = Cache.cacheFirstThenRemote}) {
-    return ApiService.to().get(url, cache: cache).then((response) {
+  Future<T> get<T>(String url,
+      {Map<String, dynamic>? params,
+      Cache cache = Cache.cacheFirstThenRemote}) {
+    return ApiService.to()
+        .get(url, params: params, cache: cache)
+        .then((response) {
       /// 网络状态码正常
       ///
       if (response.statusCode == 200) {

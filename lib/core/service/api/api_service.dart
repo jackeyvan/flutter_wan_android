@@ -177,6 +177,7 @@ class ApiService {
         Log.d('网络请求耗时：$duration 毫秒\n'
             'HttpCode：${response.statusCode} \n'
             'HttpMessage：${response.statusMessage} \n'
+            '请求url：${response.realUri} \n'
             '响应内容：${response.data}}');
       } else {
         response = await request();

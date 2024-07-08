@@ -7,11 +7,11 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     print("--------------> HomePage build");
-    return GetBuilder(
+    return GetX(
         init: HomeController(),
         builder: (c) => Scaffold(
                 body: Center(
-              child: Text(controller.testdata.value),
+              child: Text(controller.data.value),
             )));
   }
 }
