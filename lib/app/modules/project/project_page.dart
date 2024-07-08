@@ -8,6 +8,7 @@ class ProjectPage extends GetView<ProjectController> {
 
   @override
   Widget build(BuildContext context) {
+    print("--------------> ProjectPage build");
     return GetBuilder<ProjectController>(
         init: ProjectController(),
         builder: (c) => Scaffold(
