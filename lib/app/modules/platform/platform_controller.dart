@@ -11,9 +11,9 @@ class PlatformController extends GetxController {
   void onInit() {
     print("------------> PlatformController ---- onInit");
 
-    _provider.banner().then((value) {
-      data.value = value[0].title ?? "请求成功，但是数据为空";
-    });
+    // _provider.banner().then((value) {
+    //   data.value = value[0].title ?? "请求成功，但是数据为空";
+    // });
   }
 
   @override

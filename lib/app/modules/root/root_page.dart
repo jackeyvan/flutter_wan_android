@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../core/widgets/keep_alive_wrapper.dart';
 import '../home/home_page.dart';
 import '../platform/platform_page.dart';
-import '../project/project_page.dart';
+import '../project/project_tab_page.dart';
 import '../series/series_page.dart';
 import 'root_controller.dart';
 
@@ -19,7 +19,7 @@ class RootPage extends GetView<RootController> {
             onPressed: () {}, child: const Icon(Icons.add)),
         drawer: _buildNavigationDrawer(),
         bottomNavigationBar: Obx(() => _buildBottomNavigationBar()),
-        body: Obx(() => _buildBody()));
+        body: _buildBody());
   }
 
   /// 生成底部Bar
@@ -38,7 +38,10 @@ class RootPage extends GetView<RootController> {
         items: items,
         onTap: (index) {
           /// 更新索引和页面
-          controller.bottomIndex = index;
+          if (index != controller.bottomIndex) {
+            controller.bottomIndex = index;
+            controller.pageController.jumpToPage(index);
+          }
         },
         currentIndex: controller.bottomIndex);
   }
@@ -92,11 +95,15 @@ class RootPage extends GetView<RootController> {
   Widget _buildBody() {
     final pages = <Widget>[
       KeepAliveWrapper(child: HomePage()),
-      KeepAliveWrapper(child: ProjectPage()),
+      KeepAliveWrapper(child: ProjectTabPage()),
       KeepAliveWrapper(child: SeriesPage()),
       KeepAliveWrapper(child: PlatformPage()),
     ];
 
-    return pages[controller.bottomIndex];
+    return PageView(
+      controller: controller.pageController,
+      children: pages,
+      physics: NeverScrollableScrollPhysics(),
+    );
   }
 }

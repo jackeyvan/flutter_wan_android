@@ -11,9 +11,9 @@ class SeriesController extends GetxController {
   void onInit() {
     print("------------> SeriesController ---- onInit");
 
-    _provider.banner().then((value) {
-      data.value = value[0].title ?? "请求成功，数据为空";
-    });
+    // _provider.banner().then((value) {
+    //   data.value = value[0].title ?? "请求成功，数据为空";
+    // });
   }
 
   @override
