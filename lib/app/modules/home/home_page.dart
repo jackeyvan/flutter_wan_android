@@ -6,7 +6,6 @@ import 'home_controller.dart';
 class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    print("--------------> HomePage build");
     return GetX(
         init: HomeController(),
         builder: (c) => Scaffold(

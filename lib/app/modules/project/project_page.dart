@@ -10,10 +10,10 @@ class ProjectPage extends GetView<ProjectController> {
 
   @override
   Widget build(BuildContext context) {
-    // Get.put(dependency)
-
+    /// 为了给每个Page都绑定一个 Controller，需要设置tag
     return GetX<ProjectController>(
         init: ProjectController(id: id),
+        tag: id?.toString(),
         builder: (c) => Scaffold(
               body: Text("${c.data.value}$id"),
             ));

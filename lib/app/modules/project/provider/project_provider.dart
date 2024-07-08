@@ -22,7 +22,7 @@ class ProjectProvider extends IProjectProvider {
 
   @override
   Future<ProjectModel> project(int id, int page) {
-    return _provider
-        .get("${ApiPaths.projectList}$page/json", params: {"cid": id});
+    return _provider.get("${ApiPaths.projectList}$page/json",
+        params: {"cid": id}).then((value) => ProjectModel.fromJson(value));
   }
 }
