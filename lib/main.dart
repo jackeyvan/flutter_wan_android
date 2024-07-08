@@ -21,7 +21,7 @@ class WanApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "玩安卓",
-      initialRoute: Routes.splash,
+      initialRoute: Routes.root,
       debugShowCheckedModeBanner: false,
       getPages: Routes.routes,
       theme: AppTheme.theme,

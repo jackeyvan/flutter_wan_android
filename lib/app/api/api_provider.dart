@@ -3,40 +3,42 @@ import 'package:flutter_wan_android/app/api/home_article_model.dart';
 import 'package:flutter_wan_android/app/api/hot_keys_model.dart';
 import 'package:flutter_wan_android/app/api/result.dart';
 import 'package:flutter_wan_android/app/api/user_model.dart';
+import 'package:get/get.dart';
 
 import '../../core/service/api/api_service.dart';
 import 'api_paths.dart';
 import 'top_article_model.dart';
 
-/// 封装应用层的API请求
+/// 封装应用层的API请求，一个url对应一个Provider
+/// 封装网络请求各种情况
 class ApiProvider {
-  /// 初始化本地数据
-  Future<void> initData() async {
-    // await banner();
-    // await topArticle();
-    // await hotKeyWords();
-    // await homePageArticle(1);
-    // login("pgtwo", "123456");
+  /// 快速获取引用
+  static ApiProvider get to => Get.find<ApiProvider>();
 
-    // logout();
+  /// 初始化本地数据
+  ApiProvider init() {
+    /// 初始化网络框架项管参数
+    ApiService.to().url = ApiPaths.baseUrl;
+
+    return this;
   }
 
   /// 登录接口
   Future<User> login(String username, String password, {String? rePassword}) {
-    return _post(ApiPaths.login,
+    return post(ApiPaths.login,
             params: {"username": username, "password": password})
         .then((value) => User.fromJson(value));
   }
 
   void logout() {
-    _get(ApiPaths.logout).then((value) {
+    get(ApiPaths.logout).then((value) {
       print("-------> logout $value");
     });
   }
 
   /// 注册接口
   Future<User> register(String username, String password, String rePassword) {
-    return _post(ApiPaths.register, params: {
+    return post(ApiPaths.register, params: {
       "username": username,
       "password": password,
       "repassword": rePassword
@@ -45,29 +47,29 @@ class ApiProvider {
 
   /// 首页文章
   Future<HomeArticleModel> homePageArticle(int page) =>
-      _get("${ApiPaths.homePageArticle}$page/json")
+      get("${ApiPaths.homePageArticle}$page/json")
           .then((value) => HomeArticleModel.fromJson(value));
 
   /// 搜索热词
-  Future<List<HotKeysModel>> hotKeyWords() => _get(ApiPaths.hotKeywords).then(
+  Future<List<HotKeysModel>> hotKeyWords() => get(ApiPaths.hotKeywords).then(
       (value) => List<Map<String, dynamic>>.from(value)
           .map((e) => HotKeysModel.fromJson(e))
           .toList());
 
   ///  置顶文章数据
-  Future<List<TopArticleModel>> topArticle() => _get(ApiPaths.topArticle).then(
+  Future<List<TopArticleModel>> topArticle() => get(ApiPaths.topArticle).then(
       (value) => List<Map<String, dynamic>>.from(value)
           .map((e) => TopArticleModel.fromJson(e))
           .toList());
 
   /// Banner数据
-  Future<List<BannerModel>> banner() => _get(ApiPaths.banner).then((value) =>
+  Future<List<BannerModel>> banner() => get(ApiPaths.banner).then((value) =>
       List<Map<String, dynamic>>.from(value)
           .map((e) => BannerModel.fromJson(e))
           .toList());
 
   /// 封装最底层的Get请求
-  Future<T> _get<T>(String url, {Cache cache = Cache.cacheFirstThenRemote}) {
+  Future<T> get<T>(String url, {Cache cache = Cache.cacheFirstThenRemote}) {
     return ApiService.to().get(url, cache: cache).then((response) {
       /// 网络状态码正常
       ///
@@ -86,7 +88,7 @@ class ApiProvider {
   }
 
   /// 封装最底层的Post请求
-  Future<T> _post<T>(String url,
+  Future<T> post<T>(String url,
       {required Map<String, dynamic> params,
       Cache cache = Cache.cacheFirstThenRemote}) {
     return ApiService.to()
