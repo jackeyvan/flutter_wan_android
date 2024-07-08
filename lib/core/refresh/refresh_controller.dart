@@ -54,7 +54,7 @@ abstract class GetRefreshController<T> extends GetxController
           change(null, status: RxStatus.empty());
         } else {
           /// 更新界面
-          change(getData(), status: RxStatus.success());
+          change(data, status: RxStatus.success());
         }
 
         /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
@@ -71,7 +71,7 @@ abstract class GetRefreshController<T> extends GetxController
         }
 
         /// 更新界面
-        change(getData(), status: RxStatus.success());
+        change(data, status: RxStatus.success());
 
         /// 加载完成
         refreshController.finishLoad();
@@ -114,9 +114,6 @@ abstract class GetRefreshController<T> extends GetxController
   void addData(List<T>? data) {
     if (data != null && data.isNotEmpty) {
       getData().addAll(data);
-
-      /// 数据更新后，通知Getx去重新渲染
-      update();
     }
   }
 

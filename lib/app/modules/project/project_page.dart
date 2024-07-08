@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/refresh/refresh_page.dart';
+import 'model/project_model.dart';
 import 'project_controller.dart';
 
 class ProjectPage extends GetRefreshPage<ProjectController> {
@@ -17,12 +18,33 @@ class ProjectPage extends GetRefreshPage<ProjectController> {
     Get.put(controller, tag: id?.toString());
 
     return buildObx(
+      controller: controller,
+      builder: () => buildRefreshListView(
+        shrinkWrap: false,
         controller: controller,
-        builder: () => buildRefreshListView(
-            controller: controller,
-            itemBuilder: (item, index) {
-              return SizedBox(
-                  height: 60, child: Center(child: Text("${item.desc}")));
-            }));
+        itemBuilder: (item, index) {
+          return Card(
+            margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
+            child: ListTile(
+              // contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+              title: Text("${item.title}"),
+              subtitle: Text("${item.desc}"),
+            ),
+          );
+        },
+        onItemClick: (ProjectItemModel item, int index) {
+          print("---------->点击了 = $index item:$item");
+
+          // Toast.showToast(item.title);
+        },
+        // separatorBuilder: (item, index) {
+        //   return Divider(
+        //     height: 0,
+        //     indent: 12,
+        //     endIndent: 12,
+        //   );
+        // },
+      ),
+    );
   }
 }

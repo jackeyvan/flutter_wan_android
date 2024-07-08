@@ -60,20 +60,17 @@ abstract class GetRefreshPage<C extends GetRefreshController>
       required List<T> data,
       Widget Function(T item, int index)? separatorBuilder,
       Function(T item, int index)? onItemClick,
-      ScrollPhysics? physics,
+      ScrollPhysics? physics = const AlwaysScrollableScrollPhysics(),
       bool shrinkWrap = false,
       Axis scrollDirection = Axis.vertical}) {
     return ListView.separated(
-        shrinkWrap: shrinkWrap,
-        physics: physics,
-        padding: const EdgeInsets.all(12),
         scrollDirection: scrollDirection,
-        itemBuilder: (ctx, index) => GestureDetector(
+        itemBuilder: (ctx, index) => InkWell(
               child: itemBuilder.call(data[index], index),
               onTap: () => onItemClick?.call(data[index], index),
             ),
         separatorBuilder: (ctx, index) =>
-            separatorBuilder?.call(data[index], index) ?? const Placeholder(),
+            separatorBuilder?.call(data[index], index) ?? const SizedBox(),
         itemCount: data.length);
   }
 

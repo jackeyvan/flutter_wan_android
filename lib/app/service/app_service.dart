@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../core/service/service.dart';
+import '../../core/service/init_service.dart';
 import '../api/api_provider.dart';
 
 class AppService extends Service {
