@@ -25,7 +25,7 @@ class BannerModel {
     return jsonEncode(this);
   }
 
-  factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
+  factory BannerModel.fromJson(dynamic json) => BannerModel(
       desc: json['desc'],
       imagePath: json['imagePath'],
       title: json['title'],

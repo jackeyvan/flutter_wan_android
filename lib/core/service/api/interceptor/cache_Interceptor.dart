@@ -1,7 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/core/core.dart';
 
-import '../api_service.dart';
+enum Cache {
+  ///  不使用缓存
+  onlyRemote,
+
+  /// 只使用本地缓存，没有缓存返回null
+  onlyCache,
+
+  /// 有缓存先用缓存，没有缓存进行网络请求并存入缓存
+  cacheFirstThenRemote,
+
+  /// 先去请求数据并存入缓存，请求失败再使用缓存
+  remoteFirstThenCache
+}
 
 /// 缓存拦截器
 class CacheInterceptor extends Interceptor {

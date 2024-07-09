@@ -14,10 +14,13 @@ class ProjectProvider extends IProjectProvider {
 
   @override
   Future<List<ProjectTabModel>> projectTables() {
-    return _provider.get(ApiPaths.projectCategory).then((value) =>
-        List<Map<String, dynamic>>.from(value)
-            .map((e) => ProjectTabModel.fromJson(e))
-            .toList());
+    return _provider.get(ApiPaths.projectCategory).then((value) {
+      print("---------> ${value.runtimeType}");
+
+      return List<Map<String, dynamic>>.from(value)
+          .map((e) => ProjectTabModel.fromJson(e))
+          .toList();
+    });
   }
 
   @override

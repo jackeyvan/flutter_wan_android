@@ -1,25 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:get/get.dart' as getx;
 
-import '../../log/log.dart';
 import 'interceptor/cache_Interceptor.dart';
-import 'interceptor/debounce_Interceptor.dart';
-
-enum Cache {
-  ///  不使用缓存
-  onlyRemote,
-
-  /// 只使用本地缓存，没有缓存返回null
-  onlyCache,
-
-  /// 有缓存先用缓存，没有缓存进行网络请求并存入缓存
-  cacheFirstThenRemote,
-
-  /// 先去请求数据并存入缓存，请求失败再使用缓存
-  remoteFirstThenCache
-}
 
 enum Method {
   get,
@@ -32,40 +17,49 @@ class ApiService {
 
   late Dio _dio;
 
+  /// 默认的Dio请求配置，如果需要自定义Dio，只需要设置Dio对象
   Future<ApiService> init() async {
     /// 网络配置
-    final options = BaseOptions(
-        connectTimeout: const Duration(seconds: 20),
-        sendTimeout: const Duration(seconds: 20),
-        receiveTimeout: const Duration(seconds: 20),
-        validateStatus: (code) {
-          /// 指定这些HttpCode都算成功
-          if (code == 200) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-
-    _dio = Dio(options);
-
-    /// 设置Dio的转换器
-    _dio.transformer = BackgroundTransformer();
-
-    /// 设置拦截器
-    /// 网络缓存拦截器
-    _dio.interceptors.add(CacheInterceptor());
-
-    /// 网络去重拦截器
-    _dio.interceptors.add(DebounceInterceptor());
+    /// 可以在这里实现公共配置，也可以子类重写initDio方法
+    // final options = BaseOptions(
+    //     connectTimeout: const Duration(seconds: 20),
+    //     sendTimeout: const Duration(seconds: 20),
+    //     receiveTimeout: const Duration(seconds: 20),
+    //     validateStatus: (code) {
+    //       /// 指定这些HttpCode都算成功
+    //       if (code == 200) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     });
+    //
+    // _dio = Dio(options);
+    //
+    // /// 设置Dio的转换器
+    // // _dio.transformer = BackgroundTransformer();
+    //
+    // /// 设置拦截器
+    // /// 网络缓存拦截器
+    // _dio.interceptors.add(DioCacheInterceptor(options: _cacheOptions));
+    //
+    // /// 网络去重拦截器
+    // _dio.interceptors.add(DebounceInterceptor());
 
     return this;
   }
 
-  /// 设置请求的url
-  set url(String url) {
-    _dio.options.baseUrl = url;
-  }
+  /// 设置请求的url，使用默认的Dio配置
+  set url(String url) => _dio.options.baseUrl = url;
+
+  /// 初始化Dio，如果调用本方法，则网络相关的配置需要在传回来的Dio设置好
+  void initDio(Dio dio) => _dio = dio;
+
+  /// 缓存策略配置
+  final _cacheOptions = CacheOptions(
+    store: MemCacheStore(),
+    allowPostMethod: false,
+  );
 
   /// Get方法
   Future<Response<T>> get<T>(String url,
@@ -166,27 +160,7 @@ class ApiService {
           url, method, params!, headers!, send, receive, cancelToken);
     }
 
-    try {
-      Response<T> response;
-
-      if (Log.enable()) {
-        final startTime = DateTime.now();
-        response = await request();
-        final endTime = DateTime.now();
-        final duration = endTime.difference(startTime).inMilliseconds;
-        // Log.d('网络请求耗时：$duration 毫秒\n'
-        //     'HttpCode：${response.statusCode} \n'
-        //     'HttpMessage：${response.statusMessage} \n'
-        //     '请求url：${response.realUri} \n'
-        //     '响应内容：${response.data}}');
-      } else {
-        response = await request();
-      }
-      return response;
-    } on DioException catch (e) {
-      Log.e("ApiService - DioException：$e  其他错误Error:${e.error.toString()}");
-      return Future.error(e);
-    }
+    return await request();
   }
 
   /// 底层封装的Dio请求
