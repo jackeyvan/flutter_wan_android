@@ -11,7 +11,7 @@ void main() async {
   /// run app before init dependencies and some config.
   await AppService().dependencies();
 
-  runApp(const WanApp());
+  runApp(const TestApp());
 }
 
 class WanApp extends StatelessWidget {
@@ -28,3 +28,45 @@ class WanApp extends StatelessWidget {
     );
   }
 }
+
+class TestApp extends StatelessWidget {
+  const TestApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "玩安卓",
+      home: Scaffold(
+        body: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12))),
+          margin: EdgeInsets.all(12),
+          child: InkWell(
+            // radius: 48,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            child: ListTile(
+              title: Text("我是标题呢"),
+              subtitle: Text(
+                  "我是内容那你信不信啊我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办怎么办"),
+            ),
+            onTap: () {
+              print("-----> 点击了卡片");
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//
+// body: InkWell(
+// child: Card(
+// margin: EdgeInsets.all(12),
+// child: ListTile(
+// title: Text("我是标题呢"),
+// subtitle: Text("我是内容那你信不信啊怎么办"),
+// )),
+// onTap: () {
+// print("-----> 点击了卡片");
+// }),
