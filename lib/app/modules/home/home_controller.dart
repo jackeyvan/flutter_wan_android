@@ -29,7 +29,7 @@ class HomeController extends GetxController {
 
   void loadData() async {
     _apiProvider.banner().then((value) {
-      print("------------> HomeController ---- ${value[0].desc}");
+      print("------------> HomeController --获取到数据啦-- ${value[0].desc}");
 
       data.value = value[0].desc ?? "返回成功，但是数据为空";
     });

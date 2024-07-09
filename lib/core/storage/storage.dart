@@ -16,15 +16,6 @@ class Storage {
   static Future<void> clear() {
     return StorageService.to.clear();
   }
-
-  static T? readCache<T>(String key) {
-    return StorageService.to.readCache<T>(key);
-  }
-
-  static Future<void> writeCache(String key, dynamic value,
-      {Duration? duration}) {
-    return StorageService.to.writeCache(key, value, duration);
-  }
 }
 
 /// 本地化存储服务
@@ -57,32 +48,4 @@ class StorageService extends GetxService {
 
   /// 读取数据
   T? read<T>(String key) => _storage.read<T>(key);
-
-  /// 读取缓存数据
-  T? readCache<T>(String key) {
-    var cache = _storage.read<Map<String, dynamic>>(key);
-
-    /// 缓存没有过期
-    if (cache != null) {
-      if (!_isExpired(cache["timestamp"], cache["expire"])) {
-        return cache["data"] as T?;
-      }
-    }
-    return null;
-  }
-
-  /// 写入数据缓存，有过期时间
-  /// 根据缓存时间，需要进行覆盖
-  Future<void> writeCache(String key, dynamic value, Duration? duration) {
-    var results = {
-      "timestamp": DateTime.now().millisecondsSinceEpoch,
-      "expire": duration?.inMilliseconds ?? 0,
-      "data": value,
-    };
-    return _storage.write(key, results);
-  }
-
-  /// 根据时间戳判断缓存是否过期
-  bool _isExpired(int timestamp, int expire) =>
-      DateTime.now().millisecondsSinceEpoch - timestamp > expire;
 }
