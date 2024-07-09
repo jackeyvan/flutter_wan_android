@@ -18,6 +18,7 @@ class ProjectTabPage extends GetView<ProjectTabController> {
             preferredSize: const Size.fromHeight(48),
             child: AppBar(
               bottom: TabBar(
+                labelStyle: TextStyle(fontSize: 15),
                 tabAlignment: TabAlignment.start,
                 indicatorSize: TabBarIndicatorSize.label,
                 isScrollable: true,

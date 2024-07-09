@@ -25,12 +25,14 @@ abstract class GetRefreshPage<C extends GetRefreshController>
       Function(T item, int index)? onItemClick,
       ScrollPhysics? physics,
       bool shrinkWrap = false,
+      EdgeInsetsGeometry? padding,
       Axis scrollDirection = Axis.vertical}) {
     return buildRefreshView(
         controller: controller,
         builder: () => buildListView<T>(
             itemBuilder: itemBuilder,
             data: controller.getData(),
+            padding: padding,
             separatorBuilder: separatorBuilder,
             onItemClick: onItemClick,
             physics: physics,
@@ -62,13 +64,21 @@ abstract class GetRefreshPage<C extends GetRefreshController>
       Function(T item, int index)? onItemClick,
       ScrollPhysics? physics = const AlwaysScrollableScrollPhysics(),
       bool shrinkWrap = false,
+      EdgeInsetsGeometry? padding,
       Axis scrollDirection = Axis.vertical}) {
     return ListView.separated(
+        padding: padding,
         scrollDirection: scrollDirection,
-        itemBuilder: (ctx, index) => InkWell(
+        itemBuilder: (ctx, index) {
+          if (onItemClick == null) {
+            return itemBuilder.call(data[index], index);
+          } else {
+            return InkWell(
               child: itemBuilder.call(data[index], index),
-              onTap: () => onItemClick?.call(data[index], index),
-            ),
+              onTap: () => onItemClick.call(data[index], index),
+            );
+          }
+        },
         separatorBuilder: (ctx, index) =>
             separatorBuilder?.call(data[index], index) ?? const SizedBox(),
         itemCount: data.length);

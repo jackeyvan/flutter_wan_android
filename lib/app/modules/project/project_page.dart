@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/refresh/refresh_page.dart';
-import 'model/project_model.dart';
 import 'project_controller.dart';
 
 class ProjectPage extends GetRefreshPage<ProjectController> {
@@ -22,28 +22,48 @@ class ProjectPage extends GetRefreshPage<ProjectController> {
       builder: () => buildRefreshListView(
         shrinkWrap: false,
         controller: controller,
+        padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
-          return Card(
-            margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
-            child: ListTile(
-              // contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-              title: Text("${item.title}"),
-              subtitle: Text("${item.desc}"),
+          return Container(
+            /// 设置左上右下的边距，顶部的边距需要Listview自己设置
+            margin: const EdgeInsets.fromLTRB(6, 0, 6, 6),
+            child: InkWell(
+              /// 点击水波纹的圆角
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              child: Card(
+                /// 卡片的圆角，和水波纹匹配
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Row(
+                  children: [
+                    CachedNetworkImage(
+                      width: 80,
+                      height: 160,
+                      imageUrl: item.envelopePic ?? "",
+                      fit: BoxFit.fill,
+                    ),
+                    Expanded(
+                        child: ListTile(
+                      title: Text(
+                        "${item.title}",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                        maxLines: 2,
+                      ),
+                      subtitle: Text(
+                        "${item.desc}",
+                        maxLines: 5,
+                      ),
+                    )),
+                  ],
+                ),
+              ),
+              onTap: () {
+                print("---------->点击了 = $index item:$item");
+              },
             ),
           );
         },
-        onItemClick: (ProjectItemModel item, int index) {
-          print("---------->点击了 = $index item:$item");
-
-          // Toast.showToast(item.title);
-        },
-        // separatorBuilder: (item, index) {
-        //   return Divider(
-        //     height: 0,
-        //     indent: 12,
-        //     endIndent: 12,
-        //   );
-        // },
       ),
     );
   }

@@ -45,6 +45,9 @@ dependencies:
 
   fluttertoast: ^8.2.6
 
+  #  图片库，带有缓存功能
+  cached_network_image: ^3.3.1
+
 
   # dio配套库
   dio: ^5.5.0

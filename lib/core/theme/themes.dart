@@ -129,8 +129,9 @@ class AppTheme {
             selectedItemColor: Colors.yellow.shade700,
             unselectedItemColor: Colors.black54),
         tabBarTheme: const TabBarTheme(
-            labelStyle: TextStyle(fontWeight: FontWeight.w500),
-            labelColor: Colors.black),
+            labelStyle: TextStyle(fontWeight: FontWeight.w700),
+            labelColor: Colors.black,
+            indicatorColor: Colors.black38),
         iconTheme: IconThemeData(color: Colors.yellow.shade700),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
