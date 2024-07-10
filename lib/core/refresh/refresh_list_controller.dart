@@ -31,24 +31,18 @@ abstract class GetRefreshListController<T> extends GetxController
   Future<void> onRefresh() async {
     var result = await loadData(page);
 
-    // setData(result);
+    if (result.isNotEmpty) {
+      print("-----> 加载成功了  success ${result}");
 
-    // if (result.isNotEmpty) {
-    //   print("-----> 加载成功了  success ${result}");
-    //
-    //   /// 更新界面
-    //   change(result, status: RxStatus.success());
-    // } else {
-    //   change(result, status: RxStatus.empty());
-    // }
-
-    // var noMore = result.length < pageSize;
-
-    change(result, status: RxStatus.success());
+      /// 更新界面
+      change(result, status: RxStatus.success());
+    } else {
+      change(result, status: RxStatus.empty());
+    }
 
     /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
     /// 再调用RefreshController的方法才有用，不然会报错。
-    // refreshController.finishRefresh();
+    refreshController.finishRefresh();
 
     /// 重置页码
     page = initPage;

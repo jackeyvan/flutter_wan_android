@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_wan_android/app/modules/home/model/banner_model.dart';
-import 'package:flutter_wan_android/app/modules/home/model/top_article_model.dart';
 
 HomeArticleListModel fromJson(String str) =>
     HomeArticleListModel.fromJson(json.decode(str));
@@ -66,8 +65,6 @@ class HomeArticleModel {
   /// 由于首页列表数据使用本model，为了能统一List展示，需要将Banner放到这个Model来管理
 
   List<BannerModel>? banner;
-  List<TopArticleModel>? topArticle;
-
   bool? adminAdd;
   String? apkLink;
   int? audit;
@@ -140,8 +137,7 @@ class HomeArticleModel {
       this.userId,
       this.visible,
       this.zan,
-      this.banner,
-      this.topArticle});
+      this.banner});
 
   @override
   String toString() {

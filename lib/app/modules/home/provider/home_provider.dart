@@ -2,12 +2,11 @@ import '../../../api/api_paths.dart';
 import '../../../api/api_provider.dart';
 import '../model/banner_model.dart';
 import '../model/home_article_model.dart';
-import '../model/top_article_model.dart';
 
 abstract class IHomeProvider {
   Future<List<BannerModel>> banner();
 
-  Future<List<TopArticleModel>> topArticle();
+  Future<List<HomeArticleModel>> topArticle();
 
   Future<HomeArticleListModel> homePageArticle(int page);
 }
@@ -30,9 +29,9 @@ class HomeProvider extends IHomeProvider {
 
   ///  置顶文章
   @override
-  Future<List<TopArticleModel>> topArticle() => _provider
+  Future<List<HomeArticleModel>> topArticle() => _provider
       .get(ApiPaths.topArticle)
       .then((value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => TopArticleModel.fromJson(e))
+          .map((e) => HomeArticleModel.fromJson(e))
           .toList());
 }
