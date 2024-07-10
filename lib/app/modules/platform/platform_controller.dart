@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'platform_provider.dart';
+import 'provider/platform_provider.dart';
 
 class PlatformController extends GetxController {
   final _provider = PlatformProvider();
@@ -9,20 +9,12 @@ class PlatformController extends GetxController {
 
   @override
   void onInit() {
-    print("------------> PlatformController ---- onInit");
+    _provider.platformTab().then((value) {
+      print("---------> PlatformController tab: ${value[0].name}");
+    });
 
-    // _provider.banner().then((value) {
-    //   data.value = value[0].title ?? "请求成功，但是数据为空";
-    // });
-  }
-
-  @override
-  void onClose() {
-    print("------------> PlatformController ---- onClose");
-  }
-
-  @override
-  void onReady() {
-    print("------------> PlatformController ---- onReady");
+    _provider.platformList(408, 1).then((value) {
+      print("---------> PlatformController list: ${value.datas?[0].author}");
+    });
   }
 }

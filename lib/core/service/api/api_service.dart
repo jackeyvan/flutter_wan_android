@@ -16,9 +16,6 @@ class ApiService {
 
   late Dio _dio;
 
-  final defaultCacheMode = Cache.cacheOnly.name;
-  final defaultExpireTime = const Duration(days: 7);
-
   /// 默认的Dio请求配置，如果需要自定义Dio，只需要设置Dio对象
   Future<ApiService> init() async {
     /// 网络配置
@@ -61,7 +58,7 @@ class ApiService {
   Future<Response<T>> get<T>(String url,
       {Map<String, dynamic>? params,
       Map<String, dynamic>? headers,
-      Cache? cache,
+      CacheMode? cache,
       Duration? cacheExpire,
       ProgressCallback? send,
       ProgressCallback? receive,
@@ -76,7 +73,7 @@ class ApiService {
   Future<Response<T>> post<T>(String url,
       {Map<String, dynamic>? params,
       Map<String, dynamic>? headers,
-      Cache? cache,
+      CacheMode? cache,
       Duration? cacheExpire,
       ProgressCallback? send,
       ProgressCallback? receive,
@@ -131,7 +128,7 @@ class ApiService {
       Method method,
       Map<String, dynamic>? params,
       Map<String, dynamic>? headers,
-      Cache? cache,
+      CacheMode? cache,
       Duration? cacheExpire,
       ProgressCallback? send,
       ProgressCallback? receive,
@@ -143,12 +140,10 @@ class ApiService {
     headers ??= <String, dynamic>{};
 
     ///  缓存模式
-    headers['cache_mode'] = cache != null ? cache.name : defaultCacheMode;
+    headers['cache_mode'] = cache?.name;
 
     ///  缓存过期时间
-    headers['cache_expire'] = cacheExpire != null
-        ? cacheExpire.inMilliseconds.toString()
-        : defaultExpireTime;
+    headers['cache_expire'] = cacheExpire?.inMilliseconds;
 
     /// 网络请求去重，内部逻辑判断发起真正的网络请求
     if (networkDebounce) {

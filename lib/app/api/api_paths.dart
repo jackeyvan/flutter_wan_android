@@ -36,7 +36,7 @@ class ApiPaths {
   static const String collectArticle = "lg/collect/";
 
   /// 取消收藏
-  static const String uncollectArticel = "lg/uncollect_originId/";
+  static const String unCollectArticle = "lg/uncollect_originId/";
 
   /// 获取搜索热词
   static const String hotKeywords = "hotkey/json";
@@ -55,4 +55,16 @@ class ApiPaths {
 
   /// todoList
   static const String todoList = "lg/todo/v2/list/";
+
+  /// 公众号
+  static const String wxArticleTab = "wxarticle/chapters/json";
+
+  /// 某个公众号的文章列表  wxarticle/list/408/1/json
+  static const String wxArticleList = "wxarticle/list/";
+
+  /// 学习体系
+  static const String treeList = "tree/json";
+
+  /// 导航  navi/json
+  static const String naviList = "navi/json";
 }

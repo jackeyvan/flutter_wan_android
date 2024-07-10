@@ -5,7 +5,7 @@ import '../../../core/widgets/keep_alive_wrapper.dart';
 import '../home/home_page.dart';
 import '../platform/platform_page.dart';
 import '../project/project_tab_page.dart';
-import '../series/series_page.dart';
+import '../tree/tree_home_page.dart';
 import 'root_controller.dart';
 
 class RootPage extends GetView<RootController> {
@@ -96,7 +96,7 @@ class RootPage extends GetView<RootController> {
     final pages = <Widget>[
       KeepAliveWrapper(child: HomePage()),
       KeepAliveWrapper(child: ProjectTabPage()),
-      KeepAliveWrapper(child: SeriesPage()),
+      KeepAliveWrapper(child: TreeHomePage()),
       KeepAliveWrapper(child: PlatformPage()),
     ];
 

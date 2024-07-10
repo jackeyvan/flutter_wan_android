@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/core/core.dart';
 
-enum Cache {
+enum CacheMode {
   /// 只使用本地缓存，没有缓存返回null
   cacheOnly,
 
@@ -19,18 +19,27 @@ enum Cache {
 
 /// 缓存拦截器
 class CacheInterceptor extends Interceptor {
+  final CacheMode defaultCacheMode;
+  final Duration defaultExpireTime;
+
+  CacheInterceptor(
+      {required this.defaultCacheMode, required this.defaultExpireTime});
+
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     Map<String, dynamic> headers = options.headers;
-    final String cacheMode = headers['cache_mode'] ?? "";
+    var cacheMode = headers['cache_mode'];
     final key = options.uri.toString();
 
     headers['cache_key'] = key;
     options.headers = headers;
 
+    /// 设置默认的数据
+    cacheMode ??= defaultCacheMode.name;
+
     /// 只读取缓存数据，不请求网络数据
-    if (cacheMode == Cache.cacheOnly.name) {
+    if (cacheMode == CacheMode.cacheOnly.name) {
       /// 直接返回缓存
       final json = await _readCache(key);
 
@@ -46,7 +55,7 @@ class CacheInterceptor extends Interceptor {
       return;
 
       /// 有缓存用缓存，没缓存使用网络请求的数据
-    } else if (cacheMode == Cache.cacheFirstThenRemote.name) {
+    } else if (cacheMode == CacheMode.cacheFirstThenRemote.name) {
       final json = await _readCache(key);
 
       print("------> cache: $cacheMode");
@@ -61,6 +70,7 @@ class CacheInterceptor extends Interceptor {
         ));
 
         /// TODO 拦截器要么返回完成请求，要么继续往下走。实现不了先返回缓存，然后再返回网络数据
+        return;
       }
     }
 
@@ -74,21 +84,21 @@ class CacheInterceptor extends Interceptor {
 
     print("------> onResponse 请求成功");
 
-    if (requestHeaders['cache_mode'] != null) {
-      final cacheKey = requestHeaders['cache_key'];
-      // final cacheMode = requestHeaders['cache_mode'];
-      final cacheExpire = requestHeaders['cache_expire'];
+    /// 获取默认的CacheMode
+    final cacheMode = requestHeaders['cache_mode'] ??= defaultCacheMode.name;
+    final cacheExpire =
+        requestHeaders['cache_expire'] ??= defaultExpireTime.inMilliseconds;
+    final cacheKey = requestHeaders['cache_key'];
 
-      Map<String, dynamic>? json = response.data;
+    Map<String, dynamic>? json = response.data;
 
-      /// 请求成功，并且数据正常
-      if (response.statusCode == 200 && json != null) {
-        /// 保存缓存到本地
-        /// TODO 写入缓存之前，判断一下内容是否一样，如果一样则跳过，不刷新缓存时间
-        _writeCache(cacheKey ?? '', json, cacheExpire);
+    /// 请求成功，并且数据正常
+    if (response.statusCode == 200 && json != null) {
+      /// 保存缓存到本地
+      /// TODO 写入缓存之前，判断一下内容是否一样，如果一样则跳过，不刷新缓存时间
+      _writeCache(cacheKey ?? '', json, cacheExpire);
 
-        print("------> onResponse 请求成功，写入缓存: ${json}");
-      }
+      print("------> onResponse 请求成功，写入缓存: ${json}");
     }
 
     super.onResponse(response, handler);
@@ -100,30 +110,29 @@ class CacheInterceptor extends Interceptor {
 
     print("------> 请求异常 onError");
 
-    if (requestHeaders['cache_mode'] != null) {
-      final cacheKey = requestHeaders['cache_key'];
-      final cacheMode = requestHeaders['cache_mode'];
-      // final cacheExpire = requestHeaders['cache_expire'];
+    final cacheMode = requestHeaders['cache_mode'] ??= defaultCacheMode.name;
+    final cacheExpire =
+        requestHeaders['cache_expire'] ??= defaultExpireTime.inMilliseconds;
+    final cacheKey = requestHeaders['cache_key'];
 
-      /// 如果请求失败，则查找本地缓存
-      if (cacheMode == Cache.remoteFirstThenCache.name) {
-        final json = await _readCache(cacheKey);
+    /// 如果请求失败，则查找本地缓存
+    if (cacheMode == CacheMode.remoteFirstThenCache.name) {
+      final json = await _readCache(cacheKey);
 
-        if (json != null) {
-          handler.resolve(Response(
-            statusCode: 200,
-            data: json,
-            statusMessage: '获取缓存数据成功',
-            requestOptions: RequestOptions(),
-          ));
-        }
-
-        print("------> 请求异常 读取缓存: ${json}");
-        return;
+      if (json != null) {
+        handler.resolve(Response(
+          statusCode: 200,
+          data: json,
+          statusMessage: '获取缓存数据成功',
+          requestOptions: RequestOptions(),
+        ));
       }
 
-      super.onError(err, handler);
+      print("------> 请求异常 读取缓存: ${json}");
+      return;
     }
+
+    super.onError(err, handler);
   }
 
   /// 读取缓存数据
@@ -139,10 +148,10 @@ class CacheInterceptor extends Interceptor {
 
   /// 写入数据缓存，有过期时间
   /// 根据缓存时间，需要进行覆盖
-  Future<void> _writeCache(String key, dynamic value, Duration? duration) {
+  Future<void> _writeCache(String key, dynamic value, int expire) {
     var results = {
       "timestamp": DateTime.now().millisecondsSinceEpoch,
-      "expire": duration?.inMilliseconds ?? 0,
+      "expire": expire,
       "data": value,
     };
     return Storage.write(key, results);

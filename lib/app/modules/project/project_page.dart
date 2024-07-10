@@ -27,13 +27,13 @@ class ProjectPage extends GetRefreshPage<ProjectController> {
           return Container(
             /// 设置左上右下的边距，顶部的边距需要Listview自己设置
             margin: const EdgeInsets.fromLTRB(6, 0, 6, 6),
-            child: InkWell(
-              /// 点击水波纹的圆角
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: Card(
-                /// 卡片的圆角，和水波纹匹配
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
+            child: Card(
+              /// 卡片的圆角，和水波纹匹配
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: InkWell(
+                /// 点击水波纹的圆角
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
                 child: Row(
                   children: [
                     CachedNetworkImage(
@@ -44,23 +44,24 @@ class ProjectPage extends GetRefreshPage<ProjectController> {
                     ),
                     Expanded(
                         child: ListTile(
-                      title: Text(
-                        "${item.title}",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                        maxLines: 2,
-                      ),
-                      subtitle: Text(
-                        "${item.desc}",
-                        maxLines: 5,
-                      ),
-                    )),
+                            title: Text(
+                              "${item.title}",
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                              maxLines: 2,
+                            ),
+                            subtitle: Padding(
+                                padding: EdgeInsets.only(top: 6),
+                                child: Text(
+                                  "${item.desc}",
+                                  maxLines: 5,
+                                )))),
                   ],
                 ),
+                onTap: () {
+                  print("---------->点击了 = $index item:$item");
+                },
               ),
-              onTap: () {
-                print("---------->点击了 = $index item:$item");
-              },
             ),
           );
         },

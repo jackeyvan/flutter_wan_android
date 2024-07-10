@@ -11,7 +11,7 @@ void main() async {
   /// run app before init dependencies and some config.
   await AppService().dependencies();
 
-  runApp(const TestApp());
+  runApp(const WanApp());
 }
 
 class WanApp extends StatelessWidget {
@@ -37,6 +37,9 @@ class TestApp extends StatelessWidget {
     return MaterialApp(
       title: "玩安卓",
       home: Scaffold(
+        appBar: AppBar(
+          title: Text("玩安卓"),
+        ),
         body: Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(12))),

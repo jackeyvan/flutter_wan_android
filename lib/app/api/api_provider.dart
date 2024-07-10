@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_wan_android/app/api/banner_model.dart';
-import 'package:flutter_wan_android/app/api/home_article_model.dart';
 import 'package:flutter_wan_android/app/api/hot_keys_model.dart';
 import 'package:flutter_wan_android/app/api/user_model.dart';
 import 'package:flutter_wan_android/core/service/api/interceptor/cache_Interceptor.dart';
@@ -10,7 +8,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../../core/service/api/api_service.dart';
 import 'api_paths.dart';
 import 'result.dart';
-import 'top_article_model.dart';
 
 /// 封装应用层的API请求，一个url对应一个Provider
 /// 封装网络请求各种情况
@@ -31,7 +28,9 @@ class ApiProvider {
 
     /// 设置拦截器
     /// 网络缓存拦截器
-    dio.interceptors.add(CacheInterceptor());
+    dio.interceptors.add(CacheInterceptor(
+        defaultCacheMode: CacheMode.cacheFirstThenRemote,
+        defaultExpireTime: const Duration(days: 30)));
 
     /// 请求日志打印
     dio.interceptors.add(PrettyDioLogger(request: false, responseBody: false));
@@ -43,11 +42,7 @@ class ApiProvider {
 
     ApiService.to().initDio(dio);
 
-    homePageArticle(0);
-    hotKeyWords();
-    topArticle();
-    banner();
-
+    // hotKeyWords();
     return this;
   }
 
@@ -73,37 +68,21 @@ class ApiProvider {
     }).then((value) => User.fromJson(value));
   }
 
-  /// 首页文章
-  Future<HomeArticleModel> homePageArticle(int page) =>
-      get("${ApiPaths.homePageArticle}$page/json")
-          .then((value) => HomeArticleModel.fromJson(value));
-
   /// 搜索热词
   Future<List<HotKeysModel>> hotKeyWords() => get(ApiPaths.hotKeywords).then(
       (value) => List<Map<String, dynamic>>.from(value)
           .map((e) => HotKeysModel.fromJson(e))
           .toList());
 
-  ///  置顶文章数据
-  Future<List<TopArticleModel>> topArticle() => get(ApiPaths.topArticle).then(
-      (value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => TopArticleModel.fromJson(e))
-          .toList());
-
-  /// Banner数据
-  Future<List<BannerModel>> banner() => get(ApiPaths.banner).then((value) =>
-      List<Map<String, dynamic>>.from(value)
-          .map((e) => BannerModel.fromJson(e))
-          .toList());
-
   /// 封装最底层的Get请求
-  Future<T> get<T>(String url, {Map<String, dynamic>? params, Cache? cache}) {
+  Future<T> get<T>(String url,
+      {Map<String, dynamic>? params, CacheMode? cache}) {
     return _convert(ApiService.to().get(url, params: params, cache: cache));
   }
 
   /// 封装最底层的Post请求
   Future<T> post<T>(String url,
-      {required Map<String, dynamic> params, Cache? cache}) {
+      {required Map<String, dynamic> params, CacheMode? cache}) {
     return _convert<T>(ApiService.to().post(url, params: params, cache: cache));
   }
 

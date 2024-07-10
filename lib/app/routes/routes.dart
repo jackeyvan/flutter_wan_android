@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 
-import '../modules/home/home_binding.dart';
-import '../modules/home/home_page.dart';
 import '../modules/root/root_binding.dart';
 import '../modules/root/root_page.dart';
 
@@ -24,7 +22,7 @@ class Routes {
 
   static final routes = [
     GetPage(name: root, page: () => const RootPage(), binding: RootBinding()),
-    GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
+    // GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
   ];
 
   /// 封装跳转页面方法
