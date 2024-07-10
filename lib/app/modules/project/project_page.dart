@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/refresh/refresh_list_page.dart';
+import 'model/project_model.dart';
 import 'project_controller.dart';
 
 class ProjectPage extends GetRefreshListPage<ProjectController> {
@@ -10,17 +11,19 @@ class ProjectPage extends GetRefreshListPage<ProjectController> {
 
   final int? id;
 
+  /// 指定Controller的Tag
+  @override
+  String? get tag => id?.toString();
+
   @override
   Widget build(BuildContext context) {
     /// 为了给每个Page都绑定一个 Controller，需要设置tag
     /// 由于数据封装使用不了obs，只能使用GetBuilder，然后手动去update
-    var controller = ProjectController(id: id);
-    Get.put(controller, tag: id?.toString());
+    /// 同时因为自定义Tag的原因，直接使用GetView的controller会返回null
+    Get.put(ProjectController(id: id), tag: id?.toString());
 
     return buildObx(
-      controller: controller,
-      builder: () => buildRefreshListView(
-        controller: controller,
+      builder: () => buildRefreshListView<ProjectItemModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

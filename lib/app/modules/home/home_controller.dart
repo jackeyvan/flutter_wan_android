@@ -8,8 +8,6 @@ import 'provider/home_provider.dart';
 class HomeController extends GetRefreshListController<HomeArticleModel> {
   final _provider = HomeProvider();
 
-  HomeController() : super();
-
   @override
   Future<List<HomeArticleModel>> loadData(int page) {
     return Future.wait([

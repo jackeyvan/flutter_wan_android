@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../core/refresh/refresh_list_page.dart';
 import 'home_controller.dart';
+import 'model/home_article_model.dart';
 
 class HomePage extends GetRefreshListPage<HomeController> {
   @override
@@ -12,11 +13,9 @@ class HomePage extends GetRefreshListPage<HomeController> {
     print("--------> HomePage build ");
 
     return buildObx(
-        builder: () => buildRefreshListView(
-            controller: controller,
-            itemBuilder: (item, index) {
+        builder: () =>
+            buildRefreshListView<HomeArticleModel>(itemBuilder: (item, index) {
               return Text("data ${item.desc}");
-            }),
-        controller: controller);
+            }));
   }
 }

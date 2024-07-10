@@ -5,22 +5,20 @@ import 'package:get/get.dart';
 
 abstract class GetRefreshListPage<C extends GetRefreshListController>
     extends GetView<C> {
-  const GetRefreshListPage({Key? key}) : super(key: key);
+  const GetRefreshListPage({super.key});
 
   Widget buildRefreshListView<T>(
-      {required GetRefreshListController<T> controller,
-      required Widget Function(T item, int index) itemBuilder,
+      {required Widget Function(T item, int index) itemBuilder,
       Widget Function(T item, int index)? separatorBuilder,
       Function(T item, int index)? onItemClick,
       ScrollPhysics? physics,
       bool shrinkWrap = false,
       EdgeInsetsGeometry? padding,
       Axis scrollDirection = Axis.vertical}) {
-    return buildRefreshView(
-        controller: controller,
-        builder: () => buildListView<T>(
+    return buildRefreshView<T>(
+        builder: (data) => buildListView<T>(
             itemBuilder: itemBuilder,
-            data: controller.getData(),
+            data: data,
             padding: padding,
             separatorBuilder: separatorBuilder,
             onItemClick: onItemClick,
@@ -29,9 +27,7 @@ abstract class GetRefreshListPage<C extends GetRefreshListController>
             scrollDirection: scrollDirection));
   }
 
-  Widget buildRefreshView(
-      {required Widget Function() builder,
-      required GetRefreshListController controller}) {
+  Widget buildRefreshView<T>({required Widget Function(List<T> data) builder}) {
     return EasyRefresh(
       controller: controller.refreshController,
       onRefresh: controller.onRefresh,
@@ -40,9 +36,8 @@ abstract class GetRefreshListPage<C extends GetRefreshListController>
       footer: const MaterialFooter(),
       canLoadAfterNoMore: controller.enableControlFinishLoad(),
       canRefreshAfterNoMore: controller.enableControlFinishRefresh(),
-
       // firstRefresh: controller.firstRefresh(),
-      child: builder(),
+      child: builder(controller.getData().map((e) => e as T).toList()),
     );
   }
 
@@ -75,7 +70,6 @@ abstract class GetRefreshListPage<C extends GetRefreshListController>
 
   Widget buildObx(
       {required Widget Function() builder,
-      required GetRefreshListController controller,
       Widget? onLoading,
       Widget? onEmpty,
       Widget Function(String? error)? onError}) {
