@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:get/get.dart' as getx;
 
 import 'interceptor/cache_Interceptor.dart';
@@ -16,6 +15,9 @@ class ApiService {
   static ApiService to() => getx.Get.find<ApiService>();
 
   late Dio _dio;
+
+  final defaultCacheMode = Cache.cacheOnly.name;
+  final defaultExpireTime = const Duration(days: 7);
 
   /// 默认的Dio请求配置，如果需要自定义Dio，只需要设置Dio对象
   Future<ApiService> init() async {
@@ -55,24 +57,18 @@ class ApiService {
   /// 初始化Dio，如果调用本方法，则网络相关的配置需要在传回来的Dio设置好
   void initDio(Dio dio) => _dio = dio;
 
-  /// 缓存策略配置
-  final _cacheOptions = CacheOptions(
-    store: MemCacheStore(),
-    allowPostMethod: false,
-  );
-
   /// Get方法
   Future<Response<T>> get<T>(String url,
       {Map<String, dynamic>? params,
       Map<String, dynamic>? headers,
       Cache? cache,
-      Duration? duration,
+      Duration? cacheExpire,
       ProgressCallback? send,
       ProgressCallback? receive,
       CancelToken? cancelToken,
       bool networkDebounce = false,
       bool isShowLoadingDialog = false}) async {
-    return _wrapperRequest(url, Method.get, params, headers, cache, duration,
+    return _wrapperRequest(url, Method.get, params, headers, cache, cacheExpire,
         send, receive, cancelToken, networkDebounce, isShowLoadingDialog);
   }
 
@@ -81,7 +77,7 @@ class ApiService {
       {Map<String, dynamic>? params,
       Map<String, dynamic>? headers,
       Cache? cache,
-      Duration? duration,
+      Duration? cacheExpire,
       ProgressCallback? send,
       ProgressCallback? receive,
       CancelToken? cancelToken,
@@ -91,8 +87,18 @@ class ApiService {
     if (params != null && params.isNotEmpty) {
       map.addAll(params);
     }
-    return _wrapperRequest(url, Method.post, params, headers, cache, duration,
-        send, receive, cancelToken, networkDebounce, isShowLoadingDialog);
+    return _wrapperRequest(
+        url,
+        Method.post,
+        params,
+        headers,
+        cache,
+        cacheExpire,
+        send,
+        receive,
+        cancelToken,
+        networkDebounce,
+        isShowLoadingDialog);
   }
 
   /// Dio 网络下载
@@ -126,7 +132,7 @@ class ApiService {
       Map<String, dynamic>? params,
       Map<String, dynamic>? headers,
       Cache? cache,
-      Duration? duration,
+      Duration? cacheExpire,
       ProgressCallback? send,
       ProgressCallback? receive,
       CancelToken? cancelToken,
@@ -136,14 +142,13 @@ class ApiService {
     params ??= <String, dynamic>{};
     headers ??= <String, dynamic>{};
 
-    ///  缓存头
-    if (cache != null) {
-      headers['cache_mode'] = cache.name;
+    ///  缓存模式
+    headers['cache_mode'] = cache != null ? cache.name : defaultCacheMode;
 
-      if (duration != null) {
-        headers['cache_expire'] = duration.inMilliseconds.toString();
-      }
-    }
+    ///  缓存过期时间
+    headers['cache_expire'] = cacheExpire != null
+        ? cacheExpire.inMilliseconds.toString()
+        : defaultExpireTime;
 
     /// 网络请求去重，内部逻辑判断发起真正的网络请求
     if (networkDebounce) {

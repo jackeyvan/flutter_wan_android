@@ -97,16 +97,13 @@ class ApiProvider {
           .toList());
 
   /// 封装最底层的Get请求
-  Future<T> get<T>(String url,
-      {Map<String, dynamic>? params,
-      Cache cache = Cache.cacheFirstThenRemote}) {
+  Future<T> get<T>(String url, {Map<String, dynamic>? params, Cache? cache}) {
     return _convert(ApiService.to().get(url, params: params, cache: cache));
   }
 
   /// 封装最底层的Post请求
   Future<T> post<T>(String url,
-      {required Map<String, dynamic> params,
-      Cache cache = Cache.cacheFirstThenRemote}) {
+      {required Map<String, dynamic> params, Cache? cache}) {
     return _convert<T>(ApiService.to().post(url, params: params, cache: cache));
   }
 
@@ -115,14 +112,9 @@ class ApiProvider {
       if (response.statusCode == 200) {
         var result = Result.fromJson(response.data);
 
-        print("-------> result: ${result.runtimeType}");
-
         /// 服务端返回成功
         if (result.isSuccess()) {
           /// TODO 解析数据
-
-          print("-------> data: ${result.data.runtimeType}");
-
           return result.data;
         }
       }
