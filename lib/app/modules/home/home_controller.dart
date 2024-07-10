@@ -1,22 +1,35 @@
-import 'package:get/get.dart';
+import 'package:flutter_wan_android/app/modules/home/model/home_article_model.dart';
+import 'package:flutter_wan_android/app/modules/home/model/top_article_model.dart';
 
+import '../../../core/refresh/refresh_list_controller.dart';
+import 'model/banner_model.dart';
 import 'provider/home_provider.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetRefreshListController<HomeArticleModel> {
   final _provider = HomeProvider();
 
-  final data = "我是测试数据Home".obs;
+  HomeController() : super();
 
   @override
-  void onInit() {
-    _provider.banner().then((value) {
-      print("------------> HomeController --获取到数据啦-- ${value[0].desc}");
+  Future<List<HomeArticleModel>> loadData(int page) {
+    return Future.wait([
+      _provider.banner(),
+      _provider.topArticle(),
+      _provider.homePageArticle(page)
+    ]).then((result) {
+      var data = <HomeArticleModel>[];
 
-      data.value = value[0].desc ?? "返回成功，但是数据为空";
+      data.add(HomeArticleModel(banner: result[0] as List<BannerModel>));
+      data.add(
+          HomeArticleModel(topArticle: result[1] as List<TopArticleModel>));
+
+      var listModel = (result[2] as HomeArticleListModel).datas;
+
+      if (listModel != null) {
+        data.addAll(listModel);
+      }
+
+      return data;
     });
-
-    _provider.homePageArticle(0);
-
-    _provider.topArticle();
   }
 }

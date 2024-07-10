@@ -9,7 +9,7 @@ abstract class IHomeProvider {
 
   Future<List<TopArticleModel>> topArticle();
 
-  Future<HomeArticleModel> homePageArticle(int page);
+  Future<HomeArticleListModel> homePageArticle(int page);
 }
 
 class HomeProvider extends IHomeProvider {
@@ -24,9 +24,9 @@ class HomeProvider extends IHomeProvider {
 
   /// 首页文章
   @override
-  Future<HomeArticleModel> homePageArticle(int page) => _provider
+  Future<HomeArticleListModel> homePageArticle(int page) => _provider
       .get("${ApiPaths.homePageArticle}$page/json")
-      .then((value) => HomeArticleModel.fromJson(value));
+      .then((value) => HomeArticleListModel.fromJson(value));
 
   ///  置顶文章
   @override

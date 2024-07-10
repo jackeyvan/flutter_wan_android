@@ -162,4 +162,9 @@ class TopArticleModel {
     map['zan'] = zan;
     return map;
   }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 }

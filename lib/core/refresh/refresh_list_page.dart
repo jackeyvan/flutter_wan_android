@@ -3,23 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/core/core.dart';
 import 'package:get/get.dart';
 
-import 'status/refresh_empty_page.dart';
-import 'status/refresh_error_page.dart';
-import 'status/refresh_loading_page.dart';
-
-/// ==============================
-/// @author : mac
-/// @time   : 2022/3/21 5:59 下午
-/// @soft   : IntelliJ IDEA
-/// @desc   : TODO
-/// ================================
-
-abstract class GetRefreshPage<C extends GetRefreshController>
+abstract class GetRefreshListPage<C extends GetRefreshListController>
     extends GetView<C> {
-  const GetRefreshPage({Key? key}) : super(key: key);
+  const GetRefreshListPage({Key? key}) : super(key: key);
 
   Widget buildRefreshListView<T>(
-      {required GetRefreshController<T> controller,
+      {required GetRefreshListController<T> controller,
       required Widget Function(T item, int index) itemBuilder,
       Widget Function(T item, int index)? separatorBuilder,
       Function(T item, int index)? onItemClick,
@@ -42,7 +31,7 @@ abstract class GetRefreshPage<C extends GetRefreshController>
 
   Widget buildRefreshView(
       {required Widget Function() builder,
-      required GetRefreshController controller}) {
+      required GetRefreshListController controller}) {
     return EasyRefresh(
       controller: controller.refreshController,
       onRefresh: controller.onRefresh,
@@ -86,14 +75,16 @@ abstract class GetRefreshPage<C extends GetRefreshController>
 
   Widget buildObx(
       {required Widget Function() builder,
-      required GetRefreshController controller,
+      required GetRefreshListController controller,
       Widget? onLoading,
       Widget? onEmpty,
       Widget Function(String? error)? onError}) {
-    return controller.obx((data) => builder.call(),
-        onError: onError ??
-            (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
-        onEmpty: onEmpty ?? const EmptyPage(),
-        onLoading: onLoading ?? const LoadingPage());
+    return controller.obx(
+      (data) => builder.call(),
+      onError: onError ??
+          (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
+      onEmpty: onEmpty ?? const EmptyPage(),
+      // onLoading: onLoading ?? const LoadingPage()
+    );
   }
 }

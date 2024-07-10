@@ -24,6 +24,11 @@ class PlatformTabModel {
     this.visible,
   });
 
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
   PlatformTabModel.fromJson(dynamic json) {
     if (json['articleList'] != null) {
       articleList = [];

@@ -64,7 +64,7 @@ class ApiService {
       ProgressCallback? receive,
       CancelToken? cancelToken,
       bool networkDebounce = false,
-      bool isShowLoadingDialog = false}) async {
+      bool isShowLoadingDialog = false}) {
     return _wrapperRequest(url, Method.get, params, headers, cache, cacheExpire,
         send, receive, cancelToken, networkDebounce, isShowLoadingDialog);
   }
@@ -79,7 +79,7 @@ class ApiService {
       ProgressCallback? receive,
       CancelToken? cancelToken,
       bool networkDebounce = false,
-      bool isShowLoadingDialog = false}) async {
+      bool isShowLoadingDialog = false}) {
     var map = <String, dynamic>{};
     if (params != null && params.isNotEmpty) {
       map.addAll(params);
@@ -107,7 +107,7 @@ class ApiService {
     void Function(bool success, String path)? callback,
   }) async {
     try {
-      await _dio.download(
+      _dio.download(
         url,
         savePath,
         onReceiveProgress: receive,
@@ -134,7 +134,7 @@ class ApiService {
       ProgressCallback? receive,
       CancelToken? cancelToken,
       bool networkDebounce,
-      bool isShowLoadingDialog) async {
+      bool isShowLoadingDialog) {
     /// 重置参数
     params ??= <String, dynamic>{};
     headers ??= <String, dynamic>{};
@@ -154,13 +154,8 @@ class ApiService {
       headers['is_show_loading_dialog'] = "true";
     }
 
-    /// 定义一个局部函数，封装重复的请求逻辑
-    Future<Response<T>> request() async {
-      return _executeRequest(
-          url, method, params!, headers!, send, receive, cancelToken);
-    }
-
-    return await request();
+    return _executeRequest(
+        url, method, params, headers, send, receive, cancelToken);
   }
 
   /// 底层封装的Dio请求

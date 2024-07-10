@@ -1,11 +1,23 @@
 import 'dart:convert';
 
-HomeArticleModel fromJson(String str) =>
-    HomeArticleModel.fromJson(json.decode(str));
-String toJson(HomeArticleModel data) => json.encode(data.toJson());
+import 'package:flutter_wan_android/app/modules/home/model/banner_model.dart';
+import 'package:flutter_wan_android/app/modules/home/model/top_article_model.dart';
 
-class HomeArticleModel {
-  HomeArticleModel({
+HomeArticleListModel fromJson(String str) =>
+    HomeArticleListModel.fromJson(json.decode(str));
+
+String toJson(HomeArticleListModel data) => json.encode(data.toJson());
+
+class HomeArticleListModel {
+  int? curPage;
+  List<HomeArticleModel>? datas;
+  int? offset;
+  bool? over;
+  int? pageCount;
+  int? size;
+  int? total;
+
+  HomeArticleListModel({
     this.curPage,
     this.datas,
     this.offset,
@@ -15,12 +27,12 @@ class HomeArticleModel {
     this.total,
   });
 
-  HomeArticleModel.fromJson(dynamic json) {
+  HomeArticleListModel.fromJson(dynamic json) {
     curPage = json['curPage'];
     if (json['datas'] != null) {
       datas = [];
       json['datas'].forEach((v) {
-        datas?.add(Datas.fromJson(v));
+        datas?.add(HomeArticleModel.fromJson(v));
       });
     }
     offset = json['offset'];
@@ -29,13 +41,6 @@ class HomeArticleModel {
     size = json['size'];
     total = json['total'];
   }
-  int? curPage;
-  List<Datas>? datas;
-  int? offset;
-  bool? over;
-  int? pageCount;
-  int? size;
-  int? total;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -50,48 +55,100 @@ class HomeArticleModel {
     map['total'] = total;
     return map;
   }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 }
 
-class Datas {
-  Datas({
-    this.adminAdd,
-    this.apkLink,
-    this.audit,
-    this.author,
-    this.canEdit,
-    this.chapterId,
-    this.chapterName,
-    this.collect,
-    this.courseId,
-    this.desc,
-    this.descMd,
-    this.envelopePic,
-    this.fresh,
-    this.host,
-    this.id,
-    this.isAdminAdd,
-    this.link,
-    this.niceDate,
-    this.niceShareDate,
-    this.origin,
-    this.prefix,
-    this.projectLink,
-    this.publishTime,
-    this.realSuperChapterId,
-    this.selfVisible,
-    this.shareDate,
-    this.shareUser,
-    this.superChapterId,
-    this.superChapterName,
-    this.tags,
-    this.title,
-    this.type,
-    this.userId,
-    this.visible,
-    this.zan,
-  });
+class HomeArticleModel {
+  /// 由于首页列表数据使用本model，为了能统一List展示，需要将Banner放到这个Model来管理
 
-  Datas.fromJson(dynamic json) {
+  List<BannerModel>? banner;
+  List<TopArticleModel>? topArticle;
+
+  bool? adminAdd;
+  String? apkLink;
+  int? audit;
+  String? author;
+  bool? canEdit;
+  int? chapterId;
+  String? chapterName;
+  bool? collect;
+  int? courseId;
+  String? desc;
+  String? descMd;
+  String? envelopePic;
+  bool? fresh;
+  String? host;
+  int? id;
+  bool? isAdminAdd;
+  String? link;
+  String? niceDate;
+  String? niceShareDate;
+  String? origin;
+  String? prefix;
+  String? projectLink;
+  int? publishTime;
+  int? realSuperChapterId;
+  int? selfVisible;
+  int? shareDate;
+  String? shareUser;
+  int? superChapterId;
+  String? superChapterName;
+  List<dynamic>? tags;
+  String? title;
+  int? type;
+  int? userId;
+  int? visible;
+  int? zan;
+
+  HomeArticleModel(
+      {this.adminAdd,
+      this.apkLink,
+      this.audit,
+      this.author,
+      this.canEdit,
+      this.chapterId,
+      this.chapterName,
+      this.collect,
+      this.courseId,
+      this.desc,
+      this.descMd,
+      this.envelopePic,
+      this.fresh,
+      this.host,
+      this.id,
+      this.isAdminAdd,
+      this.link,
+      this.niceDate,
+      this.niceShareDate,
+      this.origin,
+      this.prefix,
+      this.projectLink,
+      this.publishTime,
+      this.realSuperChapterId,
+      this.selfVisible,
+      this.shareDate,
+      this.shareUser,
+      this.superChapterId,
+      this.superChapterName,
+      this.tags,
+      this.title,
+      this.type,
+      this.userId,
+      this.visible,
+      this.zan,
+      this.banner,
+      this.topArticle});
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
+  HomeArticleModel.fromJson(dynamic json) {
     adminAdd = json['adminAdd'];
     apkLink = json['apkLink'];
     audit = json['audit'];
@@ -133,41 +190,6 @@ class Datas {
     visible = json['visible'];
     zan = json['zan'];
   }
-  bool? adminAdd;
-  String? apkLink;
-  int? audit;
-  String? author;
-  bool? canEdit;
-  int? chapterId;
-  String? chapterName;
-  bool? collect;
-  int? courseId;
-  String? desc;
-  String? descMd;
-  String? envelopePic;
-  bool? fresh;
-  String? host;
-  int? id;
-  bool? isAdminAdd;
-  String? link;
-  String? niceDate;
-  String? niceShareDate;
-  String? origin;
-  String? prefix;
-  String? projectLink;
-  int? publishTime;
-  int? realSuperChapterId;
-  int? selfVisible;
-  int? shareDate;
-  String? shareUser;
-  int? superChapterId;
-  String? superChapterName;
-  List<dynamic>? tags;
-  String? title;
-  int? type;
-  int? userId;
-  int? visible;
-  int? zan;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

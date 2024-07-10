@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/refresh/refresh_page.dart';
+import '../../../core/refresh/refresh_list_page.dart';
 import 'project_controller.dart';
 
-class ProjectPage extends GetRefreshPage<ProjectController> {
+class ProjectPage extends GetRefreshListPage<ProjectController> {
   const ProjectPage({this.id});
 
   final int? id;
@@ -20,7 +20,6 @@ class ProjectPage extends GetRefreshPage<ProjectController> {
     return buildObx(
       controller: controller,
       builder: () => buildRefreshListView(
-        shrinkWrap: false,
         controller: controller,
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {

@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// ==============================
-/// @author : mac
-/// @time   : 2022/3/21 5:59 下午
-/// @soft   : IntelliJ IDEA
-/// @desc   : TODO
-/// ================================
-
 class LoadingPage extends StatelessWidget {
   const LoadingPage({super.key});
 

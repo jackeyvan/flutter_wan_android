@@ -15,6 +15,11 @@ class PlatformListModel {
     this.total,
   });
 
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
   PlatformListModel.fromJson(dynamic json) {
     curPage = json['curPage'];
     if (json['datas'] != null) {
@@ -93,6 +98,11 @@ class Datas {
     this.visible,
     this.zan,
   });
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 
   Datas.fromJson(dynamic json) {
     adminAdd = json['adminAdd'];
