@@ -1,7 +1,8 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/core/core.dart';
 import 'package:get/get.dart';
+
+import '../refresh.dart';
 
 abstract class GetRefreshListPage<C extends GetRefreshListController>
     extends GetView<C> {
@@ -73,12 +74,10 @@ abstract class GetRefreshListPage<C extends GetRefreshListController>
       Widget? onLoading,
       Widget? onEmpty,
       Widget Function(String? error)? onError}) {
-    return controller.obx(
-      (data) => builder.call(),
-      onError: onError ??
-          (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
-      onEmpty: onEmpty ?? const EmptyPage(),
-      // onLoading: onLoading ?? const LoadingPage()
-    );
+    return controller.obx((data) => builder.call(),
+        onError: onError ??
+            (error) => ErrorPage(msg: error, onRetry: controller.retryRefresh),
+        onEmpty: onEmpty ?? const EmptyPage(),
+        onLoading: onLoading ?? const LoadingPage());
   }
 }

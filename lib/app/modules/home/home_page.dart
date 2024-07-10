@@ -3,7 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/refresh/refresh_list_page.dart';
+import '../../../core/page/refresh/refresh.dart';
 import 'home_controller.dart';
 import 'model/home_article_model.dart';
 

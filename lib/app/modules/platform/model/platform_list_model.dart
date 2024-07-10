@@ -25,7 +25,7 @@ class PlatformListModel {
     if (json['datas'] != null) {
       datas = [];
       json['datas'].forEach((v) {
-        datas?.add(Datas.fromJson(v));
+        datas?.add(PlatformModel.fromJson(v));
       });
     }
     offset = json['offset'];
@@ -35,7 +35,7 @@ class PlatformListModel {
     total = json['total'];
   }
   int? curPage;
-  List<Datas>? datas;
+  List<PlatformModel>? datas;
   int? offset;
   bool? over;
   int? pageCount;
@@ -57,11 +57,12 @@ class PlatformListModel {
   }
 }
 
-Datas datasFromJson(String str) => Datas.fromJson(json.decode(str));
-String datasToJson(Datas data) => json.encode(data.toJson());
+PlatformModel datasFromJson(String str) =>
+    PlatformModel.fromJson(json.decode(str));
+String datasToJson(PlatformModel data) => json.encode(data.toJson());
 
-class Datas {
-  Datas({
+class PlatformModel {
+  PlatformModel({
     this.adminAdd,
     this.apkLink,
     this.audit,
@@ -104,7 +105,7 @@ class Datas {
     return jsonEncode(this);
   }
 
-  Datas.fromJson(dynamic json) {
+  PlatformModel.fromJson(dynamic json) {
     adminAdd = json['adminAdd'];
     apkLink = json['apkLink'];
     audit = json['audit'];

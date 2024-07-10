@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/refresh/refresh_list_page.dart';
+import '../../../core/page/refresh/refresh.dart';
 import 'model/project_model.dart';
 import 'project_controller.dart';
 
 class ProjectPage extends GetRefreshListPage<ProjectController> {
-  const ProjectPage({this.id});
+  const ProjectPage({super.key, this.id});
 
   final int? id;
 

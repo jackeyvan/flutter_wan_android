@@ -1,20 +1,16 @@
-import 'package:get/get.dart';
-
+import '../../../core/page/refresh/refresh.dart';
+import 'model/platform_list_model.dart';
 import 'provider/platform_provider.dart';
 
-class PlatformController extends GetxController {
+class PlatformController extends GetRefreshListController<PlatformModel> {
   final _provider = PlatformProvider();
 
-  var data = "微信公众号".obs;
+  final int? id;
+
+  PlatformController({this.id});
 
   @override
-  void onInit() {
-    _provider.platformTab().then((value) {
-      print("---------> PlatformController tab: ${value[0].name}");
-    });
-
-    _provider.platformList(408, 1).then((value) {
-      print("---------> PlatformController list: ${value.datas?[0].author}");
-    });
+  Future<List<PlatformModel>> loadData(int page) {
+    return _provider.platformList(id ?? 0, page).then((e) => e.datas ?? []);
   }
 }

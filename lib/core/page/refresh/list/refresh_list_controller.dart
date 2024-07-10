@@ -1,7 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter_wan_android/core/widgets/widget.dart';
 import 'package:get/get.dart';
-
-import '../widgets/widget.dart';
 
 abstract class GetRefreshListController<T> extends GetxController
     with StateMixin<List<T>> {
@@ -29,28 +28,38 @@ abstract class GetRefreshListController<T> extends GetxController
 
   /// 刷新数据
   Future<void> onRefresh() async {
-    var result = await loadData(page);
+    loadData(page).then((result) {
+      if (result.isNotEmpty) {
+        print("-----> 加载成功了  success ${result}");
 
-    if (result.isNotEmpty) {
-      print("-----> 加载成功了  success ${result}");
+        /// 更新界面
+        change(result, status: RxStatus.success());
+      } else {
+        change(result, status: RxStatus.empty());
+      }
 
-      /// 更新界面
-      change(result, status: RxStatus.success());
-    } else {
-      change(result, status: RxStatus.empty());
-    }
+      /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
+      /// 再调用RefreshController的方法才有用，不然会报错。
+      refreshController.finishRefresh();
 
-    /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
-    /// 再调用RefreshController的方法才有用，不然会报错。
-    refreshController.finishRefresh();
+      /// 重置页码
+      page = initPage;
 
-    /// 重置页码
-    page = initPage;
+      /// 刷新的时候，没有更多数据需要去掉上拉加载，没有有更多数据则要重置加载状态
+      // if (noMore) {
+      //   refreshController.finishLoad();
+      // }
+    }).onError((error, stack) {
+      print("---------> 发生了一场 ${error}");
 
-    /// 刷新的时候，没有更多数据需要去掉上拉加载，没有有更多数据则要重置加载状态
-    // if (noMore) {
-    //   refreshController.finishLoad();
-    // }
+      /// 如果有数据则提示吐司，如果没有数据则展示错误图
+      if (getData().isNotEmpty) {
+        /// TODO 提示一个吐司，或者不提示
+        ///
+      } else {
+        change(null, status: RxStatus.error(error?.toString()));
+      }
+    });
   }
 
   /// 加载更多
@@ -120,7 +129,8 @@ abstract class GetRefreshListController<T> extends GetxController
 
   /// 重新刷新
   void retryRefresh() {
-    // change(null, status: RxStatus.loading());
+    change(null, status: RxStatus.loading());
+    onRefresh();
   }
 
   /// 主动刷新

@@ -18,7 +18,7 @@ class ProjectTabController extends GetxController
     _provider.projectTables().then((value) {
       _tabController = TabController(vsync: this, length: value.length);
 
-      this.value?.addAll(value);
+      this.value = value;
 
       change(value, status: RxStatus.success());
     });
