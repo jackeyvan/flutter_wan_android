@@ -1,13 +1,12 @@
 import 'package:flutter_wan_android/app/api/api_paths.dart';
 import 'package:flutter_wan_android/app/api/api_provider.dart';
-
-import 'model/navi_model.dart';
-import 'model/tree_model.dart';
+import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
+import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 
 abstract class ITreeProvider {
-  Future<List<TreeModel>> treeList();
+  Future<List<TreeModel>> treeTabs();
 
-  Future<List<NaviModel>> naviList();
+  Future<List<TreeModel>> naviTabs();
 }
 
 class TreeProvider extends ITreeProvider {
@@ -15,15 +14,15 @@ class TreeProvider extends ITreeProvider {
 
   /// 导航系列数据
   @override
-  Future<List<NaviModel>> naviList() => _provider.get(ApiPaths.naviList).then(
+  Future<List<TreeModel>> naviTabs() => _provider.get(ApiPaths.naviList).then(
       (value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => NaviModel.fromJson(e))
+          .map((e) => TreeModel.transFromNavi(NaviTabModel.fromJson(e)))
           .toList());
 
   /// 学习体系系列数据
   @override
-  Future<List<TreeModel>> treeList() => _provider.get(ApiPaths.treeList).then(
+  Future<List<TreeModel>> treeTabs() => _provider.get(ApiPaths.treeList).then(
       (value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => TreeModel.fromJson(e))
+          .map((e) => TreeModel.transFromTree(ArticleTabModel.fromJson(e)))
           .toList());
 }

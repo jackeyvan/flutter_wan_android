@@ -35,7 +35,7 @@ class ArticleTabModel {
     if (json['children'] != null) {
       children = [];
       json['children'].forEach((v) {
-        // children?.add(Dynamic.fromJson(v));
+        children?.add(ArticleTabModel.fromJson(v));
       });
     }
     courseId = json['courseId'];
@@ -54,7 +54,7 @@ class ArticleTabModel {
 
   List<dynamic>? articleList;
   String? author;
-  List<dynamic>? children;
+  List<ArticleTabModel>? children;
   int? courseId;
   String? cover;
   String? desc;

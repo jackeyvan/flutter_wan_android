@@ -12,26 +12,25 @@ abstract class GetTabController<T> extends GetxController
     super.onReady();
     _tabController = TabController(vsync: this, length: 0);
 
-    var tabs = await loadTabs() ?? [];
-
-    if (tabs.isNotEmpty) {
-      _tabController = TabController(vsync: this, length: tabs.length);
-
-      value?.addAll(tabs);
-
-      change(tabs, status: RxStatus.success());
-    } else {
-      change(null, status: RxStatus.empty());
-    }
+    loadTabs().then((tabs) {
+      if (tabs.isNotEmpty) {
+        _tabController = TabController(vsync: this, length: tabs.length);
+        change(tabs, status: RxStatus.success());
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+    }).onError((error, stack) {
+      change(null, status: RxStatus.error(error.toString()));
+    });
   }
 
   get tabController => _tabController;
 
   List<T> get tabs => value ?? [];
 
-  Future<List<T>?> loadTabs();
+  Future<List<T>> loadTabs();
 
-  TabBar buildTabBar(List<T> tabs);
+  Tab buildTab(List<T> tabs);
 
   List<Widget> buildPages(List<T> tabs);
 }

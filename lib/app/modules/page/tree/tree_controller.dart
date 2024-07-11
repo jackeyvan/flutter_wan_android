@@ -1,20 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
 import 'package:get/get.dart';
 
 import 'tree_provider.dart';
 
-class TreeController extends GetxController {
-  final _provider = TreeProvider();
-
-  var data = "默认数据Series".obs;
+class TreeTabController extends GetxController
+    with GetTickerProviderStateMixin {
+  late TabController _tabController;
 
   @override
   void onInit() {
-    _provider.treeList().then((value) {
-      print("---------> PlatformController tab: ${value[0].name}");
-    });
+    _tabController = TabController(vsync: this, length: 2);
+    super.onInit();
+  }
 
-    _provider.naviList().then((value) {
-      print("---------> PlatformController list: ${value[0].name}");
-    });
+  get tabController => _tabController;
+}
+
+class TreeController extends GetRefreshListController<TreeModel> {
+  final _provider = TreeProvider();
+
+  final bool fromTree;
+
+  TreeController(this.fromTree);
+
+  @override
+  Future<List<TreeModel>> loadData(int page) {
+    if (fromTree) {
+      return _provider.treeTabs();
+    } else {
+      return _provider.naviTabs();
+    }
   }
 }

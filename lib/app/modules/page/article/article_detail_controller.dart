@@ -41,8 +41,7 @@ class ArticleDetailController extends GetxController {
             return NavigationDecision.navigate;
           },
         ),
-      )
-      ..loadRequest(Uri.parse('https://flutter.dev'));
+      );
 
     super.onInit();
   }
