@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-PlatformTabModel fromJson(String str) =>
-    PlatformTabModel.fromJson(json.decode(str));
+ArticleTabModel fromJson(String str) =>
+    ArticleTabModel.fromJson(json.decode(str));
 
-String toJson(PlatformTabModel data) => json.encode(data.toJson());
+String toJson(ArticleTabModel data) => json.encode(data.toJson());
 
-class PlatformTabModel {
-  PlatformTabModel({
+class ArticleTabModel {
+  ArticleTabModel({
     this.articleList,
     this.author,
     this.children,
@@ -24,12 +24,7 @@ class PlatformTabModel {
     this.visible,
   });
 
-  @override
-  String toString() {
-    return jsonEncode(this);
-  }
-
-  PlatformTabModel.fromJson(dynamic json) {
+  ArticleTabModel.fromJson(dynamic json) {
     if (json['articleList'] != null) {
       articleList = [];
       json['articleList'].forEach((v) {
@@ -95,5 +90,10 @@ class PlatformTabModel {
     map['userControlSetTop'] = userControlSetTop;
     map['visible'] = visible;
     return map;
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
   }
 }

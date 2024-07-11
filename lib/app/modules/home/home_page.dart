@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/page/refresh/refresh.dart';
+import '../model/article_model.dart';
 import 'home_controller.dart';
-import 'model/home_article_model.dart';
 
 class HomePage extends GetRefreshListPage<HomeController> {
   @override
@@ -13,7 +13,7 @@ class HomePage extends GetRefreshListPage<HomeController> {
     Get.put(HomeController());
 
     return buildObx(
-        builder: () => buildRefreshListView<HomeArticleModel>(
+        builder: () => buildRefreshListView<ArticleModel>(
             shrinkWrap: true,
             itemBuilder: (item, index) {
               var banner = item.banner;

@@ -2,9 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/page/refresh/refresh.dart';
-import 'model/platform_list_model.dart';
+import '../../../core/widgets/widget.dart';
+import '../model/article_model.dart';
 import 'platform_controller.dart';
 
+/// 公众号带有Tab页面
+class PlatformTabPage extends GetView<PlatformTabController> {
+  const PlatformTabPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(PlatformTabController());
+
+    return controller.obx((tabs) => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: AppBar(
+              bottom: TabBar(
+                labelStyle: TextStyle(fontSize: 15),
+                tabAlignment: TabAlignment.start,
+                indicatorSize: TabBarIndicatorSize.label,
+                isScrollable: true,
+                tabs: buildTabs(),
+                controller: controller.tabController,
+              ),
+            ),
+          ),
+          body: TabBarView(
+            controller: controller.tabController,
+            children: buildPages(),
+          ),
+        ));
+  }
+
+  List<Tab> buildTabs() =>
+      controller.tabs.map((tab) => Tab(text: tab.name)).toList();
+
+  List<Widget> buildPages() => controller.tabs
+      .map((tab) => KeepAliveWrapper(child: PlatformPage(id: tab.id)))
+      .toList();
+}
+
+/// 公众号列表页面
 class PlatformPage extends GetRefreshListPage<PlatformController> {
   const PlatformPage({super.key, this.id});
 
@@ -18,7 +57,7 @@ class PlatformPage extends GetRefreshListPage<PlatformController> {
     Get.put(PlatformController(id: id), tag: id?.toString());
 
     return buildObx(
-      builder: () => buildRefreshListView<PlatformModel>(
+      builder: () => buildRefreshListView<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

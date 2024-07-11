@@ -1,22 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter_wan_android/app/modules/home/model/banner_model.dart';
+import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
 
-HomeArticleListModel fromJson(String str) =>
-    HomeArticleListModel.fromJson(json.decode(str));
+ArticleListModel fromJson(String str) =>
+    ArticleListModel.fromJson(json.decode(str));
 
-String toJson(HomeArticleListModel data) => json.encode(data.toJson());
+String toJson(ArticleListModel data) => json.encode(data.toJson());
 
-class HomeArticleListModel {
-  int? curPage;
-  List<HomeArticleModel>? datas;
-  int? offset;
-  bool? over;
-  int? pageCount;
-  int? size;
-  int? total;
-
-  HomeArticleListModel({
+class ArticleListModel {
+  ArticleListModel({
     this.curPage,
     this.datas,
     this.offset,
@@ -26,12 +18,17 @@ class HomeArticleListModel {
     this.total,
   });
 
-  HomeArticleListModel.fromJson(dynamic json) {
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
+  ArticleListModel.fromJson(dynamic json) {
     curPage = json['curPage'];
     if (json['datas'] != null) {
       datas = [];
       json['datas'].forEach((v) {
-        datas?.add(HomeArticleModel.fromJson(v));
+        datas?.add(ArticleModel.fromJson(v));
       });
     }
     offset = json['offset'];
@@ -40,6 +37,14 @@ class HomeArticleListModel {
     size = json['size'];
     total = json['total'];
   }
+
+  int? curPage;
+  List<ArticleModel>? datas;
+  int? offset;
+  bool? over;
+  int? pageCount;
+  int? size;
+  int? total;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -54,97 +59,59 @@ class HomeArticleListModel {
     map['total'] = total;
     return map;
   }
-
-  @override
-  String toString() {
-    return jsonEncode(this);
-  }
 }
 
-class HomeArticleModel {
-  /// 由于首页列表数据使用本model，为了能统一List展示，需要将Banner放到这个Model来管理
+ArticleModel articleFromJson(String str) =>
+    ArticleModel.fromJson(json.decode(str));
 
-  List<BannerModel>? banner;
-  bool? adminAdd;
-  String? apkLink;
-  int? audit;
-  String? author;
-  bool? canEdit;
-  int? chapterId;
-  String? chapterName;
-  bool? collect;
-  int? courseId;
-  String? desc;
-  String? descMd;
-  String? envelopePic;
-  bool? fresh;
-  String? host;
-  int? id;
-  bool? isAdminAdd;
-  String? link;
-  String? niceDate;
-  String? niceShareDate;
-  String? origin;
-  String? prefix;
-  String? projectLink;
-  int? publishTime;
-  int? realSuperChapterId;
-  int? selfVisible;
-  int? shareDate;
-  String? shareUser;
-  int? superChapterId;
-  String? superChapterName;
-  List<dynamic>? tags;
-  String? title;
-  int? type;
-  int? userId;
-  int? visible;
-  int? zan;
+String articleToJson(ArticleModel data) => json.encode(data.toJson());
 
-  HomeArticleModel(
-      {this.adminAdd,
-      this.apkLink,
-      this.audit,
-      this.author,
-      this.canEdit,
-      this.chapterId,
-      this.chapterName,
-      this.collect,
-      this.courseId,
-      this.desc,
-      this.descMd,
-      this.envelopePic,
-      this.fresh,
-      this.host,
-      this.id,
-      this.isAdminAdd,
-      this.link,
-      this.niceDate,
-      this.niceShareDate,
-      this.origin,
-      this.prefix,
-      this.projectLink,
-      this.publishTime,
-      this.realSuperChapterId,
-      this.selfVisible,
-      this.shareDate,
-      this.shareUser,
-      this.superChapterId,
-      this.superChapterName,
-      this.tags,
-      this.title,
-      this.type,
-      this.userId,
-      this.visible,
-      this.zan,
-      this.banner});
+class ArticleModel {
+  ArticleModel({
+    this.adminAdd,
+    this.apkLink,
+    this.audit,
+    this.author,
+    this.canEdit,
+    this.chapterId,
+    this.chapterName,
+    this.collect,
+    this.courseId,
+    this.desc,
+    this.descMd,
+    this.envelopePic,
+    this.fresh,
+    this.host,
+    this.id,
+    this.isAdminAdd,
+    this.link,
+    this.niceDate,
+    this.niceShareDate,
+    this.origin,
+    this.prefix,
+    this.projectLink,
+    this.publishTime,
+    this.realSuperChapterId,
+    this.selfVisible,
+    this.shareDate,
+    this.shareUser,
+    this.superChapterId,
+    this.superChapterName,
+    this.tags,
+    this.title,
+    this.type,
+    this.userId,
+    this.visible,
+    this.zan,
+    this.banner,
+  });
 
   @override
   String toString() {
     return jsonEncode(this);
   }
 
-  HomeArticleModel.fromJson(dynamic json) {
+  ArticleModel.fromJson(dynamic json) {
     adminAdd = json['adminAdd'];
     apkLink = json['apkLink'];
     audit = json['audit'];
@@ -176,9 +143,9 @@ class HomeArticleModel {
     superChapterName = json['superChapterName'];
     if (json['tags'] != null) {
       tags = [];
-      // json['tags'].forEach((v) {
-      //   tags?.add(Dynamic.fromJson(v));
-      // });
+      json['tags'].forEach((v) {
+        tags?.add(Tags.fromJson(v));
+      });
     }
     title = json['title'];
     type = json['type'];
@@ -186,6 +153,45 @@ class HomeArticleModel {
     visible = json['visible'];
     zan = json['zan'];
   }
+
+  /// 兼容首页的Banner
+  List<BannerModel>? banner;
+
+  bool? adminAdd;
+  String? apkLink;
+  int? audit;
+  String? author;
+  bool? canEdit;
+  int? chapterId;
+  String? chapterName;
+  bool? collect;
+  int? courseId;
+  String? desc;
+  String? descMd;
+  String? envelopePic;
+  bool? fresh;
+  String? host;
+  int? id;
+  bool? isAdminAdd;
+  String? link;
+  String? niceDate;
+  String? niceShareDate;
+  String? origin;
+  String? prefix;
+  String? projectLink;
+  int? publishTime;
+  int? realSuperChapterId;
+  int? selfVisible;
+  int? shareDate;
+  String? shareUser;
+  int? superChapterId;
+  String? superChapterName;
+  List<Tags>? tags;
+  String? title;
+  int? type;
+  int? userId;
+  int? visible;
+  int? zan;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -226,6 +232,32 @@ class HomeArticleModel {
     map['userId'] = userId;
     map['visible'] = visible;
     map['zan'] = zan;
+    return map;
+  }
+}
+
+Tags tagsFromJson(String str) => Tags.fromJson(json.decode(str));
+
+String tagsToJson(Tags data) => json.encode(data.toJson());
+
+class Tags {
+  Tags({
+    this.name,
+    this.url,
+  });
+
+  Tags.fromJson(dynamic json) {
+    name = json['name'];
+    url = json['url'];
+  }
+
+  String? name;
+  String? url;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['name'] = name;
+    map['url'] = url;
     return map;
   }
 }

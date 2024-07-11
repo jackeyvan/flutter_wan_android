@@ -1,14 +1,14 @@
-import '../../../api/api_paths.dart';
-import '../../../api/api_provider.dart';
+import '../../api/api_paths.dart';
+import '../../api/api_provider.dart';
+import '../model/article_model.dart';
 import '../model/banner_model.dart';
-import '../model/home_article_model.dart';
 
 abstract class IHomeProvider {
   Future<List<BannerModel>> banner();
 
-  Future<List<HomeArticleModel>> topArticle();
+  Future<List<ArticleModel>> topArticle();
 
-  Future<HomeArticleListModel> homePageArticle(int page);
+  Future<ArticleListModel> homePageArticle(int page);
 }
 
 class HomeProvider extends IHomeProvider {
@@ -23,15 +23,15 @@ class HomeProvider extends IHomeProvider {
 
   /// 首页文章
   @override
-  Future<HomeArticleListModel> homePageArticle(int page) => _provider
+  Future<ArticleListModel> homePageArticle(int page) => _provider
       .get("${ApiPaths.homePageArticle}$page/json")
-      .then((value) => HomeArticleListModel.fromJson(value));
+      .then((value) => ArticleListModel.fromJson(value));
 
   ///  置顶文章
   @override
-  Future<List<HomeArticleModel>> topArticle() => _provider
+  Future<List<ArticleModel>> topArticle() => _provider
       .get(ApiPaths.topArticle)
       .then((value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => HomeArticleModel.fromJson(e))
+          .map((e) => ArticleModel.fromJson(e))
           .toList());
 }
