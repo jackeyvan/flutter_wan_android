@@ -1,9 +1,9 @@
+import 'package:flutter_wan_android/core/env/build_env.dart';
+import 'package:flutter_wan_android/core/log/log.dart';
+import 'package:flutter_wan_android/core/storage/storage.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
-import '../env/build_env.dart';
-import '../log/log.dart';
-import '../storage/storage.dart';
 import 'api/api_service.dart';
 
 /// 封装过的父类

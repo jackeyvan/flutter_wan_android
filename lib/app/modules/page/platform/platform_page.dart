@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
+import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
-import '../../../core/page/refresh/refresh.dart';
-import '../../../core/widgets/widget.dart';
-import '../model/article_model.dart';
 import 'platform_controller.dart';
 
 /// 公众号带有Tab页面

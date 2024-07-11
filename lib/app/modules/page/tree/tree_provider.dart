@@ -1,5 +1,6 @@
-import '../../api/api_paths.dart';
-import '../../api/api_provider.dart';
+import 'package:flutter_wan_android/app/api/api_paths.dart';
+import 'package:flutter_wan_android/app/api/api_provider.dart';
+
 import 'model/navi_model.dart';
 import 'model/tree_model.dart';
 

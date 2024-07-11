@@ -1,7 +1,6 @@
+import 'package:flutter_wan_android/app/modules/page/root/root_binding.dart';
+import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
 import 'package:get/get.dart';
-
-import '../modules/root/root_binding.dart';
-import '../modules/root/root_page.dart';
 
 abstract class _Paths {
   static const root = '/';

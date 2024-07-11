@@ -3,13 +3,6 @@ import 'package:logger/logger.dart';
 
 import '../env/build_env.dart';
 
-/// ==============================
-/// @author : mac
-/// @time   : 2022/3/21 5:59 下午
-/// @soft   : IntelliJ IDEA
-/// @desc   : 日志工具类
-/// ================================
-
 class Log {
   static final _logger = Get.find<Logger>();
 

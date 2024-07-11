@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-
-import '../../../log/log.dart';
+import 'package:flutter_wan_android/core/log/log.dart';
 
 /// 请求去重拦截器
 

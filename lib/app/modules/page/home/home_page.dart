@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
 import 'package:get/get.dart';
 
-import '../../../core/page/refresh/refresh.dart';
-import '../model/article_model.dart';
 import 'home_controller.dart';
 
 class HomePage extends GetRefreshListPage<HomeController> {

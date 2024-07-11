@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/core/theme/themes.dart';
 import 'package:get/get.dart';
 
 import 'app/routes/routes.dart';
 import 'app/service/app_service.dart';
-import 'core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

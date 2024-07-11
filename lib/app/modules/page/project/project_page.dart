@@ -1,10 +1,51 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
+import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
-import '../../../core/page/refresh/refresh.dart';
-import 'model/project_model.dart';
 import 'project_controller.dart';
+
+class ProjectTabPage extends GetView<ProjectTabController> {
+  const ProjectTabPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(ProjectTabController());
+
+    return controller.obx((tabs) => Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: AppBar(
+              bottom: TabBar(
+                labelStyle: TextStyle(fontSize: 15),
+                tabAlignment: TabAlignment.start,
+                indicatorSize: TabBarIndicatorSize.label,
+                isScrollable: true,
+                tabs: buildTabs(tabs),
+                controller: controller.tabController,
+              ),
+            ),
+          ),
+          body: TabBarView(
+            controller: controller.tabController,
+            children: buildPages(tabs),
+          ),
+        ));
+  }
+
+  List<Tab> buildTabs(List<ArticleTabModel>? tabs) =>
+      tabs?.map((tab) => Tab(text: tab.name)).toList() ?? [];
+
+  List<Widget> buildPages(List<ArticleTabModel>? tabs) {
+    return tabs
+            ?.map((tab) => KeepAliveWrapper(child: ProjectPage(id: tab.id)))
+            .toList() ??
+        [];
+  }
+}
 
 class ProjectPage extends GetRefreshListPage<ProjectController> {
   const ProjectPage({super.key, this.id});
@@ -23,7 +64,7 @@ class ProjectPage extends GetRefreshListPage<ProjectController> {
     Get.put(ProjectController(id: id), tag: id?.toString());
 
     return buildObx(
-      builder: () => buildRefreshListView<ProjectItemModel>(
+      builder: () => buildRefreshListView<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

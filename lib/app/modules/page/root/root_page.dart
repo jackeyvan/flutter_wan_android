@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/page/home/home_page.dart';
+import 'package:flutter_wan_android/app/modules/page/platform/platform_page.dart';
+import 'package:flutter_wan_android/app/modules/page/project/project_page.dart';
+import 'package:flutter_wan_android/app/modules/page/tree/tree_home_page.dart';
+import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
-import '../../../core/widgets/keep_alive_wrapper.dart';
-import '../home/home_page.dart';
-import '../platform/platform_page.dart';
-import '../project/project_tab_page.dart';
-import '../tree/tree_home_page.dart';
 import 'root_controller.dart';
 
 class RootPage extends GetView<RootController> {

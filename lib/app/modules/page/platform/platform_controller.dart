@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
 import 'package:get/get.dart';
 
-import '../../../core/page/refresh/refresh.dart';
-import '../model/article_model.dart';
-import '../model/article_tab_model.dart';
 import 'platform_provider.dart';
 
 class PlatformTabController extends GetxController
@@ -14,16 +14,15 @@ class PlatformTabController extends GetxController
 
   @override
   Future<void> onReady() async {
-    super.onReady();
     _tabController = TabController(vsync: this, length: 0);
 
-    var tabs = await _provider.platformTab();
+    _provider.platformTab().then((tabs) {
+      _tabController = TabController(vsync: this, length: tabs.length);
 
-    _tabController = TabController(vsync: this, length: tabs.length);
-
-    value = tabs;
-
-    change(value, status: RxStatus.success());
+      change(tabs, status: RxStatus.success());
+    }).onError((err, stack) {
+      change(null, status: RxStatus.error(err.toString()));
+    });
   }
 
   get tabController => _tabController;

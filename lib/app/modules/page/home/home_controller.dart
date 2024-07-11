@@ -1,6 +1,7 @@
-import '../../../core/page/refresh/refresh.dart';
-import '../model/article_model.dart';
-import '../model/banner_model.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
+
 import 'home_provider.dart';
 
 class HomeController extends GetRefreshListController<ArticleModel> {

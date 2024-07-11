@@ -1,7 +1,7 @@
+import 'package:flutter_wan_android/app/api/api_paths.dart';
+import 'package:flutter_wan_android/core/log/log.dart';
 import 'package:get/get.dart';
 
-import '../../core/log/log.dart';
-import '../api/api_paths.dart';
 import 'base_model.dart';
 
 /// ==============================

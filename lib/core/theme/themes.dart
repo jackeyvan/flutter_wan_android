@@ -1,15 +1,7 @@
-/// ==============================
-/// @author : mac
-/// @time   : 2022/3/21 5:59 下午
-/// @soft   : IntelliJ IDEA
-/// @desc   : TODO
-/// ================================
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_wan_android/core/storage/storage.dart';
 import 'package:get/get.dart';
-
-import '../core.dart';
 
 // ThemeData({
 // Brightness brightness, //深色还是浅色

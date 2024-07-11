@@ -1,5 +1,5 @@
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter_wan_android/core/widgets/widget.dart';
+import 'package:flutter_wan_android/core/widgets/default_dialog.dart';
 import 'package:get/get.dart';
 
 abstract class GetRefreshListController<T> extends GetxController
@@ -23,7 +23,6 @@ abstract class GetRefreshListController<T> extends GetxController
     } else {
       onRefresh();
     }
-    super.onReady();
   }
 
   /// 刷新数据

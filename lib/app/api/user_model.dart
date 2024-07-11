@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_wan_android/app/globel/globe_keys.dart';
-import 'package:flutter_wan_android/core/core.dart';
+import 'package:flutter_wan_android/core/storage/storage.dart';
 
 User fromJson(String str) => User.fromJson(json.decode(str));
 

@@ -1,7 +1,7 @@
-import '../../api/api_paths.dart';
-import '../../api/api_provider.dart';
-import '../model/article_model.dart';
-import '../model/banner_model.dart';
+import 'package:flutter_wan_android/app/api/api_paths.dart';
+import 'package:flutter_wan_android/app/api/api_provider.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
 
 abstract class IHomeProvider {
   Future<List<BannerModel>> banner();

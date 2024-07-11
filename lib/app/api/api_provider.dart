@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/app/api/hot_keys_model.dart';
 import 'package:flutter_wan_android/app/api/user_model.dart';
+import 'package:flutter_wan_android/core/service/api/api_service.dart';
 import 'package:flutter_wan_android/core/service/api/interceptor/cache_Interceptor.dart';
 import 'package:get/get.dart' as getx;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../../core/service/api/api_service.dart';
 import 'api_paths.dart';
 import 'result.dart';
 

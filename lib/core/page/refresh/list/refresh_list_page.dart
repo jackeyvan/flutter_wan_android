@@ -1,8 +1,10 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
+import 'package:flutter_wan_android/core/page/refresh/status/default_empty_page.dart';
+import 'package:flutter_wan_android/core/page/refresh/status/default_error_page.dart';
+import 'package:flutter_wan_android/core/page/refresh/status/default_loading_page.dart';
 import 'package:get/get.dart';
-
-import '../refresh.dart';
 
 abstract class GetRefreshListPage<C extends GetRefreshListController>
     extends GetView<C> {
