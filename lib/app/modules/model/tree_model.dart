@@ -7,6 +7,7 @@ import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
 class TreeModel {
   String? name;
   String? link;
+  int? id;
 
   bool fromTree = false;
 
@@ -16,12 +17,14 @@ class TreeModel {
     this.name,
     this.items,
     this.link,
+    this.id,
   });
 
   ///体系数据
   TreeModel.transFromTree(ArticleTabModel model) {
     name = model.name;
-    items = model.children?.map((e) => TreeModel(name: e.name)).toList();
+    items =
+        model.children?.map((e) => TreeModel(name: e.name, id: e.id)).toList();
     fromTree = true;
   }
 

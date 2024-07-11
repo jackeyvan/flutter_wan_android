@@ -1,5 +1,6 @@
 import 'package:flutter_wan_android/app/api/api_paths.dart';
 import 'package:flutter_wan_android/app/api/api_provider.dart';
+import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 
@@ -7,6 +8,8 @@ abstract class ITreeProvider {
   Future<List<TreeModel>> treeTabs();
 
   Future<List<TreeModel>> naviTabs();
+
+  Future<ArticleListModel> treeList(int page, int id);
 }
 
 class TreeProvider extends ITreeProvider {
@@ -25,4 +28,9 @@ class TreeProvider extends ITreeProvider {
       (value) => List<Map<String, dynamic>>.from(value)
           .map((e) => TreeModel.transFromTree(ArticleTabModel.fromJson(e)))
           .toList());
+
+  @override
+  Future<ArticleListModel> treeList(int page, int id) => _provider.get(
+      "${ApiPaths.articleList}$page/json",
+      params: {"cid": id}).then((value) => ArticleListModel.fromJson(value));
 }

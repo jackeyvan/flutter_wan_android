@@ -2,8 +2,8 @@ class ApiPaths {
   /// 基础url
   static const baseUrl = "https://www.wanandroid.com/";
 
-  /// 首页文章
-  static const String homePageArticle = "article/list/";
+  /// 文章列表
+  static const String articleList = "article/list/";
 
   /// 置顶文章
   static const String topArticle = "article/top/json";

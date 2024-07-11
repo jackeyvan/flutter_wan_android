@@ -96,7 +96,7 @@ class RootPage extends GetView<RootController> {
     final pages = <Widget>[
       KeepAliveWrapper(child: HomePage()),
       KeepAliveWrapper(child: ProjectTabPage()),
-      KeepAliveWrapper(child: TreeHomePage()),
+      KeepAliveWrapper(child: TreeTabPage()),
       KeepAliveWrapper(child: PlatformTabPage()),
     ];
 

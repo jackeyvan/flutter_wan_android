@@ -24,7 +24,7 @@ class HomeProvider extends IHomeProvider {
   /// 首页文章
   @override
   Future<ArticleListModel> homePageArticle(int page) => _provider
-      .get("${ApiPaths.homePageArticle}$page/json")
+      .get("${ApiPaths.articleList}$page/json")
       .then((value) => ArticleListModel.fromJson(value));
 
   ///  置顶文章

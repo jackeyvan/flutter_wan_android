@@ -3,24 +3,25 @@ import 'package:get/get.dart';
 
 import 'tab_controller.dart';
 
-class GetTabPage<C extends GetTabController> extends GetView<C> {
+abstract class GetTabPage<C extends GetTabController> extends GetView<C> {
   const GetTabPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(GetTabController());
-
-    return controller.obx((tabs) => Scaffold(
+    initController();
+    return controller.obx((_) => Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(controller.tabHeight()),
+            preferredSize: const Size.fromHeight(48),
             child: AppBar(
-              bottom: controller.buildTabs(tabs),
+              bottom: controller.buildInnerTabBar(),
             ),
           ),
           body: TabBarView(
             controller: controller.tabController,
-            children: buildPages(tabs),
+            children: controller.buildInnerPages(),
           ),
         ));
   }
+
+  initController();
 }
