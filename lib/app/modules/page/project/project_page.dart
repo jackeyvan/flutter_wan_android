@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
+import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
 import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,7 @@ class ProjectTabPage extends GetView<ProjectTabController> {
             preferredSize: const Size.fromHeight(48),
             child: AppBar(
               bottom: TabBar(
-                labelStyle: TextStyle(fontSize: 15),
+                labelStyle: const TextStyle(fontSize: 15),
                 tabAlignment: TabAlignment.start,
                 indicatorSize: TabBarIndicatorSize.label,
                 isScrollable: true,
@@ -94,16 +95,14 @@ class ProjectPage extends GetRefreshListPage<ProjectController> {
                               maxLines: 2,
                             ),
                             subtitle: Padding(
-                                padding: EdgeInsets.only(top: 6),
+                                padding: const EdgeInsets.only(top: 6),
                                 child: Text(
                                   "${item.desc}",
                                   maxLines: 5,
                                 )))),
                   ],
                 ),
-                onTap: () {
-                  print("---------->点击了 = $index item:$item");
-                },
+                onTap: () => Routes.to(Routes.articleDetail, args: item),
               ),
             ),
           );

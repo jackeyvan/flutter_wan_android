@@ -33,9 +33,10 @@ class HomePage extends GetRefreshListPage<HomeController> {
                             imageUrl: banner[index].imagePath ?? "",
                             fit: BoxFit.fill,
                           ),
-                          onTap: () {
-                            /// TODO
-                          },
+                          onTap: () => Routes.to(Routes.articleDetail,
+                              args: ArticleModel(
+                                  title: banner[index].title,
+                                  link: banner[index].url)),
                         );
                       },
                       itemCount: banner.length,

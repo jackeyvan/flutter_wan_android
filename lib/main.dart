@@ -38,22 +38,22 @@ class TestApp extends StatelessWidget {
       title: "玩安卓",
       home: Scaffold(
         appBar: AppBar(
-          title: Text("玩安卓"),
+          title: const Text("玩安卓"),
         ),
         body: Card(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(12))),
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           child: InkWell(
             // radius: 48,
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            child: ListTile(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: const ListTile(
               title: Text("我是标题呢"),
               subtitle: Text(
                   "我是内容那你信不信啊我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办我是内容那你信不信啊怎么办怎么办"),
             ),
             onTap: () {
-              print("-----> 点击了卡片");
+              // print("-----> 点击了卡片");
             },
           ),
         ),

@@ -19,8 +19,8 @@ abstract class Service extends GetxService {
     Get.put(Logger(printer: PrettyPrinter(), filter: DefaultFilter()),
         permanent: true);
 
-    /// 初始化本地存储服务
-    Get.put(await StorageService().init(), permanent: true);
+    /// 初始化本地存储
+    await Storage.init();
 
     /// TODO 初始化网络框架和缓存策略
     Get.put(await ApiService().init(), permanent: true);
