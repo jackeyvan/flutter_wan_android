@@ -2,12 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
 import 'package:get/get.dart';
 
 import 'home_controller.dart';
 
 class HomePage extends GetRefreshListPage<HomeController> {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
@@ -63,14 +66,12 @@ class HomePage extends GetRefreshListPage<HomeController> {
                           maxLines: 2,
                         ),
                         subtitle: Padding(
-                            padding: EdgeInsets.only(top: 6),
+                            padding: const EdgeInsets.only(top: 6),
                             child: Text(
                               "${item.chapterName}",
                               maxLines: 5,
                             ))),
-                    onTap: () {
-                      print("---------->点击了 = $index item:$item");
-                    },
+                    onTap: () => Routes.to(Routes.articleDetail, args: item),
                   ),
                 ),
               );
