@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/widget/tabbar_widget.dart';
-import 'package:get/get.dart';
+import 'package:flutter_wan_android/core/page/base/base_page.dart';
 
 import 'tab_controller.dart';
 
-class GetTabPage<C extends GetTabController> extends GetView<C> {
+class GetTabPage<C extends GetTabController> extends BasePage<C> {
   const GetTabPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    dependencies();
-    return controller.obx((_) => Scaffold(
-          appBar: buildTabBar(),
-          body: TabBarView(
-            controller: controller.tabController,
-            children: controller.buildPages(),
-          ),
-        ));
-  }
-
-  /// 如果不走Route注入的话，子类可以用这个方法去绑定Controller
-  void dependencies() {}
+  Widget buildPage() => Scaffold(
+        appBar: buildTabBar(),
+        body: buildTabView(),
+      );
 
   /// 子类也可以自己去定义TabBar
   PreferredSizeWidget buildTabBar() => FixTabBar(
         tabs: controller.buildTabs(),
         controller: controller.tabController,
         title: controller.title,
+      );
+
+  buildTabView() => TabBarView(
+        controller: controller.tabController,
+        children: controller.buildPages(),
       );
 }

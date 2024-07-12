@@ -3,7 +3,7 @@ import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 import 'package:flutter_wan_android/app/modules/widget/tree_wrap_widget.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
-import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
+import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
 import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +27,7 @@ class TreePage extends GetRefreshListPage<TreeController> {
   final bool fromTree;
 
   TreePage(this.tab, {super.key})
-      : fromTree = tab == Get.find<TreeTabController>().tabs[0];
+      : fromTree = tab == Get.find<TreeTabController>().tabData[0];
 
   @override
   String? get tag => tab;
@@ -38,7 +38,7 @@ class TreePage extends GetRefreshListPage<TreeController> {
   }
 
   @override
-  Widget buildRefresh() => buildRefreshListView<TreeModel>(
+  Widget buildPage() => buildRefreshListView<TreeModel>(
         padding: const EdgeInsets.only(top: 12),
         itemBuilder: (item, index) {
           return TreeWrap(
@@ -84,7 +84,7 @@ class TreeDetailListPage extends GetRefreshListPage<TreeDetailListController> {
   }
 
   @override
-  Widget buildRefresh() => buildRefreshListView<ArticleModel>(
+  Widget buildPage() => buildRefreshListView<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

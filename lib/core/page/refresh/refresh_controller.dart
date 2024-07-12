@@ -1,9 +1,8 @@
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter_wan_android/core/widgets/default_dialog.dart';
+import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
-abstract class GetRefreshListController<T> extends GetxController
-    with StateMixin<List<T>> {
+abstract class GetRefreshListController<T> extends BaseController {
   EasyRefreshController refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
@@ -31,10 +30,12 @@ abstract class GetRefreshListController<T> extends GetxController
       if (result.isNotEmpty) {
         print("-----> 加载成功了  success ${result}");
 
+        setData(result);
+
         /// 更新界面
-        change(result, status: RxStatus.success());
+        showSuccessPage();
       } else {
-        change(result, status: RxStatus.empty());
+        showEmptyPage();
       }
 
       /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
@@ -49,81 +50,55 @@ abstract class GetRefreshListController<T> extends GetxController
       //   refreshController.finishLoad();
       // }
     }).onError((error, stack) {
-      print("---------> 发生了一场 ${error}");
+      print("---------> refresh 发生了异常 ${error}");
 
       /// 如果有数据则提示吐司，如果没有数据则展示错误图
       if (getData().isNotEmpty) {
         /// TODO 提示一个吐司，或者不提示
         ///
       } else {
-        change(null, status: RxStatus.error(error?.toString()));
+        showErrorPage(msg: error?.toString());
       }
     });
   }
 
   /// 加载更多
   Future<void> onLoad() async {
+    page += 1;
+
     print("------> onLoad");
-    var result = await loadData(page);
-    if (result.isNotEmpty) {
-      /// 更新页码
-      page += 1;
+    loadData(page).then((result) {
+      if (result.isNotEmpty) {
+        /// 更新页码
+        page += 1;
 
-      addData(result);
+        addData(result);
 
-      /// 更新界面
-      change(getData(), status: RxStatus.success());
-    }
+        /// 更新界面
+        showSuccessPage();
+      }
 
-    /// 加载完成
-    refreshController.finishLoad();
+      /// 加载完成
+      refreshController.finishLoad();
+    }).onError((error, stack) {
+      /// 加载失败要 重置页码
+      page -= 1;
+    });
   }
 
   /// 加载数据的方法，子类去实现
+  /// TODO 返回的数据应该是一个范型，因为他可能是一个对象
+  /// TODO 需要添加一个isRefresh,子类刷新和加载可能不一样要区分
   Future<List<T>> loadData(int page);
-
-  // /// 数据加载
-  // void _loadData(bool isRefresh) async {
-  //   loadData(page).then((data) {
-  //     var noMore = data.length < pageSize;
-
-  //   }).catchError((e) {
-  //     if (isRefresh) {
-  //       /// 如果没有数据就展示错误视图，如有有数据就提示吐司
-  //       if (getData().isNotEmpty) {
-  //         // Toast.show(e.toString());
-  //       } else {
-  //         // showErrorPage(msg: e.toString());
-  //         change(null, status: RxStatus.error(e.toString()));
-  //       }
-  //
-  //       /// 结束刷新状态
-  //       refreshController.finishRefresh();
-  //     } else {
-  //       // Toast.show(e.toString());
-  //
-  //       /// 结束加载状态
-  //       refreshController.finishLoad();
-  //     }
-  //   });
-  // }
-
-  /// 获取数据
-  List<T> getData() {
-    return value ?? [];
-  }
 
   /// 添加数据
   void addData(List<T>? data) {
     if (data != null && data.isNotEmpty) {
-      getData().addAll(data);
+      var result = getData();
+      if (result is List) {
+        getData().addAll(data);
+      }
     }
-  }
-
-  /// 设置数据
-  void setData(List<T>? data) {
-    getData().clear();
-    addData(data);
   }
 
   /// 重新刷新
@@ -135,16 +110,6 @@ abstract class GetRefreshListController<T> extends GetxController
   /// 主动刷新
   void startRefresh() {
     refreshController.callRefresh();
-  }
-
-  /// 显示加载弹窗
-  void showLoadingDialog() {
-    LoadingDialog.show();
-  }
-
-  /// 隐藏加载弹窗
-  void dismissLoadingDialog() {
-    LoadingDialog.dismiss();
   }
 
   /// 第一次进入页面刷新

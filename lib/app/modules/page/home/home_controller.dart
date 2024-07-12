@@ -1,6 +1,6 @@
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
-import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
+import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 import 'package:get/get.dart';
 
 import 'home_provider.dart';

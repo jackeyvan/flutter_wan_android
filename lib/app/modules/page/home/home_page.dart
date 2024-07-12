@@ -3,7 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
-import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
+import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
 import 'package:get/get.dart';
 
 import 'home_controller.dart';
@@ -19,7 +19,7 @@ class HomePage extends GetRefreshListPage<HomeController> {
   }
 
   @override
-  Widget buildRefresh() {
+  Widget buildPage() {
     return buildRefreshListView<ArticleModel>(
       shrinkWrap: true,
       itemBuilder: (item, index) {

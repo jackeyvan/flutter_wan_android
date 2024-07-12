@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
-abstract class GetTabController<T> extends GetxController
-    with GetTickerProviderStateMixin, StateMixin<List<T>> {
+abstract class GetTabController<T> extends BaseController
+    with GetTickerProviderStateMixin {
   late TabController _tabController;
 
   String? _tabTitle;
@@ -15,12 +16,13 @@ abstract class GetTabController<T> extends GetxController
     loadTabs().then((tabs) {
       if (tabs.isNotEmpty) {
         _tabController = TabController(vsync: this, length: tabs.length);
-        change(tabs, status: RxStatus.success());
+        setData(tabs);
+        showSuccessPage();
       } else {
-        change(null, status: RxStatus.empty());
+        showEmptyPage();
       }
     }).onError((error, stack) {
-      change(null, status: RxStatus.error(error.toString()));
+      showErrorPage(msg: error.toString());
     });
   }
 
@@ -30,7 +32,7 @@ abstract class GetTabController<T> extends GetxController
 
   get tabController => _tabController;
 
-  List<T> get tabs => value ?? [];
+  List<T> get tabData => getData() ?? [];
 
   Future<List<T>> loadTabs();
 
