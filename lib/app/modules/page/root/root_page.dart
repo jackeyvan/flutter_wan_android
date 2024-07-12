@@ -50,8 +50,8 @@ class RootPage extends GetView<RootController> {
   NavigationDrawer _buildNavigationDrawer() {
     final titles = [
       ListTile(
-        leading: Icon(Icons.home),
-        title: Text("首页"),
+        leading: const Icon(Icons.home),
+        title: const Text("首页"),
         onTap: () => Get.back(),
       ),
       const ListTile(leading: Icon(Icons.home), title: Text("首页")),
@@ -94,16 +94,16 @@ class RootPage extends GetView<RootController> {
   /// 与底部Bottom绑定的页面
   Widget _buildBody() {
     final pages = <Widget>[
-      KeepAliveWrapper(child: HomePage()),
-      KeepAliveWrapper(child: ProjectTabPage()),
-      KeepAliveWrapper(child: TreeTabPage()),
-      KeepAliveWrapper(child: PlatformTabPage()),
+      const KeepAliveWrapper(child: HomePage()),
+      const KeepAliveWrapper(child: ProjectTabPage()),
+      const KeepAliveWrapper(child: TreeTabPage()),
+      const KeepAliveWrapper(child: PlatformTabPage()),
     ];
 
     return PageView(
       controller: controller.pageController,
+      physics: const NeverScrollableScrollPhysics(),
       children: pages,
-      physics: NeverScrollableScrollPhysics(),
     );
   }
 }

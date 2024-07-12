@@ -10,8 +10,6 @@ import 'platform_page.dart';
 import 'platform_provider.dart';
 
 class PlatformTabController extends GetTabController<ArticleTabModel> {
-  final _provider = Get.find<PlatformProvider>();
-
   @override
   List<Widget> buildPages() => tabs
       .map((tab) => KeepAliveWrapper(child: PlatformPage(id: tab.id)))
@@ -28,18 +26,19 @@ class PlatformTabController extends GetTabController<ArticleTabModel> {
       );
 
   @override
-  Future<List<ArticleTabModel>> loadTabs() => _provider.platformTab();
+  Future<List<ArticleTabModel>> loadTabs() =>
+      Get.find<PlatformProvider>().platformTab();
 }
 
 class PlatformController extends GetRefreshListController<ArticleModel> {
-  final _provider = Get.find<PlatformProvider>();
-
   final int? id;
 
   PlatformController({this.id});
 
   @override
   Future<List<ArticleModel>> loadData(int page) {
-    return _provider.platformList(id ?? 0, page).then((e) => e.datas ?? []);
+    return Get.find<PlatformProvider>()
+        .platformList(id ?? 0, page)
+        .then((e) => e.datas ?? []);
   }
 }

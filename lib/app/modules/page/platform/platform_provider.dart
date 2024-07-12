@@ -10,15 +10,13 @@ abstract class IPlatformProvider {
 }
 
 class PlatformProvider extends IPlatformProvider {
-  final _provider = ApiProvider.to;
-
   @override
-  Future<ArticleListModel> platformList(int id, int page) => _provider
+  Future<ArticleListModel> platformList(int id, int page) => ApiProvider.to
       .get("${ApiPaths.wxArticleList}$id/$page/json")
       .then((value) => ArticleListModel.fromJson(value));
 
   @override
-  Future<List<ArticleTabModel>> platformTab() => _provider
+  Future<List<ArticleTabModel>> platformTab() => ApiProvider.to
       .get(ApiPaths.wxArticleTab)
       .then((value) => List<Map<String, dynamic>>.from(value)
           .map((e) => ArticleTabModel.fromJson(e))

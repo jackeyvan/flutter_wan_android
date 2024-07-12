@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'home_provider.dart';
 
 class HomeController extends GetRefreshListController<ArticleModel> {
-  final _provider = Get.find<HomeProvider>();
-
   @override
   Future<List<ArticleModel>> loadData(int page) {
+    final provider = Get.find<HomeProvider>();
+
     return Future.wait([
-      _provider.banner(),
-      _provider.topArticle(),
-      _provider.homePageArticle(page)
+      provider.banner(),
+      provider.topArticle(),
+      provider.homePageArticle(page)
     ]).then((result) {
       var data = <ArticleModel>[];
 

@@ -10,17 +10,15 @@ abstract class IProjectProvider {
 }
 
 class ProjectProvider extends IProjectProvider {
-  final _provider = ApiProvider.to;
-
   @override
-  Future<List<ArticleTabModel>> projectTabs() => _provider
+  Future<List<ArticleTabModel>> projectTabs() => ApiProvider.to
       .get(ApiPaths.projectCategory)
       .then((value) => List<Map<String, dynamic>>.from(value)
           .map((e) => ArticleTabModel.fromJson(e))
           .toList());
 
   @override
-  Future<ArticleListModel> projectList(int id, int page) => _provider.get(
+  Future<ArticleListModel> projectList(int id, int page) => ApiProvider.to.get(
       "${ApiPaths.projectList}$page/json",
       params: {"cid": id}).then((value) => ArticleListModel.fromJson(value));
 }

@@ -12,24 +12,23 @@ abstract class IHomeProvider {
 }
 
 class HomeProvider extends IHomeProvider {
-  final _provider = ApiProvider.to;
-
   /// Banner数据
   @override
-  Future<List<BannerModel>> banner() => _provider.get(ApiPaths.banner).then(
-      (value) => List<Map<String, dynamic>>.from(value)
+  Future<List<BannerModel>> banner() => ApiProvider.to
+      .get(ApiPaths.banner)
+      .then((value) => List<Map<String, dynamic>>.from(value)
           .map((e) => BannerModel.fromJson(e))
           .toList());
 
   /// 首页文章
   @override
-  Future<ArticleListModel> homePageArticle(int page) => _provider
+  Future<ArticleListModel> homePageArticle(int page) => ApiProvider.to
       .get("${ApiPaths.articleList}$page/json")
       .then((value) => ArticleListModel.fromJson(value));
 
   ///  置顶文章
   @override
-  Future<List<ArticleModel>> topArticle() => _provider
+  Future<List<ArticleModel>> topArticle() => ApiProvider.to
       .get(ApiPaths.topArticle)
       .then((value) => List<Map<String, dynamic>>.from(value)
           .map((e) => ArticleModel.fromJson(e))

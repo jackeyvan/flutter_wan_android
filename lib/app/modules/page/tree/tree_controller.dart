@@ -31,18 +31,17 @@ class TreeTabController extends GetTabController<String> {
 }
 
 class TreeController extends GetRefreshListController<TreeModel> {
-  final _provider = TreeProvider();
-
   final bool fromTree;
 
   TreeController(this.fromTree);
 
   @override
   Future<List<TreeModel>> loadData(int page) {
+    final provider = Get.find<TreeProvider>();
     if (fromTree) {
-      return _provider.treeTabs();
+      return provider.treeTabs();
     } else {
-      return _provider.naviTabs();
+      return provider.naviTabs();
     }
   }
 }
@@ -82,14 +81,14 @@ class TreeDetailTabController extends GetTabController<TreeModel> {
 }
 
 class TreeDetailListController extends GetRefreshListController<ArticleModel> {
-  final _provider = TreeProvider();
-
   final int? id;
 
   TreeDetailListController({required this.id});
 
   @override
   Future<List<ArticleModel>> loadData(int page) {
-    return _provider.treeList(page, id ?? 0).then((e) => e.datas ?? []);
+    return Get.find<TreeProvider>()
+        .treeList(page, id ?? 0)
+        .then((e) => e.datas ?? []);
   }
 }
