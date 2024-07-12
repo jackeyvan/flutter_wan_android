@@ -49,7 +49,7 @@ class TreePage extends GetRefreshListPage<TreeController> {
               if (fromTree) {
                 var tabs = item.items ?? [];
                 if (tabs.isNotEmpty) {
-                  Routes.to(Routes.treeDetail, args: tabs);
+                  Routes.to(Routes.treeDetail, args: item);
                 }
               } else {
                 /// 导航跳转到WebView

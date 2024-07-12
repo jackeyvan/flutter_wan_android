@@ -42,8 +42,9 @@ class TreeDetailTabController extends GetTabController<TreeModel> {
   @override
   Future<List<TreeModel>> loadTabs() {
     var args = Get.arguments;
-    if (args is List<TreeModel>) {
-      return Future.value(args);
+    if (args is TreeModel) {
+      title = args.name;
+      return Future.value(args.items);
     }
     return Future.value([]);
   }

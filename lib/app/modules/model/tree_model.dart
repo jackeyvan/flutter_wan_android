@@ -73,4 +73,9 @@ class NaviTabModel {
     map['name'] = name;
     return map;
   }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 }

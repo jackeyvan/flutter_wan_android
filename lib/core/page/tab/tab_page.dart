@@ -11,9 +11,7 @@ class GetTabPage<C extends GetTabController> extends GetView<C> {
   Widget build(BuildContext context) {
     dependencies();
     return controller.obx((_) => Scaffold(
-          appBar: FixTabBar(
-              tabs: controller.buildTabs(),
-              controller: controller.tabController),
+          appBar: buildTabBar(),
           body: TabBarView(
             controller: controller.tabController,
             children: controller.buildPages(),
@@ -23,4 +21,11 @@ class GetTabPage<C extends GetTabController> extends GetView<C> {
 
   /// 如果不走Route注入的话，子类可以用这个方法去绑定Controller
   void dependencies() {}
+
+  /// 子类也可以自己去定义TabBar
+  PreferredSizeWidget buildTabBar() => FixTabBar(
+        tabs: controller.buildTabs(),
+        controller: controller.tabController,
+        title: controller.title,
+      );
 }

@@ -5,6 +5,8 @@ abstract class GetTabController<T> extends GetxController
     with GetTickerProviderStateMixin, StateMixin<List<T>> {
   late TabController _tabController;
 
+  String? _tabTitle;
+
   @override
   Future<void> onReady() async {
     super.onReady();
@@ -21,6 +23,10 @@ abstract class GetTabController<T> extends GetxController
       change(null, status: RxStatus.error(error.toString()));
     });
   }
+
+  set title(String? title) => _tabTitle = title ?? "";
+
+  String get title => _tabTitle ?? "";
 
   get tabController => _tabController;
 

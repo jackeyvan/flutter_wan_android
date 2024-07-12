@@ -4,26 +4,30 @@ import 'package:flutter/material.dart';
 class FixTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> tabs;
   final TabController controller;
+  final bool automaticallyImplyLeading;
 
   final String? title;
 
-  const FixTabBar(
-      {super.key, this.title, required this.tabs, required this.controller});
+  const FixTabBar({
+    super.key,
+    this.title,
+    this.automaticallyImplyLeading = true,
+    required this.tabs,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(48),
-      child: AppBar(
-        title: _showTitle() ? Text("$title") : const SizedBox.shrink(),
-        bottom: TabBar(
-          labelStyle: const TextStyle(fontSize: 15),
-          indicatorSize: TabBarIndicatorSize.label,
-          tabAlignment: TabAlignment.start,
-          isScrollable: true,
-          tabs: tabs,
-          controller: controller,
-        ),
+    return AppBar(
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      title: _showTitle() ? Text("$title") : const SizedBox.shrink(),
+      bottom: TabBar(
+        labelStyle: const TextStyle(fontSize: 15),
+        indicatorSize: TabBarIndicatorSize.label,
+        tabAlignment: TabAlignment.start,
+        isScrollable: true,
+        tabs: tabs,
+        controller: controller,
       ),
     );
   }

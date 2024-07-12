@@ -72,7 +72,7 @@ class LoadingDialog {
           barrierDismissible: true,
           barrierColor: Colors.transparent,
           builder: (context) {
-            return UnconstrainedBox(
+            return const UnconstrainedBox(
               child: SizedBox(
                 width: 200,
                 child: AlertDialog(
@@ -80,7 +80,7 @@ class LoadingDialog {
                   content: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
+                    children: [
                       CircularProgressIndicator(),
                       SizedBox(height: 12),
                       Text("加载中", style: TextStyle(color: Colors.white))
