@@ -28,7 +28,7 @@ class TreeController extends GetRefreshListController<TreeModel> {
   TreeController(this.fromTree);
 
   @override
-  Future<List<TreeModel>> loadData(int page) {
+  Future<List<TreeModel>> loadData(int page, bool isRefresh) {
     final provider = Get.find<TreeProvider>();
     if (fromTree) {
       return provider.treeTabs();
@@ -64,7 +64,7 @@ class TreeDetailListController extends GetRefreshListController<ArticleModel> {
   TreeDetailListController({required this.id});
 
   @override
-  Future<List<ArticleModel>> loadData(int page) {
+  Future<List<ArticleModel>> loadData(int page, bool isRefresh) {
     return Get.find<TreeProvider>()
         .treeList(page, id ?? 0)
         .then((e) => e.datas ?? []);

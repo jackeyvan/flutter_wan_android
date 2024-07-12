@@ -26,7 +26,7 @@ abstract class GetRefreshListController<T> extends BaseController {
 
   /// 刷新数据
   Future<void> onRefresh() async {
-    loadData(page).then((result) {
+    loadData(page, true).then((result) {
       if (result.isNotEmpty) {
         print("-----> 加载成功了  success ${result}");
 
@@ -67,7 +67,7 @@ abstract class GetRefreshListController<T> extends BaseController {
     page += 1;
 
     print("------> onLoad");
-    loadData(page).then((result) {
+    loadData(page, false).then((result) {
       if (result.isNotEmpty) {
         /// 更新页码
         page += 1;
@@ -89,7 +89,7 @@ abstract class GetRefreshListController<T> extends BaseController {
   /// 加载数据的方法，子类去实现
   /// TODO 返回的数据应该是一个范型，因为他可能是一个对象
   /// TODO 需要添加一个isRefresh,子类刷新和加载可能不一样要区分
-  Future<List<T>> loadData(int page);
+  Future<List<T>> loadData(int page, bool isRefresh);
 
   /// 添加数据
   void addData(List<T>? data) {

@@ -7,7 +7,7 @@ import 'home_provider.dart';
 
 class HomeController extends GetRefreshListController<ArticleModel> {
   @override
-  Future<List<ArticleModel>> loadData(int page) {
+  Future<List<ArticleModel>> loadData(int page, bool isRefresh) {
     final provider = Get.find<HomeProvider>();
 
     return Future.wait([

@@ -30,7 +30,7 @@ class PlatformController extends GetRefreshListController<ArticleModel> {
   PlatformController({this.id});
 
   @override
-  Future<List<ArticleModel>> loadData(int page) {
+  Future<List<ArticleModel>> loadData(int page, bool isRefresh) {
     return Get.find<PlatformProvider>()
         .platformList(id ?? 0, page)
         .then((e) => e.datas ?? []);

@@ -30,7 +30,8 @@ class ProjectController extends GetRefreshListController<ArticleModel> {
   ProjectController({this.id});
 
   @override
-  Future<List<ArticleModel>> loadData(int page) => Get.find<ProjectProvider>()
-      .projectList(id ?? 0, page)
-      .then((value) => value.datas ?? []);
+  Future<List<ArticleModel>> loadData(int page, bool isRefresh) =>
+      Get.find<ProjectProvider>()
+          .projectList(id ?? 0, page)
+          .then((value) => value.datas ?? []);
 }
