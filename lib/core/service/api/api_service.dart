@@ -116,7 +116,7 @@ class ApiService {
 
       /// 下载成功
       callback?.call(true, savePath);
-    } on DioException catch (e) {
+    } on DioException catch (_) {
       /// 下载失败
       callback?.call(false, savePath);
     }

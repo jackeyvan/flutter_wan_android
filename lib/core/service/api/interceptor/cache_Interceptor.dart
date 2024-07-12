@@ -85,7 +85,7 @@ class CacheInterceptor extends Interceptor {
     print("------> onResponse 请求成功");
 
     /// 获取默认的CacheMode
-    final cacheMode = requestHeaders['cache_mode'] ??= defaultCacheMode.name;
+    // final cacheMode = requestHeaders['cache_mode'] ??= defaultCacheMode.name;
     final cacheExpire =
         requestHeaders['cache_expire'] ??= defaultExpireTime.inMilliseconds;
     final cacheKey = requestHeaders['cache_key'];
@@ -111,8 +111,8 @@ class CacheInterceptor extends Interceptor {
     print("------> 请求异常 onError");
 
     final cacheMode = requestHeaders['cache_mode'] ??= defaultCacheMode.name;
-    final cacheExpire =
-        requestHeaders['cache_expire'] ??= defaultExpireTime.inMilliseconds;
+    // final cacheExpire =
+    //     requestHeaders['cache_expire'] ??= defaultExpireTime.inMilliseconds;
     final cacheKey = requestHeaders['cache_key'];
 
     /// 如果请求失败，则查找本地缓存
