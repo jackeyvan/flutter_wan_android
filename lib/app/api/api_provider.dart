@@ -1,21 +1,24 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_wan_android/app/api/hot_keys_model.dart';
-import 'package:flutter_wan_android/app/api/user_model.dart';
-import 'package:flutter_wan_android/core/service/api/api_service.dart';
-import 'package:flutter_wan_android/core/service/api/interceptor/cache_Interceptor.dart';
+import 'package:flutter_wan_android/app/modules/model/hot_keys_model.dart';
+import 'package:flutter_wan_android/app/modules/model/user_model.dart';
+import 'package:flutter_wan_android/core/service/net/cache_Interceptor.dart';
+import 'package:flutter_wan_android/core/service/net/net_service.dart';
 import 'package:get/get.dart' as getx;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'api_paths.dart';
-import 'result.dart';
+import 'api_result.dart';
 
-/// 封装应用层的API请求，一个url对应一个Provider
+/// 封装应用层的API请求，一个url对应一个Dio实例对象
 /// 封装网络请求各种情况
 class ApiProvider {
   /// 快速获取引用
   static ApiProvider get to => getx.Get.find<ApiProvider>();
 
+  late NetService _netService;
+
   /// 初始化本地数据
+  ///
   ApiProvider init() {
     /// 网络配置
     final options = BaseOptions(
@@ -32,17 +35,16 @@ class ApiProvider {
         defaultCacheMode: CacheMode.cacheFirstThenRemote,
         defaultExpireTime: const Duration(days: 30)));
 
-    /// 请求日志打印
-    dio.interceptors.add(PrettyDioLogger(request: false, responseBody: false));
-
     /// 数据解析，默认将text解析成T
     /// 由于官方的transformer只能解析第一层数据，不能解析第二层的Json
     /// 所以需要自己去单独解析
     // dio.transformer = JsonTransformer();
 
-    ApiService.to().initDio(dio);
+    /// 请求日志打印
+    dio.interceptors.add(PrettyDioLogger(request: false, responseBody: false));
 
-    // hotKeyWords();
+    _netService = NetService(dio);
+
     return this;
   }
 
@@ -77,13 +79,13 @@ class ApiProvider {
   /// 封装最底层的Get请求
   Future<T> get<T>(String url,
       {Map<String, dynamic>? params, CacheMode? cache}) {
-    return _convert(ApiService.to().get(url, params: params, cache: cache));
+    return _convert(_netService.get<T>(url, params: params, cache: cache));
   }
 
   /// 封装最底层的Post请求
   Future<T> post<T>(String url,
       {required Map<String, dynamic> params, CacheMode? cache}) {
-    return _convert<T>(ApiService.to().post(url, params: params, cache: cache));
+    return _convert<T>(_netService.post<T>(url, params: params, cache: cache));
   }
 
   Future<T> _convert<T>(Future<Response<dynamic>> future) {

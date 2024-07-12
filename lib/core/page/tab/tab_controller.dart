@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 abstract class GetTabController<T> extends GetxController
     with GetTickerProviderStateMixin, StateMixin<List<T>> {
   late TabController _tabController;
-  late TabBar tabBar;
-  late List<Widget> pages;
 
   @override
   Future<void> onReady() async {
@@ -32,5 +30,5 @@ abstract class GetTabController<T> extends GetxController
 
   List<Widget> buildPages();
 
-  TabBar buildTabBar();
+  List<Widget> buildTabs();
 }

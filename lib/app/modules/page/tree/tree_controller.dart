@@ -16,18 +16,10 @@ class TreeTabController extends GetTabController<String> {
   }
 
   @override
-  TabBar buildTabBar() {
-    return TabBar(
-      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      indicatorSize: TabBarIndicatorSize.label,
-      tabAlignment: TabAlignment.center,
-      tabs: tabs.map((e) => Tab(text: e)).toList(),
-      controller: tabController,
-    );
-  }
+  Future<List<String>> loadTabs() => Future.value(["体系", "导航"]);
 
   @override
-  Future<List<String>> loadTabs() => Future.value(["体系", "导航"]);
+  List<Widget> buildTabs() => tabs.map((e) => Tab(text: e)).toList();
 }
 
 class TreeController extends GetRefreshListController<TreeModel> {
@@ -62,22 +54,7 @@ class TreeDetailTabController extends GetTabController<TreeModel> {
   }
 
   @override
-  TabBar buildTabBar() {
-    var data = tabs
-        .map((e) => Tab(
-              text: e.name,
-            ))
-        .toList();
-
-    return TabBar(
-      labelStyle: const TextStyle(fontSize: 15),
-      tabAlignment: TabAlignment.start,
-      indicatorSize: TabBarIndicatorSize.label,
-      isScrollable: true,
-      tabs: data,
-      controller: tabController,
-    );
-  }
+  List<Widget> buildTabs() => tabs.map((e) => Tab(text: e.name)).toList();
 }
 
 class TreeDetailListController extends GetRefreshListController<ArticleModel> {

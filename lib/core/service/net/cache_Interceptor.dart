@@ -25,6 +25,13 @@ class CacheInterceptor extends Interceptor {
   CacheInterceptor(
       {required this.defaultCacheMode, required this.defaultExpireTime});
 
+  /// TODO 缓存策略问题
+  /// 1、不能先返回缓存，然后再继续请求
+  /// 2、先返回缓存后，不能使用transform转换数据
+  ///
+  /// 解决：
+  /// 1、获取缓存要放在调用dio之前
+  /// 2、拦截器去掉拦截Request
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {

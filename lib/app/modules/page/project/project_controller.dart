@@ -16,18 +16,11 @@ class ProjectTabController extends GetTabController<ArticleTabModel> {
       .toList();
 
   @override
-  TabBar buildTabBar() => TabBar(
-        labelStyle: const TextStyle(fontSize: 15),
-        tabAlignment: TabAlignment.start,
-        indicatorSize: TabBarIndicatorSize.label,
-        isScrollable: true,
-        tabs: tabs.map((tab) => Tab(text: tab.name)).toList(),
-        controller: tabController,
-      );
-
-  @override
   Future<List<ArticleTabModel>> loadTabs() =>
       Get.find<ProjectProvider>().projectTabs();
+
+  @override
+  List<Widget> buildTabs() => tabs.map((tab) => Tab(text: tab.name)).toList();
 }
 
 class ProjectController extends GetRefreshListController<ArticleModel> {

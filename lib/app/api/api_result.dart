@@ -1,5 +1,4 @@
 /// 数据模型的封装
-// @JsonSerializable
 class Result {
   final dynamic data;
   final String? errorMsg;

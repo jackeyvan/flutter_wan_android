@@ -7,7 +7,7 @@ class Storage {
   static Future<void> init() async {
     await GetStorage.init();
 
-    Get.put(GetStorage());
+    Get.lazyPut(() => GetStorage());
   }
 
   /// GetStorage

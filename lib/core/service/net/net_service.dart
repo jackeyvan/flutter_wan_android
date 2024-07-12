@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
 
-import 'interceptor/cache_Interceptor.dart';
+import 'cache_Interceptor.dart';
 
 enum Method {
   get,
@@ -11,48 +10,10 @@ enum Method {
 }
 
 /// Dio封装管理,网络请求引擎类
-class ApiService {
-  static ApiService to() => getx.Get.find<ApiService>();
+class NetService {
+  final Dio dio;
 
-  late Dio _dio;
-
-  /// 默认的Dio请求配置，如果需要自定义Dio，只需要设置Dio对象
-  Future<ApiService> init() async {
-    /// 网络配置
-    /// 可以在这里实现公共配置，也可以子类重写initDio方法
-    // final options = BaseOptions(
-    //     connectTimeout: const Duration(seconds: 20),
-    //     sendTimeout: const Duration(seconds: 20),
-    //     receiveTimeout: const Duration(seconds: 20),
-    //     validateStatus: (code) {
-    //       /// 指定这些HttpCode都算成功
-    //       if (code == 200) {
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     });
-    //
-    // _dio = Dio(options);
-    //
-    // /// 设置Dio的转换器
-    // // _dio.transformer = BackgroundTransformer();
-    //
-    // /// 设置拦截器
-    // /// 网络缓存拦截器
-    // _dio.interceptors.add(DioCacheInterceptor(options: _cacheOptions));
-    //
-    // /// 网络去重拦截器
-    // _dio.interceptors.add(DebounceInterceptor());
-
-    return this;
-  }
-
-  /// 设置请求的url，使用默认的Dio配置
-  set url(String url) => _dio.options.baseUrl = url;
-
-  /// 初始化Dio，如果调用本方法，则网络相关的配置需要在传回来的Dio设置好
-  void initDio(Dio dio) => _dio = dio;
+  NetService(this.dio);
 
   /// Get方法
   Future<Response<T>> get<T>(String url,
@@ -65,8 +26,18 @@ class ApiService {
       CancelToken? cancelToken,
       bool networkDebounce = false,
       bool isShowLoadingDialog = false}) {
-    return _wrapperRequest(url, Method.get, params, headers, cache, cacheExpire,
-        send, receive, cancelToken, networkDebounce, isShowLoadingDialog);
+    return _wrapperRequest<T>(
+        url,
+        Method.get,
+        params,
+        headers,
+        cache,
+        cacheExpire,
+        send,
+        receive,
+        cancelToken,
+        networkDebounce,
+        isShowLoadingDialog);
   }
 
   /// POST请求
@@ -84,7 +55,7 @@ class ApiService {
     if (params != null && params.isNotEmpty) {
       map.addAll(params);
     }
-    return _wrapperRequest(
+    return _wrapperRequest<T>(
         url,
         Method.post,
         params,
@@ -107,7 +78,7 @@ class ApiService {
     void Function(bool success, String path)? callback,
   }) async {
     try {
-      _dio.download(
+      dio.download(
         url,
         savePath,
         onReceiveProgress: receive,
@@ -145,16 +116,7 @@ class ApiService {
     ///  缓存过期时间
     headers['cache_expire'] = cacheExpire?.inMilliseconds;
 
-    /// 网络请求去重，内部逻辑判断发起真正的网络请求
-    if (networkDebounce) {
-      headers['network_debounce'] = "true";
-    }
-
-    if (isShowLoadingDialog) {
-      headers['is_show_loading_dialog'] = "true";
-    }
-
-    return _executeRequest(
+    return _executeRequest<T>(
         url, method, params, headers, send, receive, cancelToken);
   }
 
@@ -169,7 +131,7 @@ class ApiService {
     CancelToken? cancelToken,
   ) {
     if (method == Method.get) {
-      return _dio.get(
+      return dio.get<T>(
         url,
         queryParameters: params,
         options: Options(headers: headers),
@@ -177,7 +139,7 @@ class ApiService {
         cancelToken: cancelToken,
       );
     } else {
-      return _dio.post(
+      return dio.post<T>(
         url,
         data: FormData.fromMap(params),
         options: Options(headers: headers),

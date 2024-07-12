@@ -2,6 +2,7 @@ import 'package:flutter_wan_android/app/api/api_provider.dart';
 import 'package:flutter_wan_android/core/service/init_service.dart';
 import 'package:get/get.dart';
 
+/// 业务层初始化
 class AppService extends Service {
   @override
   Future<void> init() async {

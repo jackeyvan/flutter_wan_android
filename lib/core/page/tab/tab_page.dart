@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/widget/tabbar_widget.dart';
 import 'package:get/get.dart';
 
 import 'tab_controller.dart';
@@ -10,12 +11,9 @@ class GetTabPage<C extends GetTabController> extends GetView<C> {
   Widget build(BuildContext context) {
     dependencies();
     return controller.obx((_) => Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(48),
-            child: AppBar(
-              bottom: controller.buildTabBar(),
-            ),
-          ),
+          appBar: FixTabBar(
+              tabs: controller.buildTabs(),
+              controller: controller.tabController),
           body: TabBarView(
             controller: controller.tabController,
             children: controller.buildPages(),
