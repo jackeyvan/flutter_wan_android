@@ -27,7 +27,8 @@ class PlatformTabController extends GetTabController<ArticleTabModel> {
 class PlatformController extends GetRefreshListController<ArticleModel> {
   final int? id;
 
-  PlatformController({this.id});
+  /// 项目的列表页从1开始，TODO 修改父类的属性失败
+  PlatformController({this.id}) : super(initPage: 3);
 
   @override
   Future<List<ArticleModel>> loadData(int page, bool isRefresh) {

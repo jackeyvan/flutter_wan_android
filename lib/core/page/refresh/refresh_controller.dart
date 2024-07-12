@@ -69,9 +69,6 @@ abstract class GetRefreshListController<T> extends BaseController {
     print("------> onLoad");
     loadData(page, false).then((result) {
       if (result.isNotEmpty) {
-        /// 更新页码
-        page += 1;
-
         addData(result);
 
         /// 更新界面
