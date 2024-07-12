@@ -2,36 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
 import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
+import 'package:flutter_wan_android/core/page/tab/tab_controller.dart';
+import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
+import 'platform_page.dart';
 import 'platform_provider.dart';
 
-class PlatformTabController extends GetxController
-    with GetTickerProviderStateMixin, StateMixin<List<ArticleTabModel>> {
-  final _provider = PlatformProvider();
-
-  late TabController _tabController;
+class PlatformTabController extends GetTabController<ArticleTabModel> {
+  final _provider = Get.find<PlatformProvider>();
 
   @override
-  Future<void> onReady() async {
-    _tabController = TabController(vsync: this, length: 0);
+  List<Widget> buildPages() => tabs
+      .map((tab) => KeepAliveWrapper(child: PlatformPage(id: tab.id)))
+      .toList();
 
-    _provider.platformTab().then((tabs) {
-      _tabController = TabController(vsync: this, length: tabs.length);
+  @override
+  TabBar buildTabBar() => TabBar(
+        labelStyle: const TextStyle(fontSize: 15),
+        tabAlignment: TabAlignment.start,
+        indicatorSize: TabBarIndicatorSize.label,
+        isScrollable: true,
+        tabs: tabs.map((tab) => Tab(text: tab.name)).toList(),
+        controller: tabController,
+      );
 
-      change(tabs, status: RxStatus.success());
-    }).onError((err, stack) {
-      change(null, status: RxStatus.error(err.toString()));
-    });
-  }
-
-  get tabController => _tabController;
-
-  List<ArticleTabModel> get tabs => value ?? [];
+  @override
+  Future<List<ArticleTabModel>> loadTabs() => _provider.platformTab();
 }
 
 class PlatformController extends GetRefreshListController<ArticleModel> {
-  final _provider = PlatformProvider();
+  final _provider = Get.find<PlatformProvider>();
 
   final int? id;
 

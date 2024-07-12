@@ -30,11 +30,7 @@ abstract class GetTabController<T> extends GetxController
 
   Future<List<T>> loadTabs();
 
-  TabBar buildInnerTabBar() => buildTabBar(value ?? []);
+  List<Widget> buildPages();
 
-  List<Widget> buildInnerPages() => buildPages(value ?? []);
-
-  List<Widget> buildPages(List<T> tabs);
-
-  TabBar buildTabBar(List<T> tabs);
+  TabBar buildTabBar();
 }

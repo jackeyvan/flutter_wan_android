@@ -2,43 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
 import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_controller.dart';
+import 'package:flutter_wan_android/core/page/tab/tab_controller.dart';
+import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
+import 'project_page.dart';
 import 'project_provider.dart';
 
-class ProjectTabController extends GetxController
-    with GetTickerProviderStateMixin, StateMixin<List<ArticleTabModel>> {
-  final _provider = ProjectProvider();
-
-  late TabController _tabController;
+class ProjectTabController extends GetTabController<ArticleTabModel> {
+  @override
+  List<Widget> buildPages() => tabs
+      .map((tab) => KeepAliveWrapper(child: ProjectPage(id: tab.id)))
+      .toList();
 
   @override
-  void onReady() {
-    _tabController = TabController(vsync: this, length: 0);
+  TabBar buildTabBar() => TabBar(
+        labelStyle: const TextStyle(fontSize: 15),
+        tabAlignment: TabAlignment.start,
+        indicatorSize: TabBarIndicatorSize.label,
+        isScrollable: true,
+        tabs: tabs.map((tab) => Tab(text: tab.name)).toList(),
+        controller: tabController,
+      );
 
-    _provider.projectTabs().then((value) {
-      _tabController = TabController(vsync: this, length: value.length);
-      change(value, status: RxStatus.success());
-    }).onError((err, stack) {
-      change(null, status: RxStatus.error(err.toString()));
-    });
-  }
-
-  // get update => value??[];
-
-  get tabController => _tabController;
-
-  List<ArticleTabModel> get tabs => value ?? [];
+  @override
+  Future<List<ArticleTabModel>> loadTabs() =>
+      Get.find<ProjectProvider>().projectTabs();
 }
 
 class ProjectController extends GetRefreshListController<ArticleModel> {
-  final _provider = ProjectProvider();
-
   final int? id;
 
   ProjectController({this.id});
 
   @override
-  Future<List<ArticleModel>> loadData(int page) =>
-      _provider.projectList(id ?? 0, page).then((value) => value.datas ?? []);
+  Future<List<ArticleModel>> loadData(int page) => Get.find<ProjectProvider>()
+      .projectList(id ?? 0, page)
+      .then((value) => value.datas ?? []);
 }

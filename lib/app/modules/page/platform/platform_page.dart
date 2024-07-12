@@ -2,46 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
-import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
+import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
 import 'package:get/get.dart';
 
 import 'platform_controller.dart';
+import 'platform_provider.dart';
 
 /// 公众号带有Tab页面
-class PlatformTabPage extends GetView<PlatformTabController> {
+class PlatformTabPage extends GetTabPage<PlatformTabController> {
   const PlatformTabPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Get.put(PlatformTabController());
-
-    return controller.obx((tabs) => Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(48),
-            child: AppBar(
-              bottom: TabBar(
-                labelStyle: const TextStyle(fontSize: 15),
-                tabAlignment: TabAlignment.start,
-                indicatorSize: TabBarIndicatorSize.label,
-                isScrollable: true,
-                tabs: buildTabs(),
-                controller: controller.tabController,
-              ),
-            ),
-          ),
-          body: TabBarView(
-            controller: controller.tabController,
-            children: buildPages(),
-          ),
-        ));
+  void dependencies() {
+    Get.lazyPut(() => PlatformProvider());
+    Get.lazyPut(() => PlatformTabController());
   }
-
-  List<Tab> buildTabs() =>
-      controller.tabs.map((tab) => Tab(text: tab.name)).toList();
-
-  List<Widget> buildPages() => controller.tabs
-      .map((tab) => KeepAliveWrapper(child: PlatformPage(id: tab.id)))
-      .toList();
 }
 
 /// 公众号列表页面
@@ -54,11 +29,12 @@ class PlatformPage extends GetRefreshListPage<PlatformController> {
   String? get tag => id?.toString();
 
   @override
-  Widget build(BuildContext context) {
-    Get.put(PlatformController(id: id), tag: id?.toString());
+  void dependencies() {
+    Get.lazyPut(() => PlatformController(id: id), tag: id?.toString());
+  }
 
-    return buildObx(
-      builder: () => buildRefreshListView<ArticleModel>(
+  @override
+  Widget buildRefresh() => buildRefreshListView<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(
@@ -89,7 +65,5 @@ class PlatformPage extends GetRefreshListPage<PlatformController> {
             ),
           );
         },
-      ),
-    );
-  }
+      );
 }

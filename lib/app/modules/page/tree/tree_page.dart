@@ -5,61 +5,40 @@ import 'package:flutter_wan_android/app/modules/widget/tree_wrap_widget.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/list/refresh_list_page.dart';
 import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
-import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
 import 'tree_controller.dart';
+import 'tree_provider.dart';
 
-class TreeTabPage extends GetView<TreeTabController> {
+/// 体系首页带有Tab的页面，加载Tab并且填充页面
+class TreeTabPage extends GetTabPage<TreeTabController> {
   const TreeTabPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Get.put(TreeTabController());
-
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(48),
-        child: AppBar(
-          bottom: TabBar(
-            labelStyle:
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            indicatorSize: TabBarIndicatorSize.label,
-            tabAlignment: TabAlignment.center,
-            tabs: buildTabs(),
-            controller: controller.tabController,
-          ),
-        ),
-      ),
-      body: TabBarView(
-        controller: controller.tabController,
-        children: buildPages(),
-      ),
-    );
+  void dependencies() {
+    Get.lazyPut(() => TreeProvider());
+    Get.lazyPut(() => TreeTabController());
   }
-
-  buildTabs() => [const Tab(text: "体系"), const Tab(text: "导航")];
-
-  buildPages() => [
-        const KeepAliveWrapper(child: TreePage(true)),
-        const KeepAliveWrapper(child: TreePage(false))
-      ];
 }
 
+/// 体系首页页面，填充具体Tab对应的页面
 class TreePage extends GetRefreshListPage<TreeController> {
+  final String tab;
   final bool fromTree;
 
-  const TreePage(this.fromTree, {super.key});
+  TreePage(this.tab, {super.key})
+      : fromTree = tab == Get.find<TreeTabController>().tabs[0];
 
   @override
-  String? get tag => fromTree.toString();
+  String? get tag => tab;
 
   @override
-  Widget build(BuildContext context) {
-    Get.put(TreeController(fromTree), tag: fromTree.toString());
+  void dependencies() {
+    Get.lazyPut(() => TreeController(fromTree), tag: tab);
+  }
 
-    return buildObx(
-      builder: () => buildRefreshListView<TreeModel>(
+  @override
+  Widget buildRefresh() => buildRefreshListView<TreeModel>(
         padding: const EdgeInsets.only(top: 12),
         itemBuilder: (item, index) {
           return TreeWrap(
@@ -82,18 +61,15 @@ class TreePage extends GetRefreshListPage<TreeController> {
             },
           );
         },
-      ),
-    );
-  }
+      );
 }
 
+/// 体系详情页，一级Tab页面
 class TreeDetailTabPage extends GetTabPage<TreeDetailTabController> {
   const TreeDetailTabPage({super.key});
-
-  @override
-  initController() => Get.lazyPut(() => TreeDetailTabController());
 }
 
+/// 体系详情页，具体Tab对应的页面
 class TreeDetailListPage extends GetRefreshListPage<TreeDetailListController> {
   final int? id;
 
@@ -103,11 +79,12 @@ class TreeDetailListPage extends GetRefreshListPage<TreeDetailListController> {
   String? get tag => id?.toString();
 
   @override
-  Widget build(BuildContext context) {
-    Get.put(TreeDetailListController(id: id), tag: id?.toString());
+  void dependencies() {
+    Get.lazyPut(() => TreeDetailListController(id: id), tag: id?.toString());
+  }
 
-    return buildObx(
-      builder: () => buildRefreshListView<ArticleModel>(
+  @override
+  Widget buildRefresh() => buildRefreshListView<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(
@@ -135,7 +112,5 @@ class TreeDetailListPage extends GetRefreshListPage<TreeDetailListController> {
             ),
           );
         },
-      ),
-    );
-  }
+      );
 }
