@@ -2,6 +2,7 @@ import 'package:flutter_wan_android/app/modules/page/article/article_detail_bind
 import 'package:flutter_wan_android/app/modules/page/article/article_detail_page.dart';
 import 'package:flutter_wan_android/app/modules/page/root/root_binding.dart';
 import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
+import 'package:flutter_wan_android/app/modules/page/theme/theme_page.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_detail_binding.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ abstract class _Paths {
   // static const home = '/home';
   static const articleDetail = '/articleDetail';
   static const treeDetail = '/treeDetail';
+  static const themeChose = '/themeChose';
 }
 
 /// 路由管理器
@@ -21,6 +23,7 @@ class Routes {
   // static const home = _Paths.home;
   static const articleDetail = _Paths.articleDetail;
   static const treeDetail = _Paths.treeDetail;
+  static const themeChose = _Paths.themeChose;
 
   static final routes = [
     GetPage(name: root, page: () => const RootPage(), binding: RootBinding()),
@@ -32,6 +35,11 @@ class Routes {
         name: treeDetail,
         page: () => const TreeDetailTabPage(),
         binding: TreeDetailBinding()),
+    GetPage(
+      name: themeChose,
+      page: () => const ThemePage(),
+      // binding: TreeDetailBinding()
+    ),
   ];
 
   /// 封装跳转页面方法

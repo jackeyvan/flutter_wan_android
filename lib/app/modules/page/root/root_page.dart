@@ -3,6 +3,7 @@ import 'package:flutter_wan_android/app/modules/page/home/home_page.dart';
 import 'package:flutter_wan_android/app/modules/page/platform/platform_page.dart';
 import 'package:flutter_wan_android/app/modules/page/project/project_page.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,8 @@ class RootPage extends GetView<RootController> {
     return Scaffold(
         appBar: AppBar(title: const Text("玩安卓")),
         floatingActionButton: FloatingActionButton(
-            onPressed: () {}, child: const Icon(Icons.add)),
+            onPressed: () => Routes.to(Routes.themeChose),
+            child: const Icon(Icons.add)),
         drawer: _buildNavigationDrawer(),
         bottomNavigationBar: Obx(() => _buildBottomNavigationBar()),
         body: _buildBody());

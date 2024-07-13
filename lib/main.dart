@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/routes/binding.dart';
+import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/theme/themes.dart';
 import 'package:get/get.dart';
 
-import 'app/routes/routes.dart';
 import 'app/service/app_service.dart';
 
 void main() async {
@@ -22,9 +23,12 @@ class WanApp extends StatelessWidget {
     return GetMaterialApp(
       title: "玩安卓",
       initialRoute: Routes.root,
+      initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,
       getPages: Routes.routes,
-      theme: AppTheme.theme,
+      // theme: AppTheme.theme,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
     );
   }
 }
