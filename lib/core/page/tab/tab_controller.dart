@@ -16,7 +16,7 @@ abstract class GetTabController<T> extends BaseController<List<T>>
     loadTabs().then((tabs) {
       if (tabs.isNotEmpty) {
         _tabController = TabController(vsync: this, length: tabs.length);
-        setData(tabs);
+        data = tabs;
         showSuccessPage();
       } else {
         showEmptyPage();
@@ -32,7 +32,7 @@ abstract class GetTabController<T> extends BaseController<List<T>>
 
   get tabController => _tabController;
 
-  List<T> get tabData => getData() ?? [];
+  List<T> get tabData => data ?? [];
 
   Future<List<T>> loadTabs();
 

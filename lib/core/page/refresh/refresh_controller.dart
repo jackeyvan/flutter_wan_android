@@ -20,7 +20,7 @@ abstract class GetRefreshController<T> extends BaseController {
   Future<void> onRefresh() async {
     loadData().then((result) {
       if (result != null) {
-        setData(result);
+        data = result;
         showSuccessPage();
       } else {
         showEmptyPage();
@@ -79,7 +79,7 @@ abstract class GetRefreshListController<T>
 
     loadListData(page, true).then((result) {
       if (result.isNotEmpty) {
-        setData(result);
+        data = result;
         showSuccessPage();
       } else {
         showEmptyPage();
@@ -95,7 +95,7 @@ abstract class GetRefreshListController<T>
       // }
     }).onError((error, stack) {
       /// 如果有数据则提示吐司，如果没有数据则展示错误图
-      if (getData().isNotEmpty) {
+      if (data.isNotEmpty) {
         /// TODO 提示一个吐司，或者不提示
         Toast.showToast("刷新失败了");
       } else {
@@ -139,7 +139,11 @@ abstract class GetRefreshListController<T>
   /// 添加数据
   void addData(List<T> data) {
     if (data.isNotEmpty) {
-      getData().addAll(data);
+      this.data.addAll(data);
     }
   }
+
+  /// 返回的是一个列表
+  @override
+  List<T> get data => super.data ?? [];
 }

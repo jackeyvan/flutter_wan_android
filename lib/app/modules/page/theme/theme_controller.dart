@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/model/theme_model.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
+import 'package:flutter_wan_android/core/theme/theme_model.dart';
 import 'package:flutter_wan_android/core/theme/themes.dart';
-import 'package:get/get.dart';
 
-class ThemeController extends GetRefreshListController {
-  final theme = 'System'.obs;
+class ThemeController extends GetRefreshListController<ThemeModel> {
+  late String theme;
 
-  ThemeModel get themeModel =>
-      ThemeModel.themes.firstWhere((element) => element.name == theme.value,
-          orElse: () => ThemeModel.themes.first);
+  late ThemeMode themeMode;
+
+  @override
+  void onInit() {
+    theme = AppTheme.readTheme();
+    themeMode = AppTheme.readThemeMode();
+
+    super.onInit();
+  }
 
   @override
   Future<List<ThemeModel>> loadListData(int page, bool isRefresh) {
-    return Future.value(ThemeModel.themes);
+    return Future.value(AppTheme.themes);
   }
 
   void onItemClick(ThemeModel model) {
-    if (model.mode != null) {
-      AppTheme.changeThemeMode(model.mode!);
-    } else if (model.color != null) {
-      final themeData = AppTheme.generateTheme(
-        brightness: Get.theme.brightness,
-        colorSchemeSeed: model.color!,
-      );
-      AppTheme.changeTheme(themeData);
+    int index = data.indexOf(model);
 
-      AppTheme.changeThemeMode(ThemeMode.light);
+    /// 前三个是设置模式
+    if (index < 3 && model.mode != null) {
+      themeMode = model.mode!;
     }
-    theme.value = model.name;
 
+    model.mode = themeMode;
+    theme = model.name;
+
+    AppTheme.changeTheme(model);
     showSuccessPage();
   }
 
   bool isSelected(String name) {
-    return theme.value == name;
+    return theme == name;
   }
 }

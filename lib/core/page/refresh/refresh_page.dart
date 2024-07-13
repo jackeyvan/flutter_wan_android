@@ -23,7 +23,7 @@ abstract class GetRefreshPage<C extends GetRefreshController>
       // canLoadAfterNoMore: controller.controlFinishLoad(),
       // canRefreshAfterNoMore: controller.enableControlFinishRefresh(),
       // firstRefresh: controller.firstRefresh(),
-      child: builder(controller.getData()),
+      child: builder(controller.data),
     );
   }
 

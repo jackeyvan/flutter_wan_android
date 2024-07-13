@@ -1,8 +1,8 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/model/theme_model.dart';
 import 'package:flutter_wan_android/app/modules/widget/theme_item_widget.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
+import 'package:flutter_wan_android/core/theme/theme_model.dart';
 
 import 'theme_controller.dart';
 
@@ -21,7 +21,7 @@ class ThemePage extends GetRefreshPage<ThemeController> {
                   canRefreshAfterNoMore: false,
                   canLoadAfterNoMore: false,
                   child: ListView(
-                    children: ThemeModel.themes
+                    children: controller.data
                         .map((model) => buildItem(model))
                         .toList(),
                   ),

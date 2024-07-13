@@ -32,7 +32,7 @@ class ApiProvider {
     /// 设置拦截器
     /// 网络缓存拦截器
     dio.interceptors.add(CacheInterceptor(
-        defaultCacheMode: CacheMode.remoteFirstThenCache,
+        defaultCacheMode: CacheMode.cacheFirstThenRemote,
         defaultExpireTime: const Duration(days: 30)));
 
     /// 数据解析，默认将text解析成T

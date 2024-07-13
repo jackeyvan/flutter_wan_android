@@ -37,8 +37,8 @@ class BaseController<T> extends GetxController with StateMixin<T> {
   void retryLoading() {}
 
   /// 设置数据
-  void setData(T data) => value = data;
+  set data(T? data) => value = data;
 
   /// 获取数据
-  T? getData() => value;
+  T? get data => value;
 }

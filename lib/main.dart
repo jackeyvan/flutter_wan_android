@@ -26,8 +26,7 @@ class WanApp extends StatelessWidget {
       initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,
       getPages: Routes.routes,
-      // theme: AppTheme.theme,
-      theme: AppTheme.light,
+      theme: AppTheme.theme,
       darkTheme: AppTheme.dark,
     );
   }

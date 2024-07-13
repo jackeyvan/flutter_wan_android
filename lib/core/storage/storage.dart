@@ -15,15 +15,10 @@ class Storage {
 
   static T? read<T>(String key) => _getStorage.read<T>(key);
 
-  static Future<void> write(String key, dynamic value) {
-    return _getStorage.write(key, value);
-  }
+  static Future<void> write(String key, dynamic value) =>
+      _getStorage.write(key, value);
 
-  static Future<void> remove(String key) {
-    return _getStorage.remove(key);
-  }
+  static Future<void> remove(String key) => _getStorage.remove(key);
 
-  static Future<void> clear() {
-    return _getStorage.erase();
-  }
+  static Future<void> clear() => _getStorage.erase();
 }
