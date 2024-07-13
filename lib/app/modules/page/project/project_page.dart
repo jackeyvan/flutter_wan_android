@@ -19,7 +19,7 @@ class ProjectTabPage extends GetTabPage<ProjectTabController> {
   }
 }
 
-class ProjectPage extends GetRefreshListPage<ProjectController> {
+class ProjectPage extends GetRefreshPage<ProjectController> {
   const ProjectPage({super.key, this.id});
 
   final int? id;
@@ -37,7 +37,7 @@ class ProjectPage extends GetRefreshListPage<ProjectController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListView<ArticleModel>(
+  Widget buildPage() => buildRefreshListPage<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

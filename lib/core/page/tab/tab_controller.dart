@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
-abstract class GetTabController<T> extends BaseController
+abstract class GetTabController<T> extends BaseController<List<T>>
     with GetTickerProviderStateMixin {
   late TabController _tabController;
 

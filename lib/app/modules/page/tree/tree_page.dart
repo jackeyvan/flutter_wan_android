@@ -22,7 +22,7 @@ class TreeTabPage extends GetTabPage<TreeTabController> {
 }
 
 /// 体系首页页面，填充具体Tab对应的页面
-class TreePage extends GetRefreshListPage<TreeController> {
+class TreePage extends GetRefreshPage<TreeController> {
   final String tab;
   final bool fromTree;
 
@@ -38,7 +38,7 @@ class TreePage extends GetRefreshListPage<TreeController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListView<TreeModel>(
+  Widget buildPage() => buildRefreshListPage<TreeModel>(
         padding: const EdgeInsets.only(top: 12),
         itemBuilder: (item, index) {
           return TreeWrap(
@@ -70,7 +70,7 @@ class TreeDetailTabPage extends GetTabPage<TreeDetailTabController> {
 }
 
 /// 体系详情页，具体Tab对应的页面
-class TreeDetailListPage extends GetRefreshListPage<TreeDetailListController> {
+class TreeDetailListPage extends GetRefreshPage<TreeDetailListController> {
   final int? id;
 
   const TreeDetailListPage(this.id, {super.key});
@@ -84,7 +84,7 @@ class TreeDetailListPage extends GetRefreshListPage<TreeDetailListController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListView<ArticleModel>(
+  Widget buildPage() => buildRefreshListPage<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

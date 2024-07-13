@@ -1,11 +1,68 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
-import 'package:get/get.dart';
+import 'package:flutter_wan_android/core/widgets/toast_widget.dart';
 
-abstract class GetRefreshListController<T> extends BaseController {
+abstract class GetRefreshController<T> extends BaseController {
   EasyRefreshController refreshController = EasyRefreshController(
       controlFinishRefresh: true, controlFinishLoad: true);
 
+  @override
+  void onReady() {
+    /// 如果页面一进来就要展示刷新头部，只调用callRefresh
+    if (startRefresh()) {
+      callRefresh();
+    } else {
+      onRefresh();
+    }
+  }
+
+  /// 刷新数据
+  Future<void> onRefresh() async {
+    loadData().then((result) {
+      if (result != null) {
+        setData(result);
+        showSuccessPage();
+      } else {
+        showEmptyPage();
+      }
+      refreshController.finishRefresh();
+    }).onError((error, stack) {
+      showErrorPage(msg: error?.toString());
+      refreshController.finishRefresh();
+    });
+  }
+
+  /// 加载更多
+  Future<void> onLoadMore() async {}
+
+  /// 加载数据的方法，子类去实现
+  Future<T> loadData();
+
+  /// 重新刷新，默认使用LoadingPage，不想用这个可以自己重写本方法
+  void retryRefresh() {
+    showLoadingPage();
+    onRefresh();
+  }
+
+  /// 主动刷新
+  void callRefresh() {
+    refreshController.callRefresh();
+  }
+
+  /// 第一次进入页面刷新
+  bool startRefresh() => false;
+
+  /// 销毁时刷新控件一起销毁
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
+}
+
+/// 加载List数据类型的控制器
+abstract class GetRefreshListController<T>
+    extends GetRefreshController<List<T>> {
   /// 分页的页数
   int initPage;
   int pageSize;
@@ -14,25 +71,15 @@ abstract class GetRefreshListController<T> extends BaseController {
   GetRefreshListController({this.initPage = 0, this.pageSize = 20})
       : page = initPage;
 
-  @override
-  void onReady() {
-    /// 如果页面一进来就要展示刷新头部，只调用callRefresh
-    if (firstRefresh()) {
-      startRefresh();
-    } else {
-      onRefresh();
-    }
-  }
-
   /// 刷新数据
+  @override
   Future<void> onRefresh() async {
-    loadData(page, true).then((result) {
+    /// 重置页码
+    page = initPage;
+
+    loadListData(page, true).then((result) {
       if (result.isNotEmpty) {
-        print("-----> 加载成功了  success ${result}");
-
         setData(result);
-
-        /// 更新界面
         showSuccessPage();
       } else {
         showEmptyPage();
@@ -42,20 +89,15 @@ abstract class GetRefreshListController<T> extends BaseController {
       /// 再调用RefreshController的方法才有用，不然会报错。
       refreshController.finishRefresh();
 
-      /// 重置页码
-      page = initPage;
-
       /// 刷新的时候，没有更多数据需要去掉上拉加载，没有有更多数据则要重置加载状态
       // if (noMore) {
       //   refreshController.finishLoad();
       // }
     }).onError((error, stack) {
-      print("---------> refresh 发生了异常 ${error}");
-
       /// 如果有数据则提示吐司，如果没有数据则展示错误图
       if (getData().isNotEmpty) {
         /// TODO 提示一个吐司，或者不提示
-        ///
+        Toast.showToast("刷新失败了");
       } else {
         showErrorPage(msg: error?.toString());
       }
@@ -63,16 +105,19 @@ abstract class GetRefreshListController<T> extends BaseController {
   }
 
   /// 加载更多
-  Future<void> onLoad() async {
+  @override
+  Future<void> onLoadMore() async {
     page += 1;
 
-    print("------> onLoad");
-    loadData(page, false).then((result) {
+    loadListData(page, false).then((result) {
       if (result.isNotEmpty) {
         addData(result);
 
         /// 更新界面
         showSuccessPage();
+      } else {
+        /// TODO 提示没有更多数据了
+        Toast.showToast("没有更多数据了");
       }
 
       /// 加载完成
@@ -80,48 +125,21 @@ abstract class GetRefreshListController<T> extends BaseController {
     }).onError((error, stack) {
       /// 加载失败要 重置页码
       page -= 1;
+      refreshController.finishLoad();
     });
   }
 
   /// 加载数据的方法，子类去实现
-  /// TODO 返回的数据应该是一个范型，因为他可能是一个对象
-  /// TODO 需要添加一个isRefresh,子类刷新和加载可能不一样要区分
-  Future<List<T>> loadData(int page, bool isRefresh);
+  @override
+  Future<List<T>> loadData() => loadListData(page, true);
+
+  /// 重新封装一下，专门加载List数据类型
+  Future<List<T>> loadListData(int page, bool isRefresh);
 
   /// 添加数据
-  void addData(List<T>? data) {
-    if (data != null && data.isNotEmpty) {
-      var result = getData();
-      if (result is List) {
-        getData().addAll(data);
-      }
+  void addData(List<T> data) {
+    if (data.isNotEmpty) {
+      getData().addAll(data);
     }
-  }
-
-  /// 重新刷新
-  void retryRefresh() {
-    change(null, status: RxStatus.loading());
-    onRefresh();
-  }
-
-  /// 主动刷新
-  void startRefresh() {
-    refreshController.callRefresh();
-  }
-
-  /// 第一次进入页面刷新
-  bool firstRefresh() => false;
-
-  /// 是否可以操作结束加载
-  bool enableControlFinishLoad() => true;
-
-  /// 是否可以操作结束刷新
-  bool enableControlFinishRefresh() => true;
-
-  /// 销毁时刷新控件一起销毁
-  @override
-  void dispose() {
-    refreshController.dispose();
-    super.dispose();
   }
 }

@@ -3,12 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 
-abstract class GetRefreshListPage<C extends GetRefreshListController>
+abstract class GetRefreshPage<C extends GetRefreshController>
     extends BasePage<C> {
-  const GetRefreshListPage({super.key});
+  const GetRefreshPage({super.key});
 
-  /// 生成带有ListView的Refresh页面
-  Widget buildRefreshListView<T>(
+  /// 生成原始Refresh页面，数据可能是List，也可能是一个对象
+  /// 如果是一个集合，范型需要带上List
+  /// 子类可以重写这个Page
+  Widget buildRefreshPage<T>({required Widget Function(T? data) builder}) {
+    return EasyRefresh(
+      controller: controller.refreshController,
+      onRefresh: controller.onRefresh,
+      onLoad: controller.onLoadMore,
+      header: const MaterialHeader(),
+      footer: const MaterialFooter(),
+      canRefreshAfterNoMore: true,
+      canLoadAfterNoMore: false,
+
+      // canLoadAfterNoMore: controller.controlFinishLoad(),
+      // canRefreshAfterNoMore: controller.enableControlFinishRefresh(),
+      // firstRefresh: controller.firstRefresh(),
+      child: builder(controller.getData()),
+    );
+  }
+
+  /// 生成带有ListView的Refresh页面，数据类型是List
+  Widget buildRefreshListPage<T>(
       {required Widget Function(T item, int index) itemBuilder,
       Widget Function(T item, int index)? separatorBuilder,
       Function(T item, int index)? onItemClick,
@@ -16,10 +36,10 @@ abstract class GetRefreshListPage<C extends GetRefreshListController>
       bool shrinkWrap = false,
       EdgeInsetsGeometry? padding,
       Axis scrollDirection = Axis.vertical}) {
-    return buildRefreshView<T>(
+    return buildRefreshPage<List<T>>(
         builder: (data) => buildListView<T>(
             itemBuilder: itemBuilder,
-            data: data,
+            data: data ?? [],
             padding: padding,
             separatorBuilder: separatorBuilder,
             onItemClick: onItemClick,
@@ -28,21 +48,7 @@ abstract class GetRefreshListPage<C extends GetRefreshListController>
             scrollDirection: scrollDirection));
   }
 
-  /// 生成原始Refresh页面
-  Widget buildRefreshView<T>({required Widget Function(List<T> data) builder}) {
-    return EasyRefresh(
-      controller: controller.refreshController,
-      onRefresh: controller.onRefresh,
-      onLoad: controller.onLoad,
-      header: const MaterialHeader(),
-      footer: const MaterialFooter(),
-      canLoadAfterNoMore: controller.enableControlFinishLoad(),
-      canRefreshAfterNoMore: controller.enableControlFinishRefresh(),
-      // firstRefresh: controller.firstRefresh(),
-      child: builder(controller.getData() ?? []),
-    );
-  }
-
+  /// 生成一个ListView
   Widget buildListView<T>(
       {required Widget Function(T item, int index) itemBuilder,
       required List<T> data,

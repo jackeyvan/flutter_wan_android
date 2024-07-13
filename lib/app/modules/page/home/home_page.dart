@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'home_controller.dart';
 import 'home_provider.dart';
 
-class HomePage extends GetRefreshListPage<HomeController> {
+class HomePage extends GetRefreshPage<HomeController> {
   const HomePage({super.key});
 
   @override
@@ -20,7 +20,7 @@ class HomePage extends GetRefreshListPage<HomeController> {
 
   @override
   Widget buildPage() {
-    return buildRefreshListView<ArticleModel>(
+    return buildRefreshListPage<ArticleModel>(
       shrinkWrap: true,
       itemBuilder: (item, index) {
         var banner = item.banner;

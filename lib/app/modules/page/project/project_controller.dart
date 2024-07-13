@@ -27,10 +27,10 @@ class ProjectTabController extends GetTabController<ArticleTabModel> {
 class ProjectController extends GetRefreshListController<ArticleModel> {
   final int? id;
 
-  ProjectController({this.id});
+  ProjectController({this.id}) : super(initPage: 1);
 
   @override
-  Future<List<ArticleModel>> loadData(int page, bool isRefresh) =>
+  Future<List<ArticleModel>> loadListData(int page, bool isRefresh) =>
       Get.find<ProjectProvider>()
           .projectList(id ?? 0, page)
           .then((value) => value.datas ?? []);

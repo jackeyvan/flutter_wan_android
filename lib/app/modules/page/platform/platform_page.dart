@@ -20,7 +20,7 @@ class PlatformTabPage extends GetTabPage<PlatformTabController> {
 }
 
 /// 公众号列表页面
-class PlatformPage extends GetRefreshListPage<PlatformController> {
+class PlatformPage extends GetRefreshPage<PlatformController> {
   const PlatformPage({super.key, this.id});
 
   final int? id;
@@ -34,7 +34,7 @@ class PlatformPage extends GetRefreshListPage<PlatformController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListView<ArticleModel>(
+  Widget buildPage() => buildRefreshListPage<ArticleModel>(
         padding: const EdgeInsets.only(top: 6),
         itemBuilder: (item, index) {
           return Container(

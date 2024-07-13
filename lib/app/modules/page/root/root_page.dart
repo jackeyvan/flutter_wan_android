@@ -47,7 +47,7 @@ class RootPage extends GetView<RootController> {
   }
 
   /// 生成左侧抽屉
-  NavigationDrawer _buildNavigationDrawer() {
+  Widget _buildNavigationDrawer() {
     final titles = [
       ListTile(
         leading: const Icon(Icons.home),
@@ -88,7 +88,15 @@ class RootPage extends GetView<RootController> {
     final items = <Widget>[];
     items.add(header);
     items.addAll(titles);
-    return NavigationDrawer(children: items);
+    // return NavigationDrawer(children: items);
+    return Drawer(
+      child: SafeArea(
+        bottom: false,
+        child: ListView(
+          children: items,
+        ),
+      ),
+    );
   }
 
   /// 与底部Bottom绑定的页面
