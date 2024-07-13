@@ -12,15 +12,15 @@ class AppTheme {
     colorSchemeSeed: Colors.green,
   );
 
+  /// TODO 根据不同的颜色，定制不同的主题
   static ThemeData generateTheme({
     required Brightness brightness,
     required Color colorSchemeSeed,
   }) {
     return ThemeData(
-      brightness: brightness,
-      useMaterial3: true,
-      colorSchemeSeed: colorSchemeSeed,
-    );
+        brightness: brightness,
+        useMaterial3: true,
+        colorSchemeSeed: colorSchemeSeed);
   }
 
   static changeTheme(ThemeData theme) {

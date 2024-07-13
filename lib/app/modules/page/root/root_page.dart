@@ -37,12 +37,17 @@ class RootPage extends GetView<RootController> {
     ];
 
     return BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: items,
         onTap: (index) {
           /// 更新索引和页面
           if (index != controller.bottomIndex) {
             controller.bottomIndex = index;
-            controller.pageController.jumpToPage(index);
+            controller.pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.ease,
+            );
           }
         },
         currentIndex: controller.bottomIndex);
