@@ -5,6 +5,7 @@ import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
 import 'package:flutter_wan_android/app/modules/page/theme/theme_page.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_detail_binding.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/test/test_page.dart';
 import 'package:get/get.dart';
 
 abstract class _Paths {
@@ -14,6 +15,7 @@ abstract class _Paths {
   static const articleDetail = '/articleDetail';
   static const treeDetail = '/treeDetail';
   static const themeChose = '/themeChose';
+  static const test = '/test';
 }
 
 /// 路由管理器
@@ -24,9 +26,11 @@ class Routes {
   static const articleDetail = _Paths.articleDetail;
   static const treeDetail = _Paths.treeDetail;
   static const themeChose = _Paths.themeChose;
+  static const test = _Paths.test;
 
   static final routes = [
     GetPage(name: root, page: () => const RootPage(), binding: RootBinding()),
+    GetPage(name: test, page: () => const TestPage()),
     GetPage(
         name: articleDetail,
         page: () => const ArticleDetailPage(),

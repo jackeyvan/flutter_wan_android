@@ -5,33 +5,17 @@ import 'package:get/get.dart';
 import 'theme_model.dart';
 
 class AppTheme {
-  static const _themeKey = "theme";
+  static const _themeKey = "themeKey";
   static const _themeModeKey = "themeMode";
 
-  static ThemeData get theme {
-    final themeName = readTheme();
-    final model = themes.firstWhere((element) => element.name == themeName,
-        orElse: () => themes.first);
+  static final light = generateTheme(brightness: Brightness.light);
 
-    model.mode = readThemeMode();
-
-    return _wrapChangeTheme(model);
-  }
-
-  static final light = generateTheme(
-    brightness: Brightness.light,
-    colorSchemeSeed: Colors.green,
-  );
-
-  static final dark = generateTheme(
-    brightness: Brightness.dark,
-    colorSchemeSeed: Colors.green,
-  );
+  static final dark = generateTheme(brightness: Brightness.dark);
 
   /// 可以根据不同的颜色，定制不同的主题
   static ThemeData generateTheme({
     required Brightness brightness,
-    required Color colorSchemeSeed,
+    Color? colorSchemeSeed,
   }) {
     return ThemeData(
       brightness: brightness,
@@ -40,57 +24,77 @@ class AppTheme {
     );
   }
 
-  static changeTheme(ThemeModel model) {
-    _wrapChangeTheme(model);
-
-    /// 修改主题之后保存对应主颜色名字
-    Storage.write(_themeKey, model.name);
-
-    if (model.mode != null) {
-      Storage.write(_themeModeKey, model.mode!.name);
-    }
-  }
-
-  static ThemeData _wrapChangeTheme(ThemeModel model) {
-    print("------> theme : ${model.name} -- mode ${model.mode?.name}");
-
-    final mode = model.mode;
-    final color = model.color;
-
-    if (mode != null) {
-      Get.changeTheme(dark);
-      Get.changeTheme(light);
-      Get.changeThemeMode(mode);
-    } else if (color != null) {
-      final themeData = generateTheme(
-        brightness: Get.theme.brightness,
-        colorSchemeSeed: color,
-      );
-      Get.changeTheme(themeData);
-      Get.changeThemeMode(ThemeMode.light);
-
-      ///  TODO 更换颜色只有白色模式才会生效
-      // if (mode != null && mode == ThemeMode.dark) {
-      //   Get.changeThemeMode(ThemeMode.light);
-      // }
-      return themeData;
-    }
-    return light;
-  }
-
-  static String readTheme() {
-    return Storage.read(_themeKey) ?? "System";
+  static String? readTheme() {
+    return Storage.read(_themeKey);
   }
 
   static ThemeMode readThemeMode() {
     final mode = Storage.read(_themeModeKey);
+    return ThemeMode.values.firstWhere((element) => element.name == mode,
+        orElse: () => ThemeMode.values.first);
+  }
 
+  /// 根据Model数据来切换主题
+  static changeThemeFromModel(ThemeModel model) {
+    final mode = model.mode;
+    final color = model.color;
+
+    /// 切换模式
     if (mode != null) {
-      return ThemeMode.values.firstWhere((element) => element.name == mode,
-          orElse: () => ThemeMode.values.first);
+      changeThemeMode(mode);
+      Storage.write(_themeModeKey, mode.name);
     }
 
-    return ThemeMode.system;
+    /// 切换主题
+    if (color != null) {
+      final themeData = generateTheme(
+        brightness: Get.theme.brightness,
+        colorSchemeSeed: color,
+      );
+      changeTheme(theme: themeData);
+      Storage.write(_themeKey, model.name);
+    }
+  }
+
+  static changeTheme({ThemeData? theme}) {
+    if (theme != null) {
+      /// GetX的Bug，黑夜模式下，用暴露的方法改不了，调用底层方法啊
+      if (isDarkMode()) {
+        Get.rootController.darkTheme = theme;
+      }
+
+      Get.changeTheme(theme);
+    } else {
+      /// 从缓存中读取数据更新主题
+      /// 切换模式
+      changeThemeMode(readThemeMode());
+
+      /// 切换主题
+      final themeName = readTheme();
+      if (themeName != null) {
+        final model = themes.firstWhere((element) => element.name == themeName);
+        if (model.color != null) {
+          final themeData = generateTheme(
+            brightness: isDarkMode() ? Brightness.dark : Brightness.light,
+            colorSchemeSeed: model.color,
+          );
+          changeTheme(theme: themeData);
+        }
+      }
+    }
+  }
+
+  static changeThemeMode(ThemeMode theme) {
+    Get.changeThemeMode(theme);
+  }
+
+  /// 如果还有页面还没初始化，是拿不到当前的模式，需要从缓存中取
+  static bool isDarkMode() {
+    if (Get.context == null) {
+      return readThemeMode() == ThemeMode.dark;
+    } else {
+      return Get.isDarkMode;
+    }
   }
 
   static final themes = [

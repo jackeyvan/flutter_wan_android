@@ -1,12 +1,12 @@
-import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/widget/theme_item_widget.dart';
-import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
+import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:flutter_wan_android/core/theme/theme_model.dart';
+import 'package:flutter_wan_android/core/theme/themes.dart';
 
 import 'theme_controller.dart';
 
-class ThemePage extends GetRefreshPage<ThemeController> {
+class ThemePage extends BasePage<ThemeController> {
   const ThemePage({super.key});
 
   @override
@@ -15,17 +15,9 @@ class ThemePage extends GetRefreshPage<ThemeController> {
         appBar: AppBar(
           title: const Text("主题选择"),
         ),
-        body: buildObx(
-            builder: () => EasyRefresh(
-                  controller: controller.refreshController,
-                  canRefreshAfterNoMore: false,
-                  canLoadAfterNoMore: false,
-                  child: ListView(
-                    children: controller.data
-                        .map((model) => buildItem(model))
-                        .toList(),
-                  ),
-                )));
+        body: ListView(
+          children: buildItems(),
+        ));
   }
 
   Widget buildItem(ThemeModel model) {
@@ -42,8 +34,30 @@ class ThemePage extends GetRefreshPage<ThemeController> {
             )
           : Icon(model.icon),
       divider: false,
-      selected: controller.isSelected(model.name),
+      selectBgColor: controller.selectColor,
+      selected: controller.isSelected(model),
       onTap: () => controller.onItemClick(model),
     );
+  }
+
+  List<Widget> buildItems() {
+    final items = <Widget>[];
+
+    /// 模式
+    items.addAll(AppTheme.themes
+        .where((e) => e.mode != null)
+        .map((e) => buildItem(e))
+        .toList());
+
+    /// 分割
+    items.add(const Divider(height: 12));
+
+    /// 颜色
+    items.addAll(AppTheme.themes
+        .where((e) => e.color != null)
+        .map((e) => buildItem(e))
+        .toList());
+
+    return items;
   }
 }

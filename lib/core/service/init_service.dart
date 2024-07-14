@@ -1,6 +1,7 @@
 import 'package:flutter_wan_android/core/env/build_env.dart';
 import 'package:flutter_wan_android/core/log/log.dart';
 import 'package:flutter_wan_android/core/storage/storage.dart';
+import 'package:flutter_wan_android/core/theme/themes.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
@@ -19,6 +20,9 @@ abstract class Service extends GetxService {
 
     /// 初始化本地存储
     await Storage.init();
+
+    /// 初始化主题
+    AppTheme.changeTheme();
 
     /// 子类再去初始化
     init();

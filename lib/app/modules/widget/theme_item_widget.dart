@@ -14,6 +14,7 @@ class ListItem extends StatelessWidget {
     this.iconPaths,
     this.trailing,
     this.onTap,
+    this.selectBgColor,
     this.selected = false,
     this.divider = false,
   });
@@ -31,6 +32,8 @@ class ListItem extends StatelessWidget {
   final Widget? trailing;
 
   final bool selected;
+
+  final Color? selectBgColor;
 
   final VoidCallback? onTap;
 
@@ -80,6 +83,7 @@ class ListItem extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          selectedTileColor: selectBgColor,
           title: Text(title),
           subtitle: subtitle == null ? null : Text(subtitle!),
           leading: _leading,

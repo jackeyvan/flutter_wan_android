@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/widget/theme_item_widget.dart';
-import 'package:flutter_wan_android/core/theme/themes_backup.dart';
+import 'package:flutter_wan_android/core/theme/themes.dart';
 import 'package:get/get.dart';
 
 class TestPage extends StatelessWidget {
-  static final themeModes = AppThemeBackup.themeModes;
-  static final themeColors = AppThemeBackup.themeColors;
-
   const TestPage({super.key});
 
   @override
@@ -28,12 +25,13 @@ class TestPage extends StatelessWidget {
   List<Widget> buildItems() {
     final items = <Widget>[];
 
-    final item = themeModes
+    final item = AppTheme.themes
+        .where((e) => e.mode != null)
         .map((e) => ListItem(
               title: e.name,
               leading: Icon(e.icon),
               onTap: () {
-                AppThemeBackup.changeThemeMode(e.mode!);
+                AppTheme.changeThemeMode(e.mode!);
               },
             ))
         .toList();
@@ -42,7 +40,8 @@ class TestPage extends StatelessWidget {
 
     items.add(const Divider(height: 12));
 
-    final colors = themeColors
+    final colors = AppTheme.themes
+        .where((e) => e.color != null)
         .map((e) => ListItem(
               title: e.name,
               leading: Container(
@@ -54,12 +53,12 @@ class TestPage extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                final themeData = AppThemeBackup.generateTheme(
+                final themeData = AppTheme.generateTheme(
                   brightness: Get.theme.brightness,
                   colorSchemeSeed: e.color!,
                 );
 
-                AppThemeBackup.changeTheme(themeData);
+                AppTheme.changeTheme(theme: themeData);
               },
             ))
         .toList();
