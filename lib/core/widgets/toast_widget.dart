@@ -1,13 +1,13 @@
-import 'package:fluttertoast/fluttertoast.dart' as f_toast;
+import 'package:fluttertoast/fluttertoast.dart' as fToast;
 
 class Toast {
   static showToast(String? msg) {
-    if (msg != null && msg != '') {
-      f_toast.Fluttertoast.showToast(
+    if (msg != null && msg != "") {
+      fToast.Fluttertoast.showToast(
           msg: msg,
           timeInSecForIosWeb: 1,
-          toastLength: f_toast.Toast.LENGTH_SHORT,
-          gravity: f_toast.ToastGravity.CENTER,
+          toastLength: fToast.Toast.LENGTH_SHORT,
+          gravity: fToast.ToastGravity.CENTER,
           fontSize: 16.0);
     }
   }

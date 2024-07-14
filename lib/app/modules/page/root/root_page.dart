@@ -15,10 +15,6 @@ class RootPage extends GetView<RootController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("玩安卓"),
-          centerTitle: false,
-        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () => Routes.to(Routes.themeChose),
             child: const Icon(Icons.add)),
@@ -42,18 +38,8 @@ class RootPage extends GetView<RootController> {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: items,
-        onTap: (index) {
-          /// 更新索引和页面
-          if (index != controller.bottomIndex) {
-            controller.bottomIndex = index;
-            controller.pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.ease,
-            );
-          }
-        },
-        currentIndex: controller.bottomIndex);
+        onTap: (index) => controller.onPageChange(index),
+        currentIndex: controller.currentBottomIndex);
   }
 
   /// 生成左侧抽屉

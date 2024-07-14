@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/page/article/article_detail_binding.dart';
 import 'package:flutter_wan_android/app/modules/page/article/article_detail_page.dart';
 import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
@@ -53,5 +54,12 @@ class Routes {
   /// 页面回退
   static back<T>({T? result}) {
     Get.back(result: result);
+  }
+
+  static openDrawer() {
+    final context = Get.context;
+    if (context != null) {
+      Scaffold.of(context).openDrawer();
+    }
   }
 }

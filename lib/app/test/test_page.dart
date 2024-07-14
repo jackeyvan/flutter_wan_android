@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/widget/theme_item_widget.dart';
-import 'package:flutter_wan_android/core/theme/themes.dart';
-import 'package:get/get.dart';
 
 class TestPage extends StatelessWidget {
   const TestPage({super.key});
@@ -9,62 +6,47 @@ class TestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
-      appBar: AppBar(
-        title: const Text("测试页面"),
-      ),
-      body: ListView(
-        children: buildItems(),
-      ),
-    );
-  }
-
-  List<Widget> buildItems() {
-    final items = <Widget>[];
-
-    final item = AppTheme.themes
-        .where((e) => e.mode != null)
-        .map((e) => ListItem(
-              title: e.name,
-              leading: Icon(e.icon),
-              onTap: () {
-                AppTheme.changeThemeMode(e.mode!);
-              },
-            ))
-        .toList();
-
-    items.addAll(item);
-
-    items.add(const Divider(height: 12));
-
-    final colors = AppTheme.themes
-        .where((e) => e.color != null)
-        .map((e) => ListItem(
-              title: e.name,
-              leading: Container(
-                height: 24,
-                width: 24,
-                decoration: BoxDecoration(
-                  color: e.color,
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+      body: NestedScrollView(
+        body: Container(
+          color: Colors.amber,
+          child: ListView.builder(
+              padding: const EdgeInsets.only(top: 0),
+              itemBuilder: (tx, index) {
+                return const Card(
+                  child: InkWell(
+                    child: ListTile(
+                        title: Text("我是大法师打发标题"),
+                        subtitle: Padding(
+                            padding: EdgeInsets.only(top: 6),
+                            child: Text(
+                              "wohaishi阿凡达还是发来发发呆",
+                              maxLines: 5,
+                            ))),
+                  ),
+                );
+              }),
+        ),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              // stretch: true,
+              pinned: true,
+              floating: true,
+              snap: true,
+              // leading: DrawerButton(),
+              expandedHeight: 200,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text("玩安卓"),
+                centerTitle: false,
+                background: Image.network(
+                  'https://images.pexels.com/photos/443356/pexels-photo-443356.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                  fit: BoxFit.cover,
                 ),
               ),
-              onTap: () {
-                final themeData = AppTheme.generateTheme(
-                  brightness: Get.theme.brightness,
-                  colorSchemeSeed: e.color!,
-                );
-
-                AppTheme.changeTheme(theme: themeData);
-              },
-            ))
-        .toList();
-
-    items.addAll(colors);
-
-    return items;
+            )
+          ];
+        },
+      ),
+    );
   }
 }

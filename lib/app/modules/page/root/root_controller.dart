@@ -6,13 +6,23 @@ class RootController extends GetxController {
 
   final pageController = PageController();
 
-  set bottomIndex(index) {
-    if (bottomIndex == index) {
-      return;
+  set currentBottomIndex(index) {
+    if (currentBottomIndex != index) {
+      _currentBottomIndex.value = index;
     }
-
-    _currentBottomIndex.value = index;
   }
 
-  get bottomIndex => _currentBottomIndex.value;
+  int get currentBottomIndex => _currentBottomIndex.value;
+
+  onPageChange(int index) {
+    /// 更新索引和页面
+    if (index != currentBottomIndex) {
+      currentBottomIndex = index;
+      pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.ease,
+      );
+    }
+  }
 }

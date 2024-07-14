@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/base/tab_page.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
-import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
 import 'package:get/get.dart';
 
 import 'platform_controller.dart';

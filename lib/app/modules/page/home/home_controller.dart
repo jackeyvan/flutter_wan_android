@@ -19,7 +19,7 @@ class HomeController extends GetRefreshListController<ArticleModel> {
         var data = <ArticleModel>[];
 
         /// 第一条数据为banner
-        var banner = result[0] as List<BannerModel>?;
+        final banner = result[0] as List<BannerModel>?;
 
         if (banner != null && banner.isNotEmpty) {
           data.add(ArticleModel(banner: banner));

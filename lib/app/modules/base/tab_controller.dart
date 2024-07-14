@@ -32,6 +32,8 @@ abstract class GetTabController<T> extends BaseController<List<T>>
 
   get tabController => _tabController;
 
+  bool get isShowDrawer => false;
+
   List<T> get tabData => data ?? [];
 
   Future<List<T>> loadTabs();

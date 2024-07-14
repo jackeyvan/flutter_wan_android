@@ -97,6 +97,11 @@ class AppTheme {
     }
   }
 
+  /// 获取当前主题
+  static ThemeData getTheme() {
+    return Get.theme;
+  }
+
   static final themes = [
     ThemeModel(
       name: 'System',

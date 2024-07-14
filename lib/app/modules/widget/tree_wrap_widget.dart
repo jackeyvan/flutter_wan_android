@@ -41,12 +41,16 @@ class TreeWrap extends StatelessWidget {
 
   buildItems(List<TreeModel> data) {
     return data
-        .map((e) => OutlinedButton(
-              onPressed: () {
-                onItemTrap?.call(e, data.indexOf(e));
-              },
-              child: Text(e.name ?? ""),
-            ))
+        .map(
+          (e) => OutlinedButton(
+            style: OutlinedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 13)),
+            onPressed: () {
+              onItemTrap?.call(e, data.indexOf(e));
+            },
+            child: Text(e.name ?? ""),
+          ),
+        )
         .toList();
   }
 }
