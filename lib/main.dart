@@ -21,7 +21,6 @@ class WanApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: "玩安卓",
       initialRoute: Routes.root,
       initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,

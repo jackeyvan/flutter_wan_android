@@ -7,16 +7,9 @@ import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
 import 'package:get/get.dart';
 
 import 'project_controller.dart';
-import 'project_provider.dart';
 
 class ProjectTabPage extends GetTabPage<ProjectTabController> {
   const ProjectTabPage({super.key});
-
-  @override
-  void dependencies() {
-    Get.lazyPut(() => ProjectProvider());
-    Get.lazyPut(() => ProjectTabController());
-  }
 }
 
 class ProjectPage extends GetRefreshPage<ProjectController> {

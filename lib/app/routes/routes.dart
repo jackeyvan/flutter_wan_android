@@ -1,6 +1,5 @@
 import 'package:flutter_wan_android/app/modules/page/article/article_detail_binding.dart';
 import 'package:flutter_wan_android/app/modules/page/article/article_detail_page.dart';
-import 'package:flutter_wan_android/app/modules/page/root/root_binding.dart';
 import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
 import 'package:flutter_wan_android/app/modules/page/theme/theme_page.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_detail_binding.dart';
@@ -29,7 +28,7 @@ class Routes {
   static const test = _Paths.test;
 
   static final routes = [
-    GetPage(name: root, page: () => const RootPage(), binding: RootBinding()),
+    GetPage(name: root, page: () => const RootPage()),
     GetPage(name: test, page: () => const TestPage()),
     GetPage(
         name: articleDetail,

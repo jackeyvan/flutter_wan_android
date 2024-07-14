@@ -8,17 +8,10 @@ import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
 import 'package:get/get.dart';
 
 import 'tree_controller.dart';
-import 'tree_provider.dart';
 
 /// 体系首页带有Tab的页面，加载Tab并且填充页面
 class TreeTabPage extends GetTabPage<TreeTabController> {
   const TreeTabPage({super.key});
-
-  @override
-  void dependencies() {
-    Get.lazyPut(() => TreeProvider());
-    Get.lazyPut(() => TreeTabController());
-  }
 }
 
 /// 体系首页页面，填充具体Tab对应的页面

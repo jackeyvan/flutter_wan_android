@@ -4,19 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
-import 'package:get/get.dart';
 
 import 'home_controller.dart';
-import 'home_provider.dart';
 
 class HomePage extends GetRefreshPage<HomeController> {
   const HomePage({super.key});
-
-  @override
-  void dependencies() {
-    Get.lazyPut(() => HomeProvider());
-    Get.lazyPut(() => HomeController());
-  }
 
   @override
   Widget buildPage() {

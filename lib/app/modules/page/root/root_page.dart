@@ -15,7 +15,10 @@ class RootPage extends GetView<RootController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("玩安卓")),
+        appBar: AppBar(
+          title: const Text("玩安卓"),
+          centerTitle: false,
+        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () => Routes.to(Routes.themeChose),
             child: const Icon(Icons.add)),

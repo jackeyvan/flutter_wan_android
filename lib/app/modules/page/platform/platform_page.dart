@@ -6,17 +6,10 @@ import 'package:flutter_wan_android/core/page/tab/tab_page.dart';
 import 'package:get/get.dart';
 
 import 'platform_controller.dart';
-import 'platform_provider.dart';
 
 /// 公众号带有Tab页面
 class PlatformTabPage extends GetTabPage<PlatformTabController> {
   const PlatformTabPage({super.key});
-
-  @override
-  void dependencies() {
-    Get.lazyPut(() => PlatformProvider());
-    Get.lazyPut(() => PlatformTabController());
-  }
 }
 
 /// 公众号列表页面
