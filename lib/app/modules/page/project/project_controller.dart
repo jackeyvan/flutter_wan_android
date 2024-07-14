@@ -37,7 +37,13 @@ class ProjectController extends GetRefreshListController<ArticleModel> {
 
   @override
   Future<List<ArticleModel>> loadListData(int page, bool isRefresh) =>
-      Get.find<ProjectProvider>()
-          .projectList(id ?? 0, page)
-          .then((value) => value.datas ?? []);
+      Get.find<ProjectProvider>().projectList(id ?? 0, page).then((value) =>
+          value.datas?.map((e) {
+            /// 重置一下文章数据
+            e.tags = null;
+            e.superChapterName = null;
+            e.chapterName = null;
+            return e;
+          }).toList() ??
+          []);
 }

@@ -102,6 +102,11 @@ class AppTheme {
     return Get.theme;
   }
 
+  ///  获取主题颜色模板
+  static ColorScheme getThemeColorScheme() {
+    return getTheme().colorScheme;
+  }
+
   static final themes = [
     ThemeModel(
       name: 'System',
