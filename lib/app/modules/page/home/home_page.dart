@@ -15,13 +15,13 @@ class HomePage extends GetRefreshPage<HomeController> {
   @override
   Widget buildPage() {
     return Scaffold(
-      appBar: AppBar(
-        leading: const DrawerButton(),
-        title: const Text("玩安卓"),
-        centerTitle: false,
-      ),
+      // appBar: AppBar(
+      //   leading: const DrawerButton(),
+      //   title: const Text("玩安卓"),
+      //   centerTitle: false,
+      // ),
       body: buildRefreshListPage<ArticleModel>(
-        padding: const EdgeInsets.all(6),
+        // padding: const EdgeInsets.all(6),
         separatorBuilder: (item, index) => const SizedBox(height: 3),
         itemBuilder: (item, index) {
           var banner = item.banner;

@@ -36,6 +36,12 @@ abstract class GetTabController<T> extends BaseController<List<T>>
 
   List<T> get tabData => data ?? [];
 
+  @override
+  retryLoading() {
+    showLoadingPage();
+    onReady();
+  }
+
   Future<List<T>> loadTabs();
 
   List<Widget> buildPages();

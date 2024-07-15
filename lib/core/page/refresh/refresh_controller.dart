@@ -39,7 +39,8 @@ abstract class GetRefreshController<T> extends BaseController {
   Future<T> loadData();
 
   /// 重新刷新，默认使用LoadingPage，不想用这个可以自己重写本方法
-  void retryRefresh() {
+  @override
+  void retryLoading() {
     showLoadingPage();
     onRefresh();
   }
@@ -96,7 +97,6 @@ abstract class GetRefreshListController<T>
     }).onError((error, stack) {
       /// 如果有数据则提示吐司，如果没有数据则展示错误图
       if (data.isNotEmpty) {
-        /// TODO 提示一个吐司，或者不提示
         Toast.showToast("刷新失败了");
       } else {
         showErrorPage(msg: error?.toString());
@@ -116,7 +116,6 @@ abstract class GetRefreshListController<T>
         /// 更新界面
         showSuccessPage();
       } else {
-        /// TODO 提示没有更多数据了
         Toast.showToast("没有更多数据了");
       }
 
@@ -126,6 +125,7 @@ abstract class GetRefreshListController<T>
       /// 加载失败要 重置页码
       page -= 1;
       refreshController.finishLoad();
+      Toast.showToast(error.toString());
     });
   }
 

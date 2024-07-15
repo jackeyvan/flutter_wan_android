@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/app/modules/model/hot_keys_model.dart';
 import 'package:flutter_wan_android/app/modules/model/user_model.dart';
+import 'package:flutter_wan_android/core/service/net/cache/cache.dart';
 import 'package:flutter_wan_android/core/service/net/cache_Interceptor.dart';
 import 'package:flutter_wan_android/core/service/net/net_service.dart';
 import 'package:get/get.dart' as getx;
