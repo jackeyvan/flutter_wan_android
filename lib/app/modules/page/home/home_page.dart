@@ -14,13 +14,19 @@ class HomePage extends GetRefreshPage<HomeController> {
 
   @override
   Widget buildPage(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const DrawerButton(),
-        // automaticallyImplyLeading: false,
-        title: const Text("玩安卓"),
-        centerTitle: false,
-      ),
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [
+          const SliverAppBar(
+            title: Text("玩安卓",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+            centerTitle: false,
+            snap: true,
+            pinned: true,
+            floating: true,
+          ),
+        ];
+      },
       body: buildObxRefreshListPage<ArticleModel>(
         padding: const EdgeInsets.all(6),
         separatorBuilder: (item, index) => const SizedBox(height: 3),

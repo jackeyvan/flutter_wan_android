@@ -13,7 +13,6 @@ class GetTabPage<C extends GetTabController> extends BasePage<C> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  leading: buildAppBarLeading(),
                   title: Text(controller.title,
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w500)),
@@ -27,9 +26,6 @@ class GetTabPage<C extends GetTabController> extends BasePage<C> {
             },
             body: buildTabView(),
           ));
-
-  Widget? buildAppBarLeading() =>
-      controller.isShowDrawer ? const DrawerButton() : null;
 
   /// 子类也可以自己去定义TabBar
   PreferredSizeWidget buildTabBar() => TabBar(

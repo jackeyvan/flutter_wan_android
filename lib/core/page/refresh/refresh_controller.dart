@@ -82,6 +82,11 @@ abstract class GetRefreshListController<T>
       if (result.isNotEmpty) {
         data = result;
         showSuccessPage();
+
+        /// 刷新的时候，没有更多数据需要去掉上拉加载，没有有更多数据则要重置加载状态
+        if (result.length < pageSize) {
+          refreshController;
+        }
       } else {
         showEmptyPage();
       }
@@ -89,11 +94,6 @@ abstract class GetRefreshListController<T>
       /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
       /// 再调用RefreshController的方法才有用，不然会报错。
       refreshController.finishRefresh();
-
-      /// 刷新的时候，没有更多数据需要去掉上拉加载，没有有更多数据则要重置加载状态
-      // if (noMore) {
-      //   refreshController.finishLoad();
-      // }
     }).onError((error, stack) {
       /// 如果有数据则提示吐司，如果没有数据则展示错误图
       if (data.isNotEmpty) {
