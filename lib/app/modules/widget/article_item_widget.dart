@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
-import 'package:flutter_wan_android/core/theme/themes.dart';
+import 'package:flutter_wan_android/core/init/themes.dart';
 
 class ArticleItemWidget extends StatelessWidget {
   final ArticleModel articleModel;
@@ -30,20 +30,26 @@ class ArticleItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 child: Wrap(
                   children: [
+                    /// 标题
                     buildTitleText(),
+
+                    /// 描述
                     buildDescText(),
-                    Wrap(
+                    Row(
                       children: [
-                        ///  标签
-                        buildTagText(),
+                        Expanded(
+                            child: Wrap(
+                          children: [
+                            ///  标签
+                            buildTagText(),
 
-                        ///  作者或者分享人
-                        buildAuthorText(),
+                            ///  作者或者分享人
+                            buildAuthorText(),
 
-                        /// 分类
-                        buildChapterText(),
-
-                        const Spacer(),
+                            /// 分类
+                            buildChapterText(),
+                          ],
+                        )),
 
                         ///  时间
                         buildTimeText()
@@ -57,6 +63,46 @@ class ArticleItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// 左侧图片
+  Widget buildImage() {
+    final imgUrl = articleModel.envelopePic;
+
+    if (isNotNullOrBlank(imgUrl)) {
+      return CachedNetworkImage(
+        width: 100,
+        height: 200,
+        imageUrl: imgUrl!,
+        fit: BoxFit.fill,
+      );
+    }
+    return const SizedBox.shrink();
+  }
+
+  /// 标题
+  buildTitleText() {
+    return paddingText(
+        const EdgeInsets.only(bottom: 8), "${articleModel.title}",
+        style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis),
+        maxLines: 2);
+  }
+
+  /// 描述
+  buildDescText() {
+    final desc = articleModel.desc;
+
+    if (isNotNullOrBlank(desc)) {
+      return paddingText(
+          const EdgeInsets.only(bottom: 12), "${articleModel.desc}",
+          style: const TextStyle(
+              overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w500),
+          maxLines: 5);
+    }
+    return const SizedBox.shrink();
   }
 
   ///  标签
@@ -82,41 +128,6 @@ class ArticleItemWidget extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
-  /// 左侧图片
-  Widget buildImage() {
-    final imgUrl = articleModel.envelopePic;
-
-    if (isNotNullOrBlank(imgUrl)) {
-      return CachedNetworkImage(
-        width: 100,
-        height: 200,
-        imageUrl: imgUrl!,
-        fit: BoxFit.fill,
-      );
-    }
-    return const SizedBox.shrink();
-  }
-
-  /// 描述
-  buildDescText() {
-    final desc = articleModel.desc;
-
-    if (isNotNullOrBlank(desc)) {
-      return paddingText(
-          const EdgeInsets.only(bottom: 8), "${articleModel.desc}",
-          maxLines: 5);
-    }
-    return const SizedBox.shrink();
-  }
-
-  /// 标题
-  buildTitleText() {
-    return paddingText(
-        const EdgeInsets.only(bottom: 8), "${articleModel.title}",
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        maxLines: 2);
-  }
-
   /// 分类
   buildChapterText() {
     if (isNotNullOrBlank(articleModel.superChapterName) &&
@@ -131,7 +142,7 @@ class ArticleItemWidget extends StatelessWidget {
   buildTimeText() {
     final date = articleModel.niceShareDate;
     if (isNotNullOrBlank(date)) {
-      return Text(date!.split(" ")[0]);
+      return paddingText(const EdgeInsets.only(left: 12), date!.split(" ")[0]);
     }
     return const SizedBox.shrink();
   }
