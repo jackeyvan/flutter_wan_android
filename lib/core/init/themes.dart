@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/core/storage/storage.dart';
+import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:get/get.dart';
-
-import 'theme_model.dart';
 
 class AppTheme {
   static const _themeKey = "themeKey";
@@ -196,6 +194,21 @@ class AppTheme {
       color: Colors.blueGrey,
     ),
   ];
+}
+
+class ThemeModel {
+  String name;
+  Color? color;
+  ThemeMode? mode;
+  IconData? icon;
+
+  ThemeModel({
+    required this.name,
+    this.color,
+    this.mode,
+    this.icon,
+  });
+}
 
 // static ThemeData _yellow() {
 //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -203,46 +216,3 @@ class AppTheme {
 //     statusBarBrightness: Brightness.dark, //status bar brigtness
 //     statusBarIconBrightness: Brightness.dark, //status barIcon Brightness
 //   ));
-//
-//   return ThemeData.light().copyWith(
-//       appBarTheme: AppBarTheme(
-//           backgroundColor: Colors.yellow.shade700,
-//           centerTitle: false,
-//           actionsIconTheme: const IconThemeData(color: Colors.black),
-//           iconTheme: const IconThemeData(color: Colors.black),
-//           titleTextStyle: const TextStyle(
-//               color: Colors.black,
-//               fontSize: 18,
-//               fontWeight: FontWeight.w500)),
-//       scaffoldBackgroundColor: Colors.white,
-//       progressIndicatorTheme:
-//       ProgressIndicatorThemeData(color: Colors.yellow.shade700),
-//       primaryColor: Colors.yellow.shade700,
-//       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-//           selectedItemColor: Colors.yellow.shade700,
-//           unselectedItemColor: Colors.black54),
-//       tabBarTheme: const TabBarTheme(
-//           labelStyle: TextStyle(fontWeight: FontWeight.w700),
-//           labelColor: Colors.black,
-//           indicatorColor: Colors.black38),
-//       iconTheme: IconThemeData(color: Colors.yellow.shade700),
-//       elevatedButtonTheme: ElevatedButtonThemeData(
-//           style: ButtonStyle(
-//               textStyle:
-//               MaterialStateProperty.all(const TextStyle(fontSize: 16)),
-//               foregroundColor: MaterialStateProperty.all(Colors.black),
-//               backgroundColor:
-//               MaterialStateProperty.all(Colors.yellow.shade700))),
-//       checkboxTheme: CheckboxThemeData(
-//           fillColor: MaterialStateProperty.all(Colors.yellow.shade700)),
-//       textSelectionTheme:
-//       TextSelectionThemeData(cursorColor: Colors.yellow.shade700),
-//       floatingActionButtonTheme: FloatingActionButtonThemeData(
-//           backgroundColor: Colors.yellow.shade700),
-//       textButtonTheme: TextButtonThemeData(
-//           style: ButtonStyle(
-//               textStyle:
-//               MaterialStateProperty.all(const TextStyle(fontSize: 16)),
-//               foregroundColor: MaterialStateProperty.all(Colors.black))));
-// }
-}

@@ -13,15 +13,15 @@ class HomePage extends GetRefreshPage<HomeController> {
   const HomePage({super.key});
 
   @override
-  Widget buildPage() {
+  Widget buildPage(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
       //   leading: const DrawerButton(),
       //   title: const Text("玩安卓"),
       //   centerTitle: false,
       // ),
-      body: buildRefreshListPage<ArticleModel>(
-        // padding: const EdgeInsets.all(6),
+      body: buildObxRefreshListPage<ArticleModel>(
+        // padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
         separatorBuilder: (item, index) => const SizedBox(height: 3),
         itemBuilder: (item, index) {
           var banner = item.banner;

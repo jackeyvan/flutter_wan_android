@@ -7,22 +7,26 @@ class GetTabPage<C extends GetTabController> extends BasePage<C> {
   const GetTabPage({super.key});
 
   @override
-  Widget buildPage() => NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              leading: buildAppBarLeading(),
-              title: Text(controller.title),
-              centerTitle: false,
-              bottom: buildTabBar(),
-              snap: true,
-              pinned: true,
-              floating: true,
-            ),
-          ];
-        },
-        body: buildTabView(),
-      );
+  Widget buildPage(BuildContext context) => buildObx(
+      builder: () => NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  leading: buildAppBarLeading(),
+                  title: Text(controller.title,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w500)),
+                  centerTitle: false,
+                  bottom: buildTabBar(),
+                  snap: true,
+                  pinned: true,
+                  floating: true,
+                ),
+              ];
+            },
+            body: buildTabView(),
+          ));
 
   Widget? buildAppBarLeading() =>
       controller.isShowDrawer ? const DrawerButton() : null;

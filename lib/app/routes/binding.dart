@@ -5,7 +5,6 @@ import 'package:flutter_wan_android/app/modules/page/platform/platform_provider.
 import 'package:flutter_wan_android/app/modules/page/project/project_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/project/project_provider.dart';
 import 'package:flutter_wan_android/app/modules/page/root/root_controller.dart';
-import 'package:flutter_wan_android/app/modules/page/theme/theme_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_provider.dart';
 import 'package:get/get.dart';
@@ -34,8 +33,5 @@ class AppBinding extends Bindings {
     /// 公众号页面
     Get.lazyPut(() => PlatformProvider());
     Get.lazyPut(() => PlatformTabController());
-
-    /// TODO 修改初始化位置
-    Get.put(ThemeController(), permanent: true);
   }
 }

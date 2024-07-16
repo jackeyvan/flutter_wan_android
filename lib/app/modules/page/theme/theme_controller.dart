@@ -1,41 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
-import 'package:flutter_wan_android/core/theme/theme_model.dart';
-import 'package:flutter_wan_android/core/theme/themes.dart';
+import 'package:get/get.dart';
+
+class ThemeBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => ThemeController());
+  }
+}
 
 class ThemeController extends BaseController {
-  late String name;
+  final name = (AppTheme.readTheme() ?? AppTheme.themes[0].name).obs;
 
-  late ThemeMode themeMode;
+  final themeMode = AppTheme.readThemeMode().obs;
 
   bool isDarkMode = AppTheme.isDarkMode();
 
-  @override
-  void onInit() {
-    name = AppTheme.readTheme() ?? AppTheme.themes[0].name;
-    themeMode = AppTheme.readThemeMode();
-
-    showSuccessPage();
-    super.onInit();
-  }
-
   void onItemClick(ThemeModel model) {
     if (model.mode != null) {
-      themeMode = model.mode!;
+      themeMode.value = model.mode!;
       isDarkMode = model.mode! == ThemeMode.dark;
     } else {
-      name = model.name;
+      name.value = model.name;
     }
 
     AppTheme.changeThemeFromModel(model);
-    showSuccessPage();
   }
 
   bool isSelected(ThemeModel model) {
     if (model.mode != null) {
-      return themeMode == model.mode;
+      return themeMode.value == model.mode;
     } else {
-      return name == model.name;
+      return name.value == model.name;
     }
   }
 

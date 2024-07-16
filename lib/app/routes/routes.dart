@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/article/article_detail_binding.dart';
+import 'package:flutter_wan_android/app/modules/page/article/article_detail_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/article/article_detail_page.dart';
 import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
+import 'package:flutter_wan_android/app/modules/page/theme/theme_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/theme/theme_page.dart';
-import 'package:flutter_wan_android/app/modules/page/tree/tree_detail_binding.dart';
+import 'package:flutter_wan_android/app/modules/page/tree/tree_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
 import 'package:flutter_wan_android/app/test/test_page.dart';
 import 'package:get/get.dart';
@@ -40,10 +41,9 @@ class Routes {
         page: () => const TreeDetailTabPage(),
         binding: TreeDetailBinding()),
     GetPage(
-      name: themeChose,
-      page: () => const ThemePage(),
-      // binding: TreeDetailBinding()
-    ),
+        name: themeChose,
+        page: () => const ThemePage(),
+        binding: ThemeBinding()),
   ];
 
   /// 封装跳转页面方法

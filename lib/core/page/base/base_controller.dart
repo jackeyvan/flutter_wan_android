@@ -1,4 +1,6 @@
-import 'package:flutter_wan_android/core/widgets/default_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/core/page/widgets/default_dialog.dart';
+import 'package:flutter_wan_android/core/page/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
 /// 封装基类Controller，绑定数据T，可以根据业务情况，展示不同的页面
@@ -41,4 +43,7 @@ class BaseController<T> extends GetxController with StateMixin<T> {
 
   /// 获取数据
   T? get data => value;
+
+  /// 组件保活
+  Widget keepWidgetAlive(Widget child) => KeepAliveWrapper(child: child);
 }

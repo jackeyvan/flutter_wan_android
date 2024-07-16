@@ -13,7 +13,7 @@ abstract class BasePage<C extends BaseController> extends GetView<C> {
   @override
   Widget build(BuildContext context) {
     dependencies();
-    return buildObx(builder: buildPage);
+    return buildPage(context);
   }
 
   /// 使用obx来更新页面的State
@@ -34,7 +34,7 @@ abstract class BasePage<C extends BaseController> extends GetView<C> {
   void dependencies() {}
 
   /// 子类重写，需要填充的页面
-  Widget buildPage();
+  Widget buildPage(BuildContext context);
 
   /// 默认的加载页
   Widget buildLoadingPage() => const LoadingPage();

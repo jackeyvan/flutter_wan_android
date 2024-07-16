@@ -1,6 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter_wan_android/core/init/toast.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
-import 'package:flutter_wan_android/core/widgets/toast_widget.dart';
 
 abstract class GetRefreshController<T> extends BaseController {
   EasyRefreshController refreshController = EasyRefreshController(

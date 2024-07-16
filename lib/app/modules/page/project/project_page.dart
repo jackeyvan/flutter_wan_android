@@ -29,8 +29,9 @@ class ProjectPage extends GetRefreshPage<ProjectController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListPage<ArticleModel>(
-        padding: const EdgeInsets.all(6),
+  Widget buildPage(BuildContext context) =>
+      buildObxRefreshListPage<ArticleModel>(
+        padding: const EdgeInsets.all(8),
         separatorBuilder: (item, index) => const SizedBox(height: 3),
         itemBuilder: (item, index) => ArticleItemWidget(item),
       );

@@ -4,15 +4,21 @@ import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
-import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
 import 'tree_provider.dart';
 
+class TreeDetailBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => TreeDetailTabController());
+  }
+}
+
 class TreeTabController extends GetTabController<String> {
   @override
   List<Widget> buildPages() {
-    return tabData.map((e) => KeepAliveWrapper(child: TreePage(e))).toList();
+    return tabData.map((e) => keepWidgetAlive(TreeListPage(e))).toList();
   }
 
   @override
@@ -45,11 +51,21 @@ class TreeController extends GetRefreshListController<TreeModel> {
 }
 
 class TreeDetailTabController extends GetTabController<TreeModel> {
+  var index = 0;
+
+  @override
+  void showSuccessPage() {
+    super.showSuccessPage();
+
+    tabController.animateTo(index);
+  }
+
   @override
   Future<List<TreeModel>> loadTabs() {
     var args = Get.arguments;
     if (args is TreeModel) {
       title = args.name;
+      index = args.index;
       return Future.value(args.items);
     }
     return Future.value([]);
@@ -57,7 +73,9 @@ class TreeDetailTabController extends GetTabController<TreeModel> {
 
   @override
   List<Widget> buildPages() {
-    return tabData.map((tab) => TreeDetailListPage(tab.id)).toList();
+    return tabData
+        .map((tab) => keepWidgetAlive(TreeDetailListPage(tab.id)))
+        .toList();
   }
 
   @override

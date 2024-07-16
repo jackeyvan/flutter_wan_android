@@ -3,7 +3,6 @@ import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
-import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
 import 'package:get/get.dart';
 
 import 'project_page.dart';
@@ -11,9 +10,8 @@ import 'project_provider.dart';
 
 class ProjectTabController extends GetTabController<ArticleTabModel> {
   @override
-  List<Widget> buildPages() => tabData
-      .map((tab) => KeepAliveWrapper(child: ProjectPage(id: tab.id)))
-      .toList();
+  List<Widget> buildPages() =>
+      tabData.map((tab) => keepWidgetAlive(ProjectPage(id: tab.id))).toList();
 
   @override
   Future<List<ArticleTabModel>> loadTabs() =>

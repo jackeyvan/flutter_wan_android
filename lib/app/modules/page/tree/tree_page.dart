@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_page.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
+import 'package:flutter_wan_android/app/modules/widget/article_item_widget.dart';
 import 'package:flutter_wan_android/app/modules/widget/tree_wrap_widget.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
@@ -15,11 +16,11 @@ class TreeTabPage extends GetTabPage<TreeTabController> {
 }
 
 /// 体系首页页面，填充具体Tab对应的页面
-class TreePage extends GetRefreshPage<TreeController> {
+class TreeListPage extends GetRefreshPage<TreeController> {
   final String tab;
   final bool fromTree;
 
-  TreePage(this.tab, {super.key})
+  TreeListPage(this.tab, {super.key})
       : fromTree = tab == Get.find<TreeTabController>().tabData[0];
 
   @override
@@ -31,29 +32,28 @@ class TreePage extends GetRefreshPage<TreeController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListPage<TreeModel>(
-        padding: const EdgeInsets.only(top: 12),
-        itemBuilder: (item, index) {
-          return TreeWrap(
-            title: item.name,
-            items: item.items,
-            onItemTrap: (data, index) {
-              /// 体系跳转
-              if (fromTree) {
-                var tabs = item.items ?? [];
-                if (tabs.isNotEmpty) {
-                  Routes.to(Routes.treeDetail, args: item);
-                }
-              } else {
-                /// 导航跳转到WebView
-                if (data.link != null) {
-                  Routes.to(Routes.articleDetail,
-                      args: ArticleModel(title: data.name, link: data.link));
-                }
+  Widget buildPage(BuildContext context) => buildObxRefreshListPage<TreeModel>(
+        padding: const EdgeInsets.all(12),
+        itemBuilder: (item, index) => TreeWrap(
+          title: item.name,
+          items: item.items,
+          onItemTrap: (data, index) {
+            /// 体系跳转
+            if (fromTree) {
+              var tabs = item.items ?? [];
+              if (tabs.isNotEmpty) {
+                item.index = index;
+                Routes.to(Routes.treeDetail, args: item);
               }
-            },
-          );
-        },
+            } else {
+              /// 导航跳转到WebView
+              if (data.link != null) {
+                Routes.to(Routes.articleDetail,
+                    args: ArticleModel(title: data.name, link: data.link));
+              }
+            }
+          },
+        ),
       );
 }
 
@@ -77,33 +77,10 @@ class TreeDetailListPage extends GetRefreshPage<TreeDetailListController> {
   }
 
   @override
-  Widget buildPage() => buildRefreshListPage<ArticleModel>(
-        padding: const EdgeInsets.only(top: 6),
-        itemBuilder: (item, index) {
-          return Container(
-            margin: const EdgeInsets.fromLTRB(6, 0, 6, 6),
-            child: Card(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                child: ListTile(
-                    title: Text(
-                      "${item.title}",
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                      maxLines: 2,
-                    ),
-                    subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: Text(
-                          "${item.desc}",
-                          maxLines: 5,
-                        ))),
-                onTap: () => Routes.to(Routes.articleDetail, args: item),
-              ),
-            ),
-          );
-        },
-      );
+  Widget buildPage(BuildContext context) => Scaffold(
+          body: buildObxRefreshListPage<ArticleModel>(
+        padding: const EdgeInsets.all(8),
+        separatorBuilder: (item, index) => const SizedBox(height: 3),
+        itemBuilder: (item, index) => ArticleItemWidget(item),
+      ));
 }

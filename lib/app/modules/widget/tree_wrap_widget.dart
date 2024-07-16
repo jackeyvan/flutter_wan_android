@@ -15,25 +15,22 @@ class TreeWrap extends StatelessWidget {
   Widget build(BuildContext context) {
     var data = items;
     if (data != null && data.isNotEmpty && title != null) {
-      return Container(
-        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title!,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Wrap(
-              spacing: 6,
-              alignment: WrapAlignment.start,
-              children: buildItems(data),
-            ),
-          ],
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title!,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          Wrap(
+            spacing: 6,
+            alignment: WrapAlignment.start,
+            children: buildItems(data),
+          ),
+        ],
       );
     }
     return const SizedBox.shrink();

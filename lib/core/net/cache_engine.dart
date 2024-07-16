@@ -1,5 +1,5 @@
 import 'package:flutter_wan_android/core/init/init_core.dart';
-import 'package:flutter_wan_android/core/storage/storage.dart';
+import 'package:flutter_wan_android/core/init/storage.dart';
 
 enum CacheMode {
   /// 只使用本地缓存，没有缓存返回null

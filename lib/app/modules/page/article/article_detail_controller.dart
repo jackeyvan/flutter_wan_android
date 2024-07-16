@@ -4,6 +4,13 @@ import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+class ArticleDetailBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => ArticleDetailController());
+  }
+}
+
 class ArticleDetailController extends GetxController {
   var title = "默认标题".obs;
 

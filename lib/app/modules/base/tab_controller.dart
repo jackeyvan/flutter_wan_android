@@ -9,7 +9,7 @@ abstract class GetTabController<T> extends BaseController<List<T>>
   String? _tabTitle;
 
   @override
-  Future<void> onReady() async {
+  void onReady() {
     super.onReady();
     _tabController = TabController(vsync: this, length: 0);
 
@@ -30,7 +30,7 @@ abstract class GetTabController<T> extends BaseController<List<T>>
 
   String get title => _tabTitle ?? "";
 
-  get tabController => _tabController;
+  TabController get tabController => _tabController;
 
   bool get isShowDrawer => false;
 

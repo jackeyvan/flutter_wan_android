@@ -9,6 +9,9 @@ class TreeModel {
   String? link;
   int? id;
 
+  /// 点击跳转的索引
+  int index = 0;
+
   bool fromTree = false;
 
   List<TreeModel>? items;

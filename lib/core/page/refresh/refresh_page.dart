@@ -28,7 +28,7 @@ abstract class GetRefreshPage<C extends GetRefreshController>
   }
 
   /// 生成带有ListView的Refresh页面，数据类型是List
-  Widget buildRefreshListPage<T>(
+  Widget buildObxRefreshListPage<T>(
       {required Widget Function(T item, int index) itemBuilder,
       Widget Function(T item, int index)? separatorBuilder,
       Function(T item, int index)? onItemClick,
@@ -36,16 +36,17 @@ abstract class GetRefreshPage<C extends GetRefreshController>
       bool shrinkWrap = false,
       EdgeInsetsGeometry? padding,
       Axis scrollDirection = Axis.vertical}) {
-    return buildRefreshPage<List<T>>(
-        builder: (data) => buildListView<T>(
-            itemBuilder: itemBuilder,
-            data: data ?? [],
-            padding: padding,
-            separatorBuilder: separatorBuilder,
-            onItemClick: onItemClick,
-            physics: physics,
-            shrinkWrap: shrinkWrap,
-            scrollDirection: scrollDirection));
+    return buildObx(
+        builder: () => buildRefreshPage<List<T>>(
+            builder: (data) => buildListView<T>(
+                itemBuilder: itemBuilder,
+                data: data ?? [],
+                padding: padding,
+                separatorBuilder: separatorBuilder,
+                onItemClick: onItemClick,
+                physics: physics,
+                shrinkWrap: shrinkWrap,
+                scrollDirection: scrollDirection)));
   }
 
   /// 生成一个ListView

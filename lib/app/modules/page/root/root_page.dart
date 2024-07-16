@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/home/home_page.dart';
-import 'package:flutter_wan_android/app/modules/page/platform/platform_page.dart';
-import 'package:flutter_wan_android/app/modules/page/project/project_page.dart';
-import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
-import 'package:flutter_wan_android/core/widgets/keep_alive_wrapper.dart';
+import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';
 
 import 'root_controller.dart';
 
-class RootPage extends GetView<RootController> {
+class RootPage extends BasePage<RootController> {
   const RootPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     return Scaffold(
         // appBar: AppBar(
         //   title: const Text("玩安卓"),
@@ -27,7 +23,7 @@ class RootPage extends GetView<RootController> {
             child: const Icon(Icons.add)),
         drawer: _buildNavigationDrawer(),
         bottomNavigationBar: Obx(() => _buildBottomNavigationBar()),
-        body: _buildBody());
+        body: controller.buildBody());
   }
 
   /// 生成底部Bar
@@ -99,22 +95,6 @@ class RootPage extends GetView<RootController> {
           children: items,
         ),
       ),
-    );
-  }
-
-  /// 与底部Bottom绑定的页面
-  Widget _buildBody() {
-    final pages = <Widget>[
-      const KeepAliveWrapper(child: HomePage()),
-      const KeepAliveWrapper(child: ProjectTabPage()),
-      const KeepAliveWrapper(child: TreeTabPage()),
-      const KeepAliveWrapper(child: PlatformTabPage()),
-    ];
-
-    return PageView(
-      controller: controller.pageController,
-      physics: const NeverScrollableScrollPhysics(),
-      children: pages,
     );
   }
 }

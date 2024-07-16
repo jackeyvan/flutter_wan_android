@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/routes/binding.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
-import 'package:flutter_wan_android/core/theme/themes.dart';
+import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:get/get.dart';
 
 import 'app/service/app_service.dart';

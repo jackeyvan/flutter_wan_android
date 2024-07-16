@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/page/home/home_page.dart';
+import 'package:flutter_wan_android/app/modules/page/platform/platform_page.dart';
+import 'package:flutter_wan_android/app/modules/page/project/project_page.dart';
+import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
+import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
-class RootController extends GetxController {
+class RootController extends BaseController {
   final _currentBottomIndex = 0.obs;
 
   final pageController = PageController();
@@ -24,5 +29,19 @@ class RootController extends GetxController {
         curve: Curves.ease,
       );
     }
+  }
+
+  /// 与底部Bottom绑定的页面
+  Widget buildBody() {
+    return PageView(
+      controller: pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        keepWidgetAlive(const HomePage()),
+        keepWidgetAlive(const ProjectTabPage()),
+        keepWidgetAlive(const TreeTabPage()),
+        keepWidgetAlive(const PlatformTabPage()),
+      ],
+    );
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_wan_android/app/const/const_keys.dart';
-import 'package:flutter_wan_android/core/storage/storage.dart';
+import 'package:flutter_wan_android/core/init/storage.dart';
 
 User fromJson(String str) => User.fromJson(json.decode(str));
 
