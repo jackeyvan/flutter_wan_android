@@ -6,16 +6,19 @@ import 'package:flutter_wan_android/app/modules/page/theme/theme_controller.dart
 import 'package:flutter_wan_android/app/modules/page/theme/theme_page.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_controller.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
+import 'package:flutter_wan_android/app/modules/page/user/login_page.dart';
 import 'package:flutter_wan_android/app/test/test_page.dart';
 import 'package:get/get.dart';
 
 abstract class _Paths {
-  static const root = '/';
+  static const root = '/home';
 
   // static const home = '/home';
   static const articleDetail = '/articleDetail';
   static const treeDetail = '/treeDetail';
   static const themeChose = '/themeChose';
+  static const login = '/login';
   static const test = '/test';
 }
 
@@ -28,6 +31,7 @@ class Routes {
   static const treeDetail = _Paths.treeDetail;
   static const themeChose = _Paths.themeChose;
   static const test = _Paths.test;
+  static const login = _Paths.login;
 
   static final routes = [
     GetPage(name: root, page: () => const RootPage()),
@@ -44,6 +48,7 @@ class Routes {
         name: themeChose,
         page: () => const ThemePage(),
         binding: ThemeBinding()),
+    GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
   ];
 
   /// 封装跳转页面方法
