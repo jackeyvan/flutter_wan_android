@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 /// 对外暴露的静态类，直接调用存储
+/// 内部实现过内存缓存和离线缓存，可以直接使用
 class Storage {
   /// init instance.
   static Future<void> init() async {

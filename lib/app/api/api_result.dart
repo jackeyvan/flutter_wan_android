@@ -7,7 +7,7 @@ class Result {
   const Result(
       {required this.data, required this.errorMsg, required this.errorCode});
 
-  factory Result.fromJson(Map<String, dynamic> json) {
+  factory Result.fromJson(dynamic json) {
     return Result(
         data: json['data'],
         errorMsg: json['errorMsg'],

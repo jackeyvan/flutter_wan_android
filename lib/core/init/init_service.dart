@@ -1,4 +1,4 @@
-import 'package:flutter_wan_android/core/env/build_env.dart';
+import 'package:flutter_wan_android/core/init/build_env.dart';
 import 'package:flutter_wan_android/core/log/log.dart';
 import 'package:flutter_wan_android/core/storage/storage.dart';
 import 'package:flutter_wan_android/core/theme/themes.dart';

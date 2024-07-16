@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
+import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:flutter_wan_android/core/theme/themes.dart';
-import 'package:flutter_wan_android/core/utils/utils.dart';
 
 class ArticleItemWidget extends StatelessWidget {
   final ArticleModel articleModel;
@@ -28,12 +28,11 @@ class ArticleItemWidget extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Wrap(
                   children: [
                     buildTitleText(),
                     buildDescText(),
-                    Row(
+                    Wrap(
                       children: [
                         ///  标签
                         buildTagText(),
@@ -64,11 +63,8 @@ class ArticleItemWidget extends StatelessWidget {
   Widget buildTagText() {
     final tags = articleModel.tags;
     if (tags != null && tags.isNotEmpty) {
-      return Row(children: [
-        Text("${tags[0].name}",
-            style: TextStyle(color: AppTheme.getThemeColorScheme().primary)),
-        const SizedBox(width: 12)
-      ]);
+      return paddingText(const EdgeInsets.only(right: 12), "${tags[0].name}",
+          style: TextStyle(color: AppTheme.getThemeColorScheme().primary));
     }
     return const SizedBox.shrink();
   }
@@ -76,15 +72,11 @@ class ArticleItemWidget extends StatelessWidget {
   ///  作者
   Widget buildAuthorText() {
     if (isNotNullOrBlank(articleModel.author)) {
-      return Row(children: [
-        Text("${articleModel.author}"),
-        const SizedBox(width: 12)
-      ]);
+      return paddingText(
+          const EdgeInsets.only(right: 12), "${articleModel.author}");
     } else if (isNotNullOrBlank(articleModel.shareUser)) {
-      return Row(children: [
-        Text("${articleModel.shareUser}"),
-        const SizedBox(width: 12)
-      ]);
+      return paddingText(
+          const EdgeInsets.only(right: 12), "${articleModel.shareUser}");
     }
 
     return const SizedBox.shrink();
@@ -110,39 +102,27 @@ class ArticleItemWidget extends StatelessWidget {
     final desc = articleModel.desc;
 
     if (isNotNullOrBlank(desc)) {
-      return Column(children: [
-        Text(
-          "${articleModel.desc}",
-          maxLines: 5,
-        ),
-        const SizedBox(height: 8),
-      ]);
+      return paddingText(
+          const EdgeInsets.only(bottom: 8), "${articleModel.desc}",
+          maxLines: 5);
     }
     return const SizedBox.shrink();
   }
 
   /// 标题
   buildTitleText() {
-    return Column(
-      children: [
-        Text(
-          "${articleModel.title}",
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          maxLines: 2,
-        ),
-        const SizedBox(height: 8)
-      ],
-    );
+    return paddingText(
+        const EdgeInsets.only(bottom: 8), "${articleModel.title}",
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        maxLines: 2);
   }
 
   /// 分类
   buildChapterText() {
     if (isNotNullOrBlank(articleModel.superChapterName) &&
         isNotNullOrBlank(articleModel.chapterName)) {
-      return Row(children: [
-        Text("${articleModel.superChapterName} / ${articleModel.chapterName}"),
-        const SizedBox(width: 12)
-      ]);
+      return paddingText(const EdgeInsets.only(right: 12),
+          "${articleModel.superChapterName} / ${articleModel.chapterName}");
     }
     return const SizedBox.shrink();
   }
@@ -154,5 +134,16 @@ class ArticleItemWidget extends StatelessWidget {
       return Text(date!.split(" ")[0]);
     }
     return const SizedBox.shrink();
+  }
+
+  Widget paddingText(EdgeInsetsGeometry padding, String data,
+      {TextStyle? style, int? maxLines}) {
+    return Padding(
+        padding: padding,
+        child: Text(
+          data,
+          style: style,
+          maxLines: maxLines,
+        ));
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_wan_android/app/api/api_provider.dart';
-import 'package:flutter_wan_android/core/service/init_service.dart';
+import 'package:flutter_wan_android/core/init/init_service.dart';
 import 'package:get/get.dart';
 
 /// 业务层初始化
