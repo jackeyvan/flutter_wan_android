@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/page/root/drawer_page.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class RootPage extends BasePage<RootController> {
               // Routes.to(Routes.language);
             },
             child: const Icon(Icons.add)),
-        drawer: _buildNavigationDrawer(),
+        drawer: const DrawerPage(),
         bottomNavigationBar: Obx(() => _buildBottomNavigationBar()),
         body: controller.buildBody());
   }
