@@ -53,8 +53,14 @@ class RootPage extends BasePage<RootController> {
         title: const Text("首页"),
         onTap: () => Get.back(),
       ),
-      const ListTile(leading: Icon(Icons.home), title: Text("首页")),
-      const ListTile(leading: Icon(Icons.home), title: Text("首页")),
+      ListTile(
+          leading: Icon(Icons.home),
+          title: Text("主题"),
+          onTap: () => Routes.to(Routes.themeChose)),
+      ListTile(
+          leading: Icon(Icons.home),
+          title: Text("语言"),
+          onTap: () => Routes.to(Routes.language)),
       const ListTile(leading: Icon(Icons.home), title: Text("首页")),
       const Divider(
         height: 50,

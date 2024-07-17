@@ -9,13 +9,17 @@ class LanguagePage extends AppbarPage<LanguageController> {
 
   @override
   Widget buildBodyPage() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(0),
-        itemCount: controller.languages.length,
-        itemBuilder: (context, index) => Obx(() => ListTile(
-            selectedTileColor: controller.selectColor,
-            selected: controller.isSelected(index),
-            onTap: () => controller.onItemClick(index),
-            title: Text(controller.languages[index]))));
+    return ListView(
+      padding: const EdgeInsets.all(0),
+      children: controller.languages.map((e) => buildItem(e)).toList(),
+    );
+  }
+
+  Widget buildItem(String item) {
+    return Obx(() => ListTile(
+        selectedTileColor: controller.selectColor,
+        selected: controller.isSelected(item),
+        onTap: () => controller.onItemClick(item),
+        title: Text(item)));
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/const/languages.dart';
+import 'package:flutter_wan_android/app/const/lang.dart';
 import 'package:flutter_wan_android/app/routes/binding.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
@@ -29,8 +29,8 @@ class WanApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       translations: Languages(),
-      locale: const Locale('zh', 'CN'),
-      fallbackLocale: const Locale('en', 'US'),
+      locale: Languages.locale,
+      fallbackLocale: Languages.fallbackLocale,
     );
   }
 }

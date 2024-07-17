@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/const/keys.dart';
-import 'package:flutter_wan_android/app/const/languages.dart';
+import 'package:flutter_wan_android/app/const/lang.dart';
 import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/base/appbar_controller.dart';
 import 'package:flutter_wan_android/core/init/storage.dart';
@@ -18,11 +18,9 @@ class LanguageController extends AppbarController {
   List<String> languages = [];
   final language = "".obs;
 
-  final obj = Languages();
-
   @override
   void onInit() {
-    languages = obj.mappings.keys.toList();
+    languages = langMappings.keys.toList();
 
     language.value = Storage.read(Keys.languageKey) ?? languages[0];
 
@@ -30,18 +28,19 @@ class LanguageController extends AppbarController {
   }
 
   @override
-  String? get title => Strings.languageSetting;
+  String? get title => Strings.languageSetting.tr;
 
-  void onItemClick(int index) {
-    language.value = languages[index];
-    final locale = obj.mappings.values.toList()[index];
-    Get.updateLocale(locale);
-
-    Storage.write(Keys.languageKey, language.value);
+  void onItemClick(String item) {
+    language.value = item;
+    final locale = langMappings[item];
+    if (locale != null) {
+      Get.updateLocale(locale);
+      Storage.write(Keys.languageKey, item);
+    }
   }
 
-  bool isSelected(int index) {
-    return language.value == languages[index];
+  bool isSelected(String item) {
+    return language.value == item;
   }
 
   Color get selectColor {

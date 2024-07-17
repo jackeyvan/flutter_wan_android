@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// 资源管理静态类
 
@@ -17,7 +16,7 @@ class Strings {
       "https://github.com/CarGuo/gsy_github_app_flutter";
 
   static const String home = "";
-  static String languageSetting = "语言设置".tr;
+  static String languageSetting = "languageSetting";
 
   static const lagerTextSize = 30.0;
   static const bigTextSize = 23.0;
