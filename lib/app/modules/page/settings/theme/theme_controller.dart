@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/base/appbar_controller.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
-import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
 class ThemeBinding extends Bindings {
@@ -10,12 +10,15 @@ class ThemeBinding extends Bindings {
   }
 }
 
-class ThemeController extends BaseController {
+class ThemeController extends AppbarController {
   final name = (AppTheme.readTheme() ?? AppTheme.themes[0].name).obs;
 
   final themeMode = AppTheme.readThemeMode().obs;
 
   bool isDarkMode = AppTheme.isDarkMode();
+
+  @override
+  String? get title => "主题设置";
 
   void onItemClick(ThemeModel model) {
     if (model.mode != null) {

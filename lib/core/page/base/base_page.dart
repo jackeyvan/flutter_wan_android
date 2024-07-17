@@ -13,7 +13,7 @@ abstract class BasePage<C extends BaseController> extends GetView<C> {
   @override
   Widget build(BuildContext context) {
     dependencies();
-    return buildPage(context);
+    return Material(child: buildPage(context));
   }
 
   /// 使用obx来更新页面的State

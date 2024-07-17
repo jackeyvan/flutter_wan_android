@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/base/appbar_page.dart';
 import 'package:flutter_wan_android/app/modules/widget/theme_item_widget.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
-import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import 'theme_controller.dart';
 
-class ThemePage extends BasePage<ThemeController> {
+class ThemePage extends AppbarPage<ThemeController> {
   const ThemePage({super.key});
 
   @override
-  Widget buildPage(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("主题选择"),
-        ),
-        body: ListView(
-          children: buildItems(),
-        ));
+  Widget buildBodyPage() {
+    return ListView(
+      padding: const EdgeInsets.all(0),
+      children: buildItems(),
+    );
   }
 
   Widget buildItem(ThemeModel model) {
@@ -50,7 +47,7 @@ class ThemePage extends BasePage<ThemeController> {
         .toList());
 
     /// 分割
-    items.add(const Divider(height: 12));
+    items.add(const Divider(height: 8));
 
     /// 颜色
     items.addAll(AppTheme.themes

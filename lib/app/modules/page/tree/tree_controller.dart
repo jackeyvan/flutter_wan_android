@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
+import 'package:flutter_wan_android/app/modules/base/appbar_controller.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
@@ -15,9 +15,9 @@ class TreeDetailBinding extends Bindings {
   }
 }
 
-class TreeTabController extends GetTabController<String> {
+class TreeTabController extends AppbarController<String> {
   @override
-  List<Widget> buildPages() {
+  List<Widget> buildTabPages() {
     return tabData.map((e) => keepWidgetAlive(TreeListPage(e))).toList();
   }
 
@@ -31,7 +31,7 @@ class TreeTabController extends GetTabController<String> {
   String get title => "体系";
 
   @override
-  bool get isShowDrawer => true;
+  bool get isShowTab => true;
 }
 
 class TreeController extends GetRefreshListController<TreeModel> {
@@ -50,14 +50,14 @@ class TreeController extends GetRefreshListController<TreeModel> {
   }
 }
 
-class TreeDetailTabController extends GetTabController<TreeModel> {
+class TreeDetailTabController extends AppbarController<TreeModel> {
   var index = 0;
 
   @override
   void showSuccessPage() {
     super.showSuccessPage();
 
-    tabController.animateTo(index);
+    tabController?.animateTo(index);
   }
 
   @override
@@ -72,7 +72,7 @@ class TreeDetailTabController extends GetTabController<TreeModel> {
   }
 
   @override
-  List<Widget> buildPages() {
+  List<Widget> buildTabPages() {
     return tabData
         .map((tab) => keepWidgetAlive(TreeDetailListPage(tab.id)))
         .toList();
@@ -80,6 +80,9 @@ class TreeDetailTabController extends GetTabController<TreeModel> {
 
   @override
   List<Widget> buildTabs() => tabData.map((e) => Tab(text: e.name)).toList();
+
+  @override
+  bool get isShowTab => true;
 }
 
 class TreeDetailListController extends GetRefreshListController<ArticleModel> {

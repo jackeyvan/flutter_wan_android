@@ -1,183 +1,128 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
-import 'package:flutter_wan_android/core/page/base/base_page.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends BasePage<LoginController> {
+class LoginPage extends GetView {
   LoginPage({super.key});
 
   final TextEditingController _accountController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
   @override
-  Widget buildPage(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 15),
-            child: Image.asset(
-              "assets/images/vector-1.png",
-              width: 413,
-              height: 457,
+      body: NestedScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                leading: const BackButton(),
+                pinned: true,
+                expandedHeight: 480,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Image.asset("assets/images/vector-1.png"),
+                ),
+                forceElevated: innerBoxIsScrolled,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 18,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              textDirection: TextDirection.ltr,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '登录',
-                  style: TextStyle(
-                    color: Color(0xFF755DC1),
-                    fontSize: 27,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                TextField(
-                  controller: _accountController,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xFF393939),
-                    fontSize: 13,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: '账号',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
+          ];
+        },
+        body: Builder(builder: (BuildContext context) {
+          return Padding(
+            padding: const EdgeInsets.all(48),
+            child: CustomScrollView(
+              slivers: [
+                SliverOverlapInjector(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context)),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    Wrap(
+                      children: [
+                        buildLoginText("登录"),
+                        buildTextField(_accountController, "账号"),
+                        buildTextField(_passController, "密码"),
+                        buildLoginButton("登录"),
+                        buildToRegisterText(),
+                      ],
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFF837E93),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFF9F7BFF),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextField(
-                  controller: _passController,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xFF393939),
-                    fontSize: 13,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: '密码',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFF837E93),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFF9F7BFF),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: SizedBox(
-                    width: 329,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF9F7BFF),
-                      ),
-                      child: const Text(
-                        '登录',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      '还没有账号?',
-                      style: TextStyle(
-                        color: Color(0xFF837E93),
-                        fontSize: 13,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        // widget.controller.animateToPage(1,
-                        //     duration: const Duration(milliseconds: 500),
-                        //     curve: Curves.ease);
-                      },
-                      child: const Text(
-                        '注册',
-                        style: TextStyle(
-                          color: Color(0xFF755DC1),
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ]),
                 ),
               ],
             ),
-          ),
-        ],
+          );
+        }),
       ),
     );
+  }
+
+  /// 输入框
+  buildTextField(TextEditingController controller, String labelText) {
+    return Padding(
+        padding: const EdgeInsets.only(top: 18),
+        child: TextField(
+          controller: controller,
+          textAlign: TextAlign.start,
+          decoration: InputDecoration(
+            labelText: labelText,
+            enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(width: 1)),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(width: 1),
+            ),
+          ),
+        ));
+  }
+
+  /// 登录注册按钮
+  buildLoginButton(String text) {
+    return Padding(
+        padding: const EdgeInsets.only(top: 18, bottom: 12),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          child: SizedBox(
+            width: 329,
+            height: 56,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text(text),
+            ),
+          ),
+        ));
+  }
+
+  /// 去注册文字
+  buildToRegisterText() {
+    return Row(
+      children: [
+        const Text(
+          '还没有账号?',
+          style: TextStyle(
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        InkWell(
+          onTap: () {},
+          child: const Text(
+            '注册',
+            style: TextStyle(
+              fontSize: 13,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// 登录注册文字大标题
+  buildLoginText(String text) {
+    return Text(text,
+        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
   }
 }

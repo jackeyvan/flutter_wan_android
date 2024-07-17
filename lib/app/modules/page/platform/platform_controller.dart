@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
+import 'package:flutter_wan_android/app/modules/base/appbar_controller.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
@@ -8,9 +8,9 @@ import 'package:get/get.dart';
 import 'platform_page.dart';
 import 'platform_provider.dart';
 
-class PlatformTabController extends GetTabController<ArticleTabModel> {
+class PlatformTabController extends AppbarController<ArticleTabModel> {
   @override
-  List<Widget> buildPages() =>
+  List<Widget> buildTabPages() =>
       tabData.map((tab) => keepWidgetAlive(PlatformPage(id: tab.id))).toList();
 
   @override
@@ -25,7 +25,7 @@ class PlatformTabController extends GetTabController<ArticleTabModel> {
   String get title => "公众号";
 
   @override
-  bool get isShowDrawer => true;
+  bool get isShowTab => true;
 }
 
 class PlatformController extends GetRefreshListController<ArticleModel> {

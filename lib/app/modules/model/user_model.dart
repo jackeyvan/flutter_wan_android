@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_wan_android/app/const/const_keys.dart';
+import 'package:flutter_wan_android/app/const/keys.dart';
 import 'package:flutter_wan_android/core/init/storage.dart';
 
 User fromJson(String str) => User.fromJson(json.decode(str));
@@ -50,7 +50,7 @@ class User {
     username = json['username'];
 
     /// 解析User数据时，保存到本地
-    Storage.write(ConstKeys.userKey, this);
+    Storage.write(Keys.userKey, this);
   }
 
   bool? admin;

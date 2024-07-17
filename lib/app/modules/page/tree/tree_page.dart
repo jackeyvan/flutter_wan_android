@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/tab_page.dart';
+import 'package:flutter_wan_android/app/modules/base/appbar_page.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 import 'package:flutter_wan_android/app/modules/widget/article_item_widget.dart';
@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'tree_controller.dart';
 
 /// 体系首页带有Tab的页面，加载Tab并且填充页面
-class TreeTabPage extends GetTabPage<TreeTabController> {
+class TreeTabPage extends AppbarPage<TreeTabController> {
   const TreeTabPage({super.key});
 }
 
@@ -58,7 +58,7 @@ class TreeListPage extends GetRefreshPage<TreeController> {
 }
 
 /// 体系详情页，一级Tab页面
-class TreeDetailTabPage extends GetTabPage<TreeDetailTabController> {
+class TreeDetailTabPage extends AppbarPage<TreeDetailTabController> {
   const TreeDetailTabPage({super.key});
 }
 
@@ -77,10 +77,10 @@ class TreeDetailListPage extends GetRefreshPage<TreeDetailListController> {
   }
 
   @override
-  Widget buildPage(BuildContext context) => Scaffold(
-          body: buildObxRefreshListPage<ArticleModel>(
+  Widget buildPage(BuildContext context) =>
+      buildObxRefreshListPage<ArticleModel>(
         padding: const EdgeInsets.all(8),
         separatorBuilder: (item, index) => const SizedBox(height: 3),
         itemBuilder: (item, index) => ArticleItemWidget(item),
-      ));
+      );
 }

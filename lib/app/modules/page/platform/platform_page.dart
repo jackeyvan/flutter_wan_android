@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/tab_page.dart';
+import 'package:flutter_wan_android/app/modules/base/appbar_page.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/widget/article_item_widget.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'platform_controller.dart';
 
 /// 公众号带有Tab页面
-class PlatformTabPage extends GetTabPage<PlatformTabController> {
+class PlatformTabPage extends AppbarPage<PlatformTabController> {
   const PlatformTabPage({super.key});
 }
 

@@ -17,9 +17,8 @@ class RootPage extends BasePage<RootController> {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               // Routes.to(Routes.themeChose);
-              Routes.to(Routes.login);
-
-              // Toast.showToast("我是内容");
+              // Routes.to(Routes.login);
+              Routes.to(Routes.language);
             },
             child: const Icon(Icons.add)),
         drawer: _buildNavigationDrawer(),
