@@ -24,6 +24,29 @@ class User {
     this.username,
   });
 
+  static User? _user;
+
+  /// 获取用户信息
+  static User? getUser() {
+    final value = Storage.read(Keys.userKey);
+    if (value != null) {
+      _user ??= User.fromJson(value);
+    }
+
+    return _user;
+  }
+
+  /// 根据本地信息判断用户是否登录
+  static bool isLogin() {
+    return getUser() != null;
+  }
+
+  /// 清除用户信息
+  static Future<void> clear() {
+    _user = null;
+    return Storage.remove(Keys.userKey);
+  }
+
   User.fromJson(dynamic json) {
     admin = json['admin'];
     if (json['chapterTops'] != null) {
@@ -49,8 +72,12 @@ class User {
     type = json['type'];
     username = json['username'];
 
-    /// 解析User数据时，保存到本地
-    Storage.write(Keys.userKey, this);
+    if (json != null) {
+      _user = this;
+
+      /// 解析User数据时，保存到本地
+      Storage.write(Keys.userKey, _user);
+    }
   }
 
   bool? admin;
@@ -87,5 +114,10 @@ class User {
     map['type'] = type;
     map['username'] = username;
     return map;
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
   }
 }

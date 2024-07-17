@@ -20,7 +20,7 @@ class ArticleItemWidget extends StatelessWidget {
       child: InkWell(
         /// 点击水波纹的圆角
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        onTap: () => Routes.to(Routes.articleDetail, args: articleModel),
+        onTap: () => Routes.toNamed(Routes.articleDetail, args: articleModel),
 
         child: Row(
           children: [

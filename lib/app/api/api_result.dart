@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// 数据模型的封装
 class Result {
   final dynamic data;
@@ -20,6 +22,11 @@ class Result {
     json['errorMsg'] = errorMsg;
     json['errorCode'] = errorCode;
     return json;
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(this);
   }
 
   /// 请求成功

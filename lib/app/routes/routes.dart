@@ -52,7 +52,8 @@ class Routes {
         name: themeChose,
         page: () => const ThemePage(),
         binding: ThemeBinding()),
-    GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
+    GetPage(
+        name: login, page: () => const LoginPage(), binding: LoginBinding()),
     GetPage(
         name: language,
         page: () => const LanguagePage(),
@@ -60,8 +61,12 @@ class Routes {
   ];
 
   /// 封装跳转页面方法
-  static to(String route, {dynamic args, int? id}) {
+  static toNamed(String route, {dynamic args, int? id}) {
     Get.toNamed(route, arguments: args, id: id);
+  }
+
+  static offNamed(String route) {
+    Get.offNamed(route);
   }
 
   /// 页面回退

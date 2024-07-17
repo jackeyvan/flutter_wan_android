@@ -55,7 +55,7 @@ class HomePage extends GetRefreshPage<HomeController> {
                   imageUrl: banner[index].imagePath ?? "",
                   fit: BoxFit.fill,
                 ),
-                onTap: () => Routes.to(Routes.articleDetail,
+                onTap: () => Routes.toNamed(Routes.articleDetail,
                     args: ArticleModel(
                         title: banner[index].title, link: banner[index].url)),
               );

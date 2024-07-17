@@ -43,12 +43,12 @@ class TreeListPage extends GetRefreshPage<TreeController> {
               var tabs = item.items ?? [];
               if (tabs.isNotEmpty) {
                 item.index = index;
-                Routes.to(Routes.treeDetail, args: item);
+                Routes.toNamed(Routes.treeDetail, args: item);
               }
             } else {
               /// 导航跳转到WebView
               if (data.link != null) {
-                Routes.to(Routes.articleDetail,
+                Routes.toNamed(Routes.articleDetail,
                     args: ArticleModel(title: data.name, link: data.link));
               }
             }

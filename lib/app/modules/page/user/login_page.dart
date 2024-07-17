@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
+import 'package:flutter_wan_android/core/page/base/base_page.dart';
 
-class LoginPage extends GetView {
-  LoginPage({super.key});
-
-  final TextEditingController _accountController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
+class LoginPage extends BasePage<LoginController> {
+  const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -19,9 +17,12 @@ class LoginPage extends GetView {
               sliver: SliverAppBar(
                 leading: const BackButton(),
                 pinned: true,
-                expandedHeight: 480,
+                expandedHeight: 240,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Image.asset("assets/images/vector-1.png"),
+                  background: Image.asset(
+                    "assets/images/vector-1.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 forceElevated: innerBoxIsScrolled,
               ),
@@ -41,8 +42,8 @@ class LoginPage extends GetView {
                     Wrap(
                       children: [
                         buildLoginText("登录"),
-                        buildTextField(_accountController, "账号"),
-                        buildTextField(_passController, "密码"),
+                        buildTextField(controller.accountController, "账号"),
+                        buildTextField(controller.passController, "密码"),
                         buildLoginButton("登录"),
                         buildToRegisterText(),
                       ],
@@ -80,18 +81,18 @@ class LoginPage extends GetView {
   /// 登录注册按钮
   buildLoginButton(String text) {
     return Padding(
-        padding: const EdgeInsets.only(top: 18, bottom: 12),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: SizedBox(
-            width: 329,
-            height: 56,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text(text),
-            ),
-          ),
-        ));
+      padding: const EdgeInsets.only(top: 24, bottom: 24),
+      child: SizedBox(
+        height: 56,
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () => controller.toLogin(),
+          child: Text(text,
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        ),
+      ),
+    );
   }
 
   /// 去注册文字
@@ -122,7 +123,9 @@ class LoginPage extends GetView {
 
   /// 登录注册文字大标题
   buildLoginText(String text) {
-    return Text(text,
-        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(text,
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)));
   }
 }

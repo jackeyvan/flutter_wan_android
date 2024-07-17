@@ -11,14 +11,11 @@ class RootPage extends BasePage<RootController> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text("玩安卓"),
-        // ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               // Routes.to(Routes.themeChose);
-              // Routes.to(Routes.login);
-              Routes.to(Routes.language);
+              Routes.toNamed(Routes.login);
+              // Routes.to(Routes.language);
             },
             child: const Icon(Icons.add)),
         drawer: _buildNavigationDrawer(),
@@ -32,10 +29,9 @@ class RootPage extends BasePage<RootController> {
       const BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
       const BottomNavigationBarItem(
           icon: Icon(Icons.propane_outlined), label: "项目"),
+      const BottomNavigationBarItem(icon: Icon(Icons.call_split), label: "体系"),
       const BottomNavigationBarItem(
-          icon: Icon(Icons.add_circle_outline), label: "体系"),
-      const BottomNavigationBarItem(
-          icon: Icon(Icons.ac_unit_outlined), label: "公众号"),
+          icon: Icon(Icons.adjust_outlined), label: "公众号"),
     ];
 
     return BottomNavigationBar(
@@ -49,18 +45,18 @@ class RootPage extends BasePage<RootController> {
   Widget _buildNavigationDrawer() {
     final titles = [
       ListTile(
-        leading: const Icon(Icons.home),
-        title: const Text("首页"),
-        onTap: () => Get.back(),
+        leading: const Icon(Icons.login),
+        title: const Text("登录"),
+        onTap: () => Routes.toNamed(Routes.login),
       ),
       ListTile(
-          leading: Icon(Icons.home),
-          title: Text("主题"),
-          onTap: () => Routes.to(Routes.themeChose)),
+          leading: const Icon(Icons.home),
+          title: const Text("主题"),
+          onTap: () => Routes.toNamed(Routes.themeChose)),
       ListTile(
-          leading: Icon(Icons.home),
-          title: Text("语言"),
-          onTap: () => Routes.to(Routes.language)),
+          leading: const Icon(Icons.home),
+          title: const Text("语言"),
+          onTap: () => Routes.toNamed(Routes.language)),
       const ListTile(leading: Icon(Icons.home), title: Text("首页")),
       const Divider(
         height: 50,

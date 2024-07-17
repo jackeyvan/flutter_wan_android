@@ -84,6 +84,10 @@ class ApiProvider {
       .get<T>(url, params: params)
       .then((response) => _handleResult(response));
 
+  Future<T> post<T>(String url, {Map<String, dynamic>? params}) => _netEngine
+      .post<T>(url, params: params)
+      .then((response) => _handleResult(response));
+
   Future<T> _handleResult<T>(Response<T> response) {
     if (response.statusCode == 200) {
       var result = Result.fromJson(response.data);
@@ -91,8 +95,10 @@ class ApiProvider {
       /// 服务端返回成功
       if (result.isSuccess()) {
         return Future.value(result.data);
+      } else {
+        return Future.error("${result.errorMsg}(${result.errorCode})");
       }
     }
-    return Future.error("请求失败");
+    return Future.error("请求失败(${response.statusCode})");
   }
 }
