@@ -52,27 +52,12 @@ class ApiProvider {
     return this;
   }
 
-  /// 登录接口
-  // Future<User> login(String username, String password, {String? rePassword}) {
-  //   return post(ApiPaths.login,
-  //           params: {"username": username, "password": password})
-  //       .then((value) => User.fromJson(value));
-  // }
-
   // void logout() {
   //   get(ApiPaths.logout).then((value) {
   //     print("-------> logout $value");
   //   });
   // }
   //
-  // /// 注册接口
-  // Future<User> register(String username, String password, String rePassword) {
-  //   return post(ApiPaths.register, params: {
-  //     "username": username,
-  //     "password": password,
-  //     "repassword": rePassword
-  //   }).then((value) => User.fromJson(value));
-  // }
 
   /// 搜索热词
   // Future<List<HotKeysModel>> hotKeyWords() => get(ApiPaths.hotKeywords).then(

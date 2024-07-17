@@ -1,61 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends BasePage<LoginController> {
   const LoginPage({super.key});
 
   @override
   Widget buildPage(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                leading: const BackButton(),
-                pinned: true,
-                expandedHeight: 240,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.asset(
-                    "assets/images/vector-1.png",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                forceElevated: innerBoxIsScrolled,
-              ),
-            ),
-          ];
-        },
-        body: Builder(builder: (BuildContext context) {
-          return Padding(
-            padding: const EdgeInsets.all(48),
-            child: CustomScrollView(
-              slivers: [
-                SliverOverlapInjector(
+    return GetBuilder<LoginController>(
+        builder: (c) => NestedScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context)),
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    Wrap(
-                      children: [
-                        buildLoginText("登录"),
-                        buildTextField(controller.accountController, "账号"),
-                        buildTextField(controller.passController, "密码"),
-                        buildLoginButton("登录"),
-                        buildToRegisterText(),
-                      ],
+                        context),
+                    sliver: SliverAppBar(
+                      leading: const BackButton(),
+                      pinned: true,
+                      expandedHeight: 240,
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Image.asset(
+                          "assets/images/vector-1.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      forceElevated: innerBoxIsScrolled,
                     ),
-                  ]),
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
-    );
+                  ),
+                ];
+              },
+              body: Builder(builder: (BuildContext context) {
+                return Padding(
+                  padding: const EdgeInsets.all(48),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverOverlapInjector(
+                          handle:
+                              NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                  context)),
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          Wrap(
+                            children: [
+                              buildLoginText(controller.loginText),
+
+                              buildTextField(
+                                  controller.accountController, "账号"),
+
+                              buildTextField(controller.passController, "密码"),
+
+                              /// 重复密码
+                              controller.isLoginPage
+                                  ? const SizedBox.shrink()
+                                  : buildTextField(
+                                      controller.rePassController, "重复密码"),
+
+                              /// 登录注册按钮
+                              buildLoginButton(controller.loginText),
+
+                              buildToLoginOrRegisterText(),
+                            ],
+                          ),
+                        ]),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ));
+  }
+
+  /// 登录注册文字大标题
+  buildLoginText(String text) {
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(text,
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)));
   }
 
   /// 输入框
@@ -96,7 +119,7 @@ class LoginPage extends BasePage<LoginController> {
   }
 
   /// 去注册文字
-  buildToRegisterText() {
+  buildToLoginOrRegisterText() {
     return Row(
       children: [
         const Text(
@@ -109,7 +132,7 @@ class LoginPage extends BasePage<LoginController> {
           width: 8,
         ),
         InkWell(
-          onTap: () {},
+          onTap: () => controller.changeToRegisterPage(),
           child: const Text(
             '注册',
             style: TextStyle(
@@ -119,13 +142,5 @@ class LoginPage extends BasePage<LoginController> {
         ),
       ],
     );
-  }
-
-  /// 登录注册文字大标题
-  buildLoginText(String text) {
-    return Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Text(text,
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)));
   }
 }

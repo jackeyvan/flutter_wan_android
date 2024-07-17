@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 /// 封装基类Controller，绑定数据T，可以根据业务情况，展示不同的页面
 class BaseController<T> extends GetxController with StateMixin<T> {
   /// 展示成功页面
+  /// 配合controller.obx使用
   void showSuccessPage() {
     change(value, status: RxStatus.success());
   }
