@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/article/article_detail_controller.dart';
-import 'package:flutter_wan_android/app/modules/page/article/article_detail_page.dart';
-import 'package:flutter_wan_android/app/modules/page/root/root_page.dart';
-import 'package:flutter_wan_android/app/modules/page/settings/language/language_controller.dart';
-import 'package:flutter_wan_android/app/modules/page/settings/language/language_page.dart';
-import 'package:flutter_wan_android/app/modules/page/settings/theme/theme_controller.dart';
-import 'package:flutter_wan_android/app/modules/page/settings/theme/theme_page.dart';
-import 'package:flutter_wan_android/app/modules/page/tree/tree_controller.dart';
-import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
-import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
-import 'package:flutter_wan_android/app/modules/page/user/login_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/article/article_detail_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/article/article_detail_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/root/root_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/settings/language/language_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/settings/language/language_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/settings/theme/theme_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/settings/theme/theme_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/tree/tree_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/user/login_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/user/login_page.dart';
 import 'package:flutter_wan_android/app/test/test_page.dart';
 import 'package:get/get.dart';
 

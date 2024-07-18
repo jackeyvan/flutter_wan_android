@@ -72,6 +72,8 @@ dependencies:
 
   crypto: ^3.0.3
 
+  url_launcher: ^6.3.0
+
 
 
 dev_dependencies:

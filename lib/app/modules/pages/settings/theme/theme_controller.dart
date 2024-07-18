@@ -18,7 +18,9 @@ class ThemeController extends ScaffoldController {
   bool isDarkMode = AppTheme.isDarkMode();
 
   @override
-  String get title => "主题设置";
+  void setTitle() {
+    title = "主题设置";
+  }
 
   void onItemClick(ThemeModel model) {
     if (model.mode != null) {

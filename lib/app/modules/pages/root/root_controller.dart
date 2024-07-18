@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/home/home_page.dart';
-import 'package:flutter_wan_android/app/modules/page/platform/platform_page.dart';
-import 'package:flutter_wan_android/app/modules/page/project/project_page.dart';
-import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/home/home_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/platform/platform_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/project/project_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/tree/tree_page.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 

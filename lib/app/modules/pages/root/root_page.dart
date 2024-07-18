@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/root/drawer_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/root/drawer_page.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';

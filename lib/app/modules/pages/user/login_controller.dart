@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/user/login_provider.dart';
+import 'package:flutter_wan_android/app/modules/pages/user/login_provider.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:flutter_wan_android/core/net/net_error.dart';

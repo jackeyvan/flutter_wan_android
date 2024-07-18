@@ -11,19 +11,22 @@ abstract class ScaffoldPage<C extends ScaffoldController> extends BasePage<C> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
+              actions: buildActions(),
               title: Obx(() => _buildTitle()),
               centerTitle: false,
               pinned: true,
             ),
           ];
         },
-        body: buildObx(builder: () => buildBodyPage()),
+        body: buildBodyPage(),
       );
 
   Widget _buildTitle() {
-    return Text(controller.title ?? "",
+    return Text(controller.title,
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500));
   }
 
   Widget buildBodyPage();
+
+  List<Widget>? buildActions() => null;
 }

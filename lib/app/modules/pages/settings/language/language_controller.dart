@@ -28,7 +28,9 @@ class LanguageController extends ScaffoldController {
   }
 
   @override
-  String get title => Strings.languageSetting.tr;
+  void setTitle() {
+    title = Strings.languageSetting.tr;
+  }
 
   void onItemClick(String item) {
     language.value = item;

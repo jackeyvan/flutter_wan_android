@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/user/login_controller.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';

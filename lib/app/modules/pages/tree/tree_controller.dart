@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
-import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/tree/tree_page.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 import 'package:get/get.dart';
 

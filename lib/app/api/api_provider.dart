@@ -25,9 +25,9 @@ class ApiProvider {
     /// 网络配置
     final options = BaseOptions(
         baseUrl: ApiPaths.baseUrl,
-        connectTimeout: const Duration(seconds: 20),
-        sendTimeout: const Duration(seconds: 20),
-        receiveTimeout: const Duration(seconds: 20));
+        connectTimeout: const Duration(seconds: 1),
+        sendTimeout: const Duration(seconds: 1),
+        receiveTimeout: const Duration(seconds: 1));
 
     var dio = Dio(options);
 
