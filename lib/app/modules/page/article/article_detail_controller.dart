@@ -11,7 +11,7 @@ class ArticleDetailBinding extends Bindings {
 }
 
 class ArticleDetailController extends ScaffoldController {
-  final _webViewController = Get.find<WebViewController>();
+  late WebViewController _webViewController;
 
   final _progress = 0.obs;
 
@@ -21,7 +21,7 @@ class ArticleDetailController extends ScaffoldController {
 
   @override
   void onInit() {
-    _webViewController
+    _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
