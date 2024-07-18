@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/appbar_controller.dart';
+import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
 import 'package:flutter_wan_android/app/modules/page/tree/tree_page.dart';
@@ -15,9 +15,9 @@ class TreeDetailBinding extends Bindings {
   }
 }
 
-class TreeTabController extends AppbarController<String> {
+class TreeTabController extends BaseTabController<String> {
   @override
-  List<Widget> buildTabPages() {
+  List<Widget> buildPages() {
     return tabData.map((e) => keepWidgetAlive(TreeListPage(e))).toList();
   }
 
@@ -29,9 +29,6 @@ class TreeTabController extends AppbarController<String> {
 
   @override
   String get title => "体系";
-
-  @override
-  bool get isShowTab => true;
 }
 
 class TreeController extends GetRefreshListController<TreeModel> {
@@ -50,7 +47,7 @@ class TreeController extends GetRefreshListController<TreeModel> {
   }
 }
 
-class TreeDetailTabController extends AppbarController<TreeModel> {
+class TreeDetailTabController extends BaseTabController<TreeModel> {
   var index = 0;
 
   @override
@@ -72,7 +69,7 @@ class TreeDetailTabController extends AppbarController<TreeModel> {
   }
 
   @override
-  List<Widget> buildTabPages() {
+  List<Widget> buildPages() {
     return tabData
         .map((tab) => keepWidgetAlive(TreeDetailListPage(tab.id)))
         .toList();
@@ -80,9 +77,6 @@ class TreeDetailTabController extends AppbarController<TreeModel> {
 
   @override
   List<Widget> buildTabs() => tabData.map((e) => Tab(text: e.name)).toList();
-
-  @override
-  bool get isShowTab => true;
 }
 
 class TreeDetailListController extends GetRefreshListController<ArticleModel> {

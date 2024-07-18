@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
-import 'build_env.dart';
+import '../init/build_env.dart';
 
-class Log {
+class LogUtils {
   static final _logger = Get.find<Logger>();
 
   /// 常规日志，不跟环境，直接打印

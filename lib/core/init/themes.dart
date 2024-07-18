@@ -101,8 +101,28 @@ class AppTheme {
   }
 
   ///  获取主题颜色模板
-  static ColorScheme getThemeColorScheme() {
+  static ColorScheme getColorScheme() {
     return getTheme().colorScheme;
+  }
+
+  static Color primary() {
+    return getColorScheme().primary;
+  }
+
+  static Color onPrimary() {
+    return getColorScheme().onPrimary;
+  }
+
+  static Color primaryContainer() {
+    return getColorScheme().primaryContainer;
+  }
+
+  static Color secondary() {
+    return getColorScheme().secondary;
+  }
+
+  static Color onSecondary() {
+    return getColorScheme().onSecondary;
   }
 
   static final themes = [

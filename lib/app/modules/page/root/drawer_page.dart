@@ -7,17 +7,15 @@ import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 
 class DrawerPage extends BasePage {
-  const DrawerPage({super.key});
-
   static const _imgHeight = 96.0;
   static const _expandedHeight = 120.0;
+
+  const DrawerPage({super.key});
 
   @override
   Widget buildPage(BuildContext context) {
     final themeData = Theme.of(context);
-    return Drawer(
-        child: SafeArea(
-            child: EasyRefresh(
+    return EasyRefresh(
       header: buildRefreshHeader(themeData),
       onRefresh: () {},
       child: CustomScrollView(
@@ -56,13 +54,18 @@ class DrawerPage extends BasePage {
                     title: const Text('语言'),
                     onTap: () => Routes.toNamed(Routes.language),
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.logout_outlined),
+                    title: const Text('登出'),
+                    onTap: () => Routes.toNamed(Routes.language),
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
-    )));
+    );
   }
 
   BuilderHeader buildRefreshHeader(ThemeData themeData) {
@@ -128,11 +131,7 @@ class DrawerPage extends BasePage {
 
   String getNickname() {
     final user = User.getUser();
-    if (user != null) {
-      return user.nickname ?? "";
-    } else {
-      return "请登录";
-    }
+    return user != null ? user.nickname ?? "" : "请登录";
   }
 }
 

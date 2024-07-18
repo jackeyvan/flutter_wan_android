@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/appbar_page.dart';
+import 'package:flutter_wan_android/app/modules/base/scaffold_page.dart';
 import 'package:flutter_wan_android/app/modules/widget/theme_item_widget.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import 'theme_controller.dart';
 
-class ThemePage extends AppbarPage<ThemeController> {
+class ThemePage extends ScaffoldPage<ThemeController> {
   const ThemePage({super.key});
 
   @override

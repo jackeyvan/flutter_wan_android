@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/base/appbar_page.dart';
+import 'package:flutter_wan_android/app/modules/base/scaffold_page.dart';
 import 'package:get/get.dart';
 
 import 'language_controller.dart';
 
-class LanguagePage extends AppbarPage<LanguageController> {
+class LanguagePage extends ScaffoldPage<LanguageController> {
   const LanguagePage({super.key});
 
   @override

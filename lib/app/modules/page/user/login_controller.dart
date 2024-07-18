@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/page/user/login_provider.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
-import 'package:flutter_wan_android/core/init/toast.dart';
+import 'package:flutter_wan_android/core/net/net_error.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
+import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
 import 'package:get/get.dart';
 
 class LoginBinding extends Bindings {
@@ -32,51 +33,47 @@ class LoginController extends BaseController {
 
   String get loginText => isLoginPage ? "登录" : "注册";
 
+  String get toLoginTips => isLoginPage ? "还没有账号？" : "已经有账号，";
+
+  String get toLoginButtonTips => isLoginPage ? "注册" : "登录";
+
   /// 登录或者注册
   void toLogin() {
     final account = accountController.text;
     final password = passController.text;
 
     if (isNullOrBlank(account) || isNullOrBlank(password)) {
-      Toast.showToast("账号或密码为空");
+      OverlayUtils.showToast("账号或密码为空");
       return;
     }
 
     if (isLoginPage) {
-      showLoadingDialog();
-
-      _provider.login(true, account, password).then((user) {
-        offPage("登录成功");
-      }).catchError((error, stack) {
-        handleError(error);
-      });
+      OverlayUtils.showOverlay(() => _provider.login(true, account, password))
+          .then((value) => offPage("登录成功"))
+          .catchError((error, _) => handleError(error));
     } else {
       final rePassword = rePassController.text;
 
       if (rePassword != password) {
-        Toast.showToast("两次密码不一致");
+        OverlayUtils.showToast("两次密码不一致");
         return;
       }
-      showLoadingDialog();
 
-      _provider
-          .login(false, account, password, rePassword: rePassword)
-          .then((user) {
-        offPage("注册成功");
-      }).catchError((error, stack) {
-        handleError(error);
-      });
+      OverlayUtils.showOverlay(() =>
+              _provider.login(false, account, password, rePassword: rePassword))
+          .then((e) => offPage("注册成功"))
+          .catchError((error, _) => handleError(error));
     }
   }
 
-  void handleError(error) {
+  void handleError(NetError error) {
     dismissLoadingDialog();
-    Toast.showToast(error.toString());
+    OverlayUtils.showToast(error.toString());
   }
 
   void offPage(String text) {
     dismissLoadingDialog();
-    Toast.showToast(text);
+    OverlayUtils.showToast(text);
     Routes.offNamed(Routes.root);
   }
 

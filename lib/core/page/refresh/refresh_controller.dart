@@ -1,6 +1,7 @@
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter_wan_android/core/init/toast.dart';
+import 'package:flutter_wan_android/core/net/net_error.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
+import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
 
 abstract class GetRefreshController<T> extends BaseController {
   EasyRefreshController refreshController = EasyRefreshController(
@@ -26,8 +27,8 @@ abstract class GetRefreshController<T> extends BaseController {
         showEmptyPage();
       }
       refreshController.finishRefresh();
-    }).onError((error, stack) {
-      showErrorPage(msg: error?.toString());
+    }).catchError((error, _) {
+      showErrorPage((error as NetError).origin);
       refreshController.finishRefresh();
     });
   }
@@ -94,12 +95,12 @@ abstract class GetRefreshListController<T>
       /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
       /// 再调用RefreshController的方法才有用，不然会报错。
       refreshController.finishRefresh();
-    }).onError((error, stack) {
+    }).catchError((error, _) {
       /// 如果有数据则提示吐司，如果没有数据则展示错误图
       if (data.isNotEmpty) {
-        Toast.showToast("刷新失败了");
+        OverlayUtils.showToast("刷新失败了");
       } else {
-        showErrorPage(msg: error?.toString());
+        showErrorPage((error as NetError).origin);
       }
     });
   }
@@ -116,7 +117,7 @@ abstract class GetRefreshListController<T>
         /// 更新界面
         showSuccessPage();
       } else {
-        Toast.showToast("没有更多数据了");
+        OverlayUtils.showToast("没有更多数据了");
       }
 
       /// 加载完成
@@ -125,7 +126,7 @@ abstract class GetRefreshListController<T>
       /// 加载失败要 重置页码
       page -= 1;
       refreshController.finishLoad();
-      Toast.showToast(error.toString());
+      OverlayUtils.showToast(error.toString());
     });
   }
 

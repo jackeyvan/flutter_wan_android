@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/page/user/login_controller.dart';
+import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';
 
@@ -53,10 +54,9 @@ class LoginPage extends BasePage<LoginController> {
                               buildTextField(controller.passController, "密码"),
 
                               /// 重复密码
-                              controller.isLoginPage
-                                  ? const SizedBox.shrink()
-                                  : buildTextField(
-                                      controller.rePassController, "重复密码"),
+                              buildTextField(
+                                  controller.rePassController, "重复密码",
+                                  visible: controller.isLoginPage),
 
                               /// 登录注册按钮
                               buildLoginButton(controller.loginText),
@@ -82,23 +82,27 @@ class LoginPage extends BasePage<LoginController> {
   }
 
   /// 输入框
-  buildTextField(TextEditingController controller, String labelText) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 18),
-        child: TextField(
-          controller: controller,
-          textAlign: TextAlign.start,
-          decoration: InputDecoration(
-            labelText: labelText,
-            enabledBorder: const OutlineInputBorder(
+  buildTextField(TextEditingController controller, String labelText,
+      {bool visible = false}) {
+    return Offstage(
+      offstage: visible,
+      child: Padding(
+          padding: const EdgeInsets.only(top: 18),
+          child: TextField(
+            controller: controller,
+            textAlign: TextAlign.start,
+            decoration: InputDecoration(
+              labelText: labelText,
+              enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderSide: BorderSide(width: 1)),
+              focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                borderSide: BorderSide(width: 1)),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              borderSide: BorderSide(width: 1),
+                borderSide: BorderSide(width: 1),
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   /// 登录注册按钮
@@ -122,23 +126,11 @@ class LoginPage extends BasePage<LoginController> {
   buildToLoginOrRegisterText() {
     return Row(
       children: [
-        const Text(
-          '还没有账号?',
-          style: TextStyle(
-            fontSize: 13,
-          ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
+        Text(controller.toLoginTips),
         InkWell(
           onTap: () => controller.changeToRegisterPage(),
-          child: const Text(
-            '注册',
-            style: TextStyle(
-              fontSize: 13,
-            ),
-          ),
+          child: Text(controller.toLoginButtonTips,
+              style: TextStyle(color: AppTheme.primary())),
         ),
       ],
     );

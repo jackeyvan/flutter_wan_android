@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/app/modules/model/article_model.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -11,41 +10,28 @@ class ArticleDetailBinding extends Bindings {
   }
 }
 
-class ArticleDetailController extends GetxController {
-  var title = "默认标题".obs;
+class ArticleDetailController extends ScaffoldController {
+  final _webViewController = Get.find<WebViewController>();
 
-  late WebViewController _webViewController;
+  var progress = 0;
 
-  var progress = 0.obs;
+  get webViewController => _webViewController;
 
   @override
   void onInit() {
-    _webViewController = WebViewController()
+    _webViewController
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            print("---> 加载中，$progress");
-            this.progress.value = progress;
-          },
-          onPageStarted: (String url) {
-            print("---> 开始加载，$url");
-          },
-          onPageFinished: (String url) {
-            print("---> 加载结束，$url");
+            this.progress = progress;
+            showSuccessPage();
           },
           onHttpError: (HttpResponseError error) {
-            print("---> 加载异常，${error.toString()}");
+            showErrorPage(error.toString());
           },
           onWebResourceError: (WebResourceError error) {
-            print("---> 加载异常，${error.description}");
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
+            showErrorPage(error.description);
           },
         ),
       );
@@ -55,14 +41,17 @@ class ArticleDetailController extends GetxController {
 
   @override
   void onReady() {
+    super.onReady();
     var args = Get.arguments;
 
     if (args != null && args is ArticleModel) {
-      title.value = args.title ?? "";
+      title = args.title;
 
       _webViewController.loadRequest(Uri.parse(args.link ?? ""));
+
+      showSuccessPage();
+    } else {
+      showEmptyPage();
     }
   }
-
-  get webViewController => _webViewController;
 }

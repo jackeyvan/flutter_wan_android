@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
-import 'package:flutter_wan_android/core/net/cache_engine.dart';
 import 'package:flutter_wan_android/core/net/net_engine.dart';
+import 'package:flutter_wan_android/core/net/net_error.dart';
 import 'package:get/get.dart' as getx;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -45,9 +45,7 @@ class ApiProvider {
     /// 请求日志打印
     dio.interceptors.add(PrettyDioLogger(request: false, responseBody: false));
 
-    _netEngine = NetEngine(dio,
-        defaultCcacheMode: CacheMode.cacheFirstThenRemote,
-        defaultCacheExpire: const Duration(days: 30));
+    _netEngine = NetEngine(dio);
 
     return this;
   }
@@ -65,13 +63,35 @@ class ApiProvider {
   //         .map((e) => HotKeysModel.fromJson(e))
   //         .toList());
 
-  Future<T> get<T>(String url, {Map<String, dynamic>? params}) => _netEngine
-      .get<T>(url, params: params)
-      .then((response) => _handleResult(response));
+  Future<T> get<T>(
+    String url, {
+    Map<String, dynamic>? params,
+    CacheMode? cacheMode,
+    Duration? cacheExpire,
+  }) =>
+      _netEngine
+          .get<T>(
+            url,
+            params: params,
+            cacheMode: cacheMode,
+            cacheExpire: cacheExpire,
+          )
+          .then((response) => _handleResult(response));
 
-  Future<T> post<T>(String url, {Map<String, dynamic>? params}) => _netEngine
-      .post<T>(url, params: params)
-      .then((response) => _handleResult(response));
+  Future<T> post<T>(
+    String url, {
+    Map<String, dynamic>? params,
+    CacheMode? cacheMode,
+    Duration? cacheExpire,
+  }) =>
+      _netEngine
+          .post<T>(
+            url,
+            params: params,
+            cacheMode: cacheMode,
+            cacheExpire: cacheExpire,
+          )
+          .then((response) => _handleResult(response));
 
   Future<T> _handleResult<T>(Response<T> response) {
     if (response.statusCode == 200) {
@@ -81,9 +101,9 @@ class ApiProvider {
       if (result.isSuccess()) {
         return Future.value(result.data);
       } else {
-        return Future.error("${result.errorMsg}(${result.errorCode})");
+        throw NetError(message: result.errorMsg, code: result.errorCode);
       }
     }
-    return Future.error("请求失败(${response.statusCode})");
+    throw NetError(code: response.statusCode);
   }
 }

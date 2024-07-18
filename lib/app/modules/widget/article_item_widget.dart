@@ -110,7 +110,7 @@ class ArticleItemWidget extends StatelessWidget {
     final tags = articleModel.tags;
     if (tags != null && tags.isNotEmpty) {
       return paddingText(const EdgeInsets.only(right: 12), "${tags[0].name}",
-          style: TextStyle(color: AppTheme.getThemeColorScheme().primary));
+          style: TextStyle(color: AppTheme.getColorScheme().primary));
     }
     return const SizedBox.shrink();
   }

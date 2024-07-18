@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/const/keys.dart';
 import 'package:flutter_wan_android/app/const/lang.dart';
 import 'package:flutter_wan_android/app/const/styles.dart';
-import 'package:flutter_wan_android/app/modules/base/appbar_controller.dart';
+import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,7 @@ class LanguageBinding extends Bindings {
   }
 }
 
-class LanguageController extends AppbarController {
+class LanguageController extends ScaffoldController {
   List<String> languages = [];
   final language = "".obs;
 

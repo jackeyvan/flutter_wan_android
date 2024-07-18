@@ -1,7 +1,7 @@
 import 'package:flutter_wan_android/core/init/build_env.dart';
-import 'package:flutter_wan_android/core/init/log.dart';
 import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
+import 'package:flutter_wan_android/core/utils/log_utils.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
