@@ -13,9 +13,11 @@ class ArticleDetailBinding extends Bindings {
 class ArticleDetailController extends ScaffoldController {
   final _webViewController = Get.find<WebViewController>();
 
-  var progress = 0;
+  final _progress = 0.obs;
 
   get webViewController => _webViewController;
+
+  get progress => _progress.value;
 
   @override
   void onInit() {
@@ -24,8 +26,7 @@ class ArticleDetailController extends ScaffoldController {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            this.progress = progress;
-            showSuccessPage();
+            _progress.value = progress;
           },
           onHttpError: (HttpResponseError error) {
             showErrorPage(error.toString());
@@ -45,11 +46,10 @@ class ArticleDetailController extends ScaffoldController {
     var args = Get.arguments;
 
     if (args != null && args is ArticleModel) {
-      title = args.title;
-
-      _webViewController.loadRequest(Uri.parse(args.link ?? ""));
+      title = args.title ?? "";
 
       showSuccessPage();
+      _webViewController.loadRequest(Uri.parse(args.link ?? ""));
     } else {
       showEmptyPage();
     }

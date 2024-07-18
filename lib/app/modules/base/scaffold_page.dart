@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
+import 'package:get/get.dart';
 
 abstract class ScaffoldPage<C extends ScaffoldController> extends BasePage<C> {
   const ScaffoldPage({super.key});
@@ -10,7 +11,7 @@ abstract class ScaffoldPage<C extends ScaffoldController> extends BasePage<C> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              title: _buildTitle(),
+              title: Obx(() => _buildTitle()),
               centerTitle: false,
               pinned: true,
             ),
@@ -19,7 +20,7 @@ abstract class ScaffoldPage<C extends ScaffoldController> extends BasePage<C> {
         body: buildObx(builder: () => buildBodyPage()),
       );
 
-  Widget? _buildTitle() {
+  Widget _buildTitle() {
     return Text(controller.title ?? "",
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500));
   }
