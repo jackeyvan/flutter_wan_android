@@ -26,9 +26,9 @@ class ApiProvider {
     /// 网络配置
     final options = BaseOptions(
         baseUrl: ApiPaths.baseUrl,
-        connectTimeout: const Duration(seconds: 1),
-        sendTimeout: const Duration(seconds: 1),
-        receiveTimeout: const Duration(seconds: 1));
+        connectTimeout: const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10));
 
     var dio = Dio(options);
 
@@ -45,7 +45,10 @@ class ApiProvider {
     /// dio.transformer = JsonTransformer();
 
     /// 请求日志打印
-    dio.interceptors.add(PrettyDioLogger(request: false, responseBody: false));
+    dio.interceptors.add(PrettyDioLogger(
+      request: false,
+      responseBody: true,
+    ));
 
     _netEngine = NetEngine(dio);
 

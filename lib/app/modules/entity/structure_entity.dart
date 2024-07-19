@@ -5,10 +5,7 @@ import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
 import 'package:flutter_wan_android/generated/json/base/json_field.dart';
 import 'package:flutter_wan_android/generated/json/navigate_entity.g.dart';
 
-export 'package:flutter_wan_android/generated/json/navigate_entity.g.dart';
-
 ///  知识体系和导航的model不一样，需要封装一下
-@JsonSerializable()
 class StructureEntity {
   String? name;
   String? link;
@@ -39,11 +36,6 @@ class StructureEntity {
         ?.map((e) => StructureEntity(name: e.title, link: e.link))
         .toList();
     fromTree = false;
-  }
-
-  @override
-  String toString() {
-    return jsonEncode(this);
   }
 }
 

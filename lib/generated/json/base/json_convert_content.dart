@@ -10,6 +10,7 @@ import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/hot_key_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/score_rank_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
+import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 
@@ -186,12 +187,6 @@ class JsonConvert {
               (Map<String, dynamic> e) => HotKeyEntity.fromJson(e))
           .toList() as M;
     }
-    if (<NavigateEntity>[] is M) {
-      return data
-          .map<NavigateEntity>(
-              (Map<String, dynamic> e) => NavigateEntity.fromJson(e))
-          .toList() as M;
-    }
     if (<ScoreRankListEntity>[] is M) {
       return data
           .map<ScoreRankListEntity>(
@@ -202,6 +197,17 @@ class JsonConvert {
       return data
           .map<ScoreRankEntity>(
               (Map<String, dynamic> e) => ScoreRankEntity.fromJson(e))
+          .toList() as M;
+    }
+    if (<NavigateEntity>[] is M) {
+      return data
+          .map<NavigateEntity>(
+              (Map<String, dynamic> e) => NavigateEntity.fromJson(e))
+          .toList() as M;
+    }
+    if (<User>[] is M) {
+      return data
+          .map<User>((Map<String, dynamic> e) => User.fromJson(e))
           .toList() as M;
     }
 
@@ -231,9 +237,10 @@ class JsonConvertClassCollection {
     (ArticleTabEntity).toString(): ArticleTabEntity.fromJson,
     (BannerEntity).toString(): BannerEntity.fromJson,
     (HotKeyEntity).toString(): HotKeyEntity.fromJson,
-    (NavigateEntity).toString(): NavigateEntity.fromJson,
     (ScoreRankListEntity).toString(): ScoreRankListEntity.fromJson,
     (ScoreRankEntity).toString(): ScoreRankEntity.fromJson,
+    (NavigateEntity).toString(): NavigateEntity.fromJson,
+    (User).toString(): User.fromJson,
   };
 
   bool containsKey(String type) {

@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/model/user_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 

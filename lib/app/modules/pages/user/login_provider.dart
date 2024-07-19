@@ -1,6 +1,6 @@
 import 'package:flutter_wan_android/app/api/api_paths.dart';
 import 'package:flutter_wan_android/app/api/api_provider.dart';
-import 'package:flutter_wan_android/app/modules/model/user_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
 
 abstract class Provider {
@@ -14,20 +14,17 @@ class LoginProvider extends Provider {
   Future<User> login(bool isLogin, String account, String password,
       {String? rePassword}) {
     if (isLogin) {
-      return ApiProvider.to.post(ApiPaths.login,
+      return ApiProvider.to.post<User>(ApiPaths.login,
           cacheMode: CacheMode.remoteOnly,
-          params: {
-            "username": account,
-            "password": password
-          }).then((value) => User.fromJson(value));
+          params: {"username": account, "password": password});
     } else {
-      return ApiProvider.to.post(ApiPaths.register,
+      return ApiProvider.to.post<User>(ApiPaths.register,
           cacheMode: CacheMode.remoteOnly,
           params: {
             "username": account,
             "password": password,
             "repassword": rePassword
-          }).then((value) => User.fromJson(value));
+          });
     }
   }
 }
