@@ -50,18 +50,14 @@ class CacheInterceptor extends Interceptor {
 
     /// 只读取缓存数据，不请求网络数据
     else if (cacheMode == CacheMode.cacheOnly.name) {
-      /// 直接返回缓存
+      /// 无论是否有缓存，都直接返回
       final json = await _readCache(key);
-
-      if (json != null) {
-        handler.resolve(Response(
-          statusCode: 200,
-          data: json,
-          statusMessage: '获取缓存数据成功',
-          requestOptions: RequestOptions(),
-        ));
-      }
-      return;
+      return handler.resolve(Response(
+        statusCode: 200,
+        data: json,
+        statusMessage: json != null ? "获取缓存数据成功" : "获取缓存数据失败",
+        requestOptions: RequestOptions(),
+      ));
     }
 
     /// 继续转发，走正常的请求

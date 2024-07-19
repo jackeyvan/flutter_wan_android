@@ -1,4 +1,4 @@
-import 'package:flutter_wan_android/app/repository/api/wan_android_api.dart';
+import 'package:flutter_wan_android/app/repository/wan_android_api.dart';
 import 'package:flutter_wan_android/core/init/init_service.dart';
 import 'package:get/get.dart';
 

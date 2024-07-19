@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
-import 'package:flutter_wan_android/core/net/net_error.dart';
+import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
 import 'package:get/get.dart';
@@ -64,7 +64,7 @@ class LoginController extends BaseController {
     }
   }
 
-  void handleError(NetError error) {
+  void handleError(ApiError error) {
     dismissLoadingDialog();
     OverlayUtils.showToast(error.toString());
   }

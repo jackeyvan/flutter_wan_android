@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/core/net/net_error.dart';
+import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +23,7 @@ abstract class BaseTabController<T> extends BaseController<List<T>>
         showEmptyPage();
       }
     }).catchError((error, stack) {
-      showErrorPage((error as NetError).origin);
+      showErrorPage((error as ApiError).origin);
     });
   }
 

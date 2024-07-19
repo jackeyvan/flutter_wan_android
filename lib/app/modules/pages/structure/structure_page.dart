@@ -35,6 +35,9 @@ class StructureListPage extends GetRefreshPage<StructureController> {
   Widget buildPage(BuildContext context) =>
       buildObxRefreshListPage<StructureEntity>(
         padding: const EdgeInsets.all(12),
+        separatorBuilder: (item, index) => const SizedBox(
+          height: 12,
+        ),
         itemBuilder: (item, index) => TreeWrap(
           title: item.name,
           items: item.items,

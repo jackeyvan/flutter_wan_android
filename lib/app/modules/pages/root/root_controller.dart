@@ -10,8 +10,7 @@ abstract class IRootProvider {
 class RootProvider extends IRootProvider {
   @override
   Future<User> loadUserinfo() {
-    // TODO: implement loadUserinfo
-    throw UnimplementedError();
+    return Future.value(User());
   }
 }
 

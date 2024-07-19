@@ -3,7 +3,7 @@ import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
-import 'package:flutter_wan_android/app/repository/api/wan_android_api.dart';
+import 'package:flutter_wan_android/app/repository/wan_android_api.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
 import 'package:get/get.dart';
 

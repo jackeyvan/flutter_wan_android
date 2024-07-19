@@ -1,22 +1,42 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
+import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
-import 'package:flutter_wan_android/core/net/net_error.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 enum Method {
   get,
   post,
 }
 
-/// Dio封装管理,网络请求引擎类
-class NetEngine {
-  final Dio dio;
+abstract class BaseApi {
+  late Dio _dio;
 
-  NetEngine(this.dio);
+  BaseApi() {
+    BaseOptions options = BaseOptions();
 
-  /// 异步请求，同Dio请求方法
-  Future<Response<T>> get<T>(
+    options.connectTimeout = const Duration(seconds: 10);
+    options.receiveTimeout = const Duration(seconds: 10);
+    options.sendTimeout = const Duration(seconds: 10);
+
+    _dio = Dio(options);
+
+    /// 请求日志打印
+    _dio.interceptors.add(PrettyDioLogger(
+      request: false,
+      responseBody: true,
+    ));
+
+    init(_dio);
+  }
+
+  /// 初始化
+  void init(Dio dio);
+
+  /// Json转换
+  T convert<T>(Response response);
+
+  /// 异步请求，同步Dio请求方法
+  Future<T> get<T>(
     String url, {
     Options? options,
     Map<String, dynamic>? params,
@@ -31,7 +51,7 @@ class NetEngine {
           cacheMode: cacheMode,
           cacheExpire: cacheExpire);
 
-  Future<Response<T>> post<T>(
+  Future<T> post<T>(
     String url, {
     Options? options,
     Map<String, dynamic>? params,
@@ -47,7 +67,7 @@ class NetEngine {
           cacheExpire: cacheExpire);
 
   /// 底层封装的Dio请求
-  Future<Response<T>> _request<T>({
+  Future<T> _request<T>({
     required String url,
     required Method method,
     Map<String, dynamic>? params,
@@ -64,17 +84,22 @@ class NetEngine {
       options.extra?.addAll({"cacheExpire": cacheExpire.inMilliseconds});
     }
 
+    Future<Response> future;
+
     if (method == Method.get) {
-      return dio
-          .get<T>(url, queryParameters: params, options: options)
-          .onError((error, _) => throw NetError(origin: error.toString()));
+      future = _dio.get(url, queryParameters: params, options: options);
     } else {
-      return dio
-          .post<T>(url,
-              data: FormData.fromMap(params ?? <String, dynamic>{}),
-              options: options)
-          .onError((error, _) => throw NetError(origin: error.toString()));
+      future = _dio.post(url,
+          data: FormData.fromMap(params ?? <String, dynamic>{}),
+          options: options);
     }
+    return future
+
+        /// 数据转换
+        .then((response) => convert<T>(response))
+
+        /// 统一错误
+        .onError((error, _) => throw ApiError(origin: error.toString()));
   }
 
   /// Dio 网络下载
@@ -85,7 +110,7 @@ class NetEngine {
     void Function(bool success, String path)? callback,
   }) async {
     try {
-      dio.download(url, savePath, onReceiveProgress: receive);
+      _dio.download(url, savePath, onReceiveProgress: receive);
 
       /// 下载成功
       callback?.call(true, savePath);
@@ -94,4 +119,13 @@ class NetEngine {
       callback?.call(false, savePath);
     }
   }
+}
+
+/// 顶层返回的Result
+abstract class BaseResponse {
+  int? code;
+  String? msg;
+  dynamic data;
+
+  bool get success;
 }

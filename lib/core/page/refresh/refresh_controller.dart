@@ -1,5 +1,5 @@
 import 'package:easy_refresh/easy_refresh.dart';
-import 'package:flutter_wan_android/core/net/net_error.dart';
+import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
 
@@ -28,7 +28,7 @@ abstract class GetRefreshController<T> extends BaseController {
       }
       refreshController.finishRefresh();
     }).catchError((error, _) {
-      showErrorPage((error as NetError).origin);
+      showErrorPage((error as ApiError).origin);
       refreshController.finishRefresh();
     });
   }
@@ -100,7 +100,7 @@ abstract class GetRefreshListController<T>
       if (data.isNotEmpty) {
         OverlayUtils.showToast("刷新失败了");
       } else {
-        showErrorPage((error as NetError).origin);
+        showErrorPage((error as ApiError).origin);
       }
     });
   }

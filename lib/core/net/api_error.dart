@@ -1,4 +1,4 @@
-class NetError implements Exception {
+class ApiError implements Exception {
   String? message;
   final int? code;
 
@@ -8,7 +8,7 @@ class NetError implements Exception {
   /// 获取原始错误信息
   final String? origin;
 
-  NetError({
+  ApiError({
     this.message,
     this.code,
     this.origin,
