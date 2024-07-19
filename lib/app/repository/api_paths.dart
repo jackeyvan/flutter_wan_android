@@ -67,4 +67,7 @@ class ApiPaths {
 
   /// 导航  navi/json
   static const String naviList = "navi/json";
+
+  /// 用户信息
+  static const String userinfo = "user/lg/userinfo/json";
 }

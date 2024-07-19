@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/pages/home/home_page.dart';
-import 'package:flutter_wan_android/app/modules/pages/platform/platform_page.dart';
-import 'package:flutter_wan_android/app/modules/pages/project/project_page.dart';
-import 'package:flutter_wan_android/app/modules/pages/structure/structure_page.dart';
+import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:get/get.dart';
 
+abstract class IRootProvider {
+  Future<User> loadUserinfo();
+}
+
+class RootProvider extends IRootProvider {
+  @override
+  Future<User> loadUserinfo() {
+    // TODO: implement loadUserinfo
+    throw UnimplementedError();
+  }
+}
+
 class RootController extends BaseController {
+  final _provider = RootProvider();
+
   final _currentBottomIndex = 0.obs;
 
   final pageController = PageController();
@@ -19,7 +30,7 @@ class RootController extends BaseController {
 
   int get currentBottomIndex => _currentBottomIndex.value;
 
-  onPageChange(int index) {
+  void onPageChange(int index) {
     /// 更新索引和页面
     if (index != currentBottomIndex) {
       currentBottomIndex = index;
@@ -31,17 +42,13 @@ class RootController extends BaseController {
     }
   }
 
-  /// 与底部Bottom绑定的页面
-  Widget buildBody() {
-    return PageView(
-      controller: pageController,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        keepWidgetAlive(const HomePage()),
-        keepWidgetAlive(const ProjectTabPage()),
-        keepWidgetAlive(const StructureTabPage()),
-        keepWidgetAlive(const PlatformTabPage()),
-      ],
-    );
+  @override
+  void onReady() {
+    loadUserinfo();
+    super.onReady();
+  }
+
+  loadUserinfo() {
+    _provider.loadUserinfo().then((user) {});
   }
 }

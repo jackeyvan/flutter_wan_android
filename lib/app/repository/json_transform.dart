@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_wan_android/app/api/api_result.dart';
+import 'package:flutter_wan_android/app/repository/api_result.dart';
 import 'package:flutter_wan_android/core/net/net_error.dart';
 import 'package:flutter_wan_android/generated/json/base/json_convert_content.dart';
 

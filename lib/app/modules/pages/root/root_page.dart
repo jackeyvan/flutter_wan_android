@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/modules/pages/home/home_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/platform/platform_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/project/project_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/root/drawer_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/structure/structure_page.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';
@@ -14,14 +18,12 @@ class RootPage extends BasePage<RootController> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-              // Routes.to(Routes.themeChose);
               Routes.toNamed(Routes.login);
-              // Routes.to(Routes.language);
             },
             child: const Icon(Icons.add)),
         drawer: const Drawer(child: DrawerPage()),
         bottomNavigationBar: Obx(() => _buildBottomNavigationBar()),
-        body: controller.buildBody());
+        body: buildBody());
   }
 
   /// 生成底部Bar
@@ -40,5 +42,19 @@ class RootPage extends BasePage<RootController> {
         items: items,
         onTap: (index) => controller.onPageChange(index),
         currentIndex: controller.currentBottomIndex);
+  }
+
+  buildBody() {
+    return PageView(
+      controller: controller.pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        keepWidgetAlive(const HomePage()),
+        keepWidgetAlive(const ProjectTabPage()),
+        keepWidgetAlive(const StructureTabPage()),
+        keepWidgetAlive(const PlatformTabPage()),
+      ],
+    );
+    ;
   }
 }

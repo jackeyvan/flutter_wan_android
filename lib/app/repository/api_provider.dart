@@ -1,4 +1,6 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
 import 'package:flutter_wan_android/core/net/net_engine.dart';
 import 'package:flutter_wan_android/core/net/net_error.dart';
@@ -49,6 +51,9 @@ class ApiProvider {
       request: false,
       responseBody: true,
     ));
+
+    /// Cookie持久化
+    dio.interceptors.add(CookieManager(PersistCookieJar()));
 
     _netEngine = NetEngine(dio);
 

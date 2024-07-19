@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
+import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
-import 'package:get/get.dart';
 
 import 'platform_page.dart';
-import 'platform_provider.dart';
 
 class PlatformTabController extends BaseTabController<ArticleTabEntity> {
   @override
@@ -15,7 +14,7 @@ class PlatformTabController extends BaseTabController<ArticleTabEntity> {
 
   @override
   Future<List<ArticleTabEntity>> loadTabs() =>
-      Get.find<PlatformProvider>().platformTab();
+      WanAndroidRepository.platformTab();
 
   @override
   List<Widget> buildTabs() =>
@@ -32,8 +31,7 @@ class PlatformController extends GetRefreshListController<ArticleEntity> {
 
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
-    return Get.find<PlatformProvider>()
-        .platformList(id ?? 0, page)
+    return WanAndroidRepository.platformList(id ?? 0, page)
         .then((e) => e.datas ?? []);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/pages/user/login_provider.dart';
+import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:flutter_wan_android/core/net/net_error.dart';
@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 class LoginBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => LoginProvider());
     Get.lazyPut(() => LoginController());
   }
 }
@@ -18,8 +17,6 @@ class LoginBinding extends Bindings {
 class LoginController extends BaseController {
   /// 默认是登录页面
   final _isLoginPage = true.obs;
-
-  final _provider = Get.find<LoginProvider>();
 
   bool get isLoginPage => _isLoginPage.value;
 
@@ -48,7 +45,8 @@ class LoginController extends BaseController {
     }
 
     if (isLoginPage) {
-      OverlayUtils.showOverlay(() => _provider.login(true, account, password))
+      OverlayUtils.showOverlay(
+              () => WanAndroidRepository.login(true, account, password))
           .then((value) => offPage("登录成功"))
           .catchError((error, _) => handleError(error));
     } else {
@@ -59,8 +57,8 @@ class LoginController extends BaseController {
         return;
       }
 
-      OverlayUtils.showOverlay(() =>
-              _provider.login(false, account, password, rePassword: rePassword))
+      OverlayUtils.showOverlay(() => WanAndroidRepository.login(
+              false, account, password, rePassword: rePassword))
           .then((e) => offPage("注册成功"))
           .catchError((error, _) => handleError(error));
     }
@@ -74,7 +72,7 @@ class LoginController extends BaseController {
   void offPage(String text) {
     dismissLoadingDialog();
     OverlayUtils.showToast(text);
-    Routes.offNamed(Routes.root);
+    Routes.back();
   }
 
   changeToRegisterPage() {

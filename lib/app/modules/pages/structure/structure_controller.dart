@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
+import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 import 'package:get/get.dart';
 
 import 'structure_page.dart';
-import 'structure_provider.dart';
 
 class StructureDetailBinding extends Bindings {
   @override
@@ -38,11 +38,10 @@ class StructureController extends GetRefreshListController<StructureEntity> {
 
   @override
   Future<List<StructureEntity>> loadListData(int page, bool isRefresh) {
-    final provider = Get.find<StructureProvider>();
     if (fromTree) {
-      return provider.treeTabs();
+      return WanAndroidRepository.treeTabs();
     } else {
-      return provider.naviTabs();
+      return WanAndroidRepository.naviTabs();
     }
   }
 }
@@ -87,8 +86,7 @@ class StructureDetailListController
 
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
-    return Get.find<StructureProvider>()
-        .treeList(page, id ?? 0)
+    return WanAndroidRepository.treeList(page, id ?? 0)
         .then((e) => e.datas ?? []);
   }
 }

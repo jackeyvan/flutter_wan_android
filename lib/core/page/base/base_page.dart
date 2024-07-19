@@ -45,4 +45,7 @@ abstract class BasePage<C extends BaseController> extends GetView<C> {
   /// 默认的错误展示页面
   Widget buildErrorPage(String? error) =>
       ErrorPage(msg: error, onRetry: controller.retryLoading);
+
+  /// 组件保活
+  Widget keepWidgetAlive(Widget child) => controller.keepWidgetAlive(child);
 }

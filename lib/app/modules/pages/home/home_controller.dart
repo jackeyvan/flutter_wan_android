@@ -1,20 +1,16 @@
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
+import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
-import 'package:get/get.dart';
-
-import 'home_provider.dart';
 
 class HomeController extends GetRefreshListController<ArticleEntity> {
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
-    final provider = Get.find<HomeProvider>();
-
     if (isRefresh) {
       return Future.wait([
-        provider.banner(),
-        provider.topArticle(),
-        provider.homePageArticle(page)
+        WanAndroidRepository.banner(),
+        WanAndroidRepository.topArticle(),
+        WanAndroidRepository.homePageArticle(page)
       ]).then((result) {
         var data = <ArticleEntity>[];
 
@@ -40,7 +36,8 @@ class HomeController extends GetRefreshListController<ArticleEntity> {
         return data;
       });
     } else {
-      return provider.homePageArticle(page).then((e) => Future.value(e.datas));
+      return WanAndroidRepository.homePageArticle(page)
+          .then((e) => Future.value(e.datas));
     }
   }
 }
