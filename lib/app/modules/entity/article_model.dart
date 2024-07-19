@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/banner_model.dart';
 
 ArticleListModel fromJson(String str) =>
     ArticleListModel.fromJson(json.decode(str));

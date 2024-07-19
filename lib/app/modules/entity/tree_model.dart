@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
-import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
+import 'article_model.dart';
+import 'article_tab_model.dart';
 
 ///  知识体系和导航的model不一样，需要封装一下
 class TreeModel {
