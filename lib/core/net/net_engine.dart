@@ -23,7 +23,7 @@ class NetEngine {
     CacheMode? cacheMode,
     Duration? cacheExpire,
   }) =>
-      _request(
+      _request<T>(
           url: url,
           method: Method.get,
           params: params,
@@ -38,7 +38,7 @@ class NetEngine {
     CacheMode? cacheMode,
     Duration? cacheExpire,
   }) =>
-      _request(
+      _request<T>(
           url: url,
           method: Method.post,
           params: params,

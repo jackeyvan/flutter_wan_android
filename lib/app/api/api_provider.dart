@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
 import 'package:flutter_wan_android/core/net/net_engine.dart';
 import 'package:flutter_wan_android/core/net/net_error.dart';
+import 'package:flutter_wan_android/generated/json/base/json_convert_content.dart';
 import 'package:get/get.dart' as getx;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -38,9 +39,10 @@ class ApiProvider {
         defaultExpireTime: const Duration(days: 30)));
 
     /// 数据解析，默认将text解析成T
-    /// 由于官方的transformer只能解析第一层数据，不能解析第二层的Json
-    /// 所以需要自己去单独解析
-    // dio.transformer = JsonTransformer();
+    /// 1、官方的transformer只能解析第一层数据，不能解析第二层的Json
+    /// 2、加入缓存后，如果请求错误后使用缓存，走不到这里的解析逻辑
+    /// 综合以上两点，只能弃用这个方法
+    /// dio.transformer = JsonTransformer();
 
     /// 请求日志打印
     dio.interceptors.add(PrettyDioLogger(request: false, responseBody: false));
@@ -70,7 +72,7 @@ class ApiProvider {
     Duration? cacheExpire,
   }) =>
       _netEngine
-          .get<T>(
+          .get(
             url,
             params: params,
             cacheMode: cacheMode,
@@ -85,7 +87,7 @@ class ApiProvider {
     Duration? cacheExpire,
   }) =>
       _netEngine
-          .post<T>(
+          .post(
             url,
             params: params,
             cacheMode: cacheMode,
@@ -93,13 +95,18 @@ class ApiProvider {
           )
           .then((response) => _handleResult(response));
 
-  Future<T> _handleResult<T>(Response<T> response) {
+  Future<T> _handleResult<T>(Response response) {
     if (response.statusCode == 200) {
       var result = Result.fromJson(response.data);
 
       /// 服务端返回成功
       if (result.isSuccess()) {
-        return Future.value(result.data);
+        try {
+          return Future.value(JsonConvert.fromJsonAsT<T>(result.data));
+        } catch (error) {
+          throw NetError(
+              message: NetError.parseError, origin: error.toString());
+        }
       } else {
         throw NetError(message: result.errorMsg, code: result.errorCode);
       }

@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 
 class ArticleItemWidget extends StatelessWidget {
-  final ArticleModel articleModel;
+  final ArticleEntity articleEntity;
 
-  const ArticleItemWidget(this.articleModel, {super.key});
+  const ArticleItemWidget(this.articleEntity, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ArticleItemWidget extends StatelessWidget {
       child: InkWell(
         /// 点击水波纹的圆角
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        onTap: () => Routes.toNamed(Routes.articleDetail, args: articleModel),
+        onTap: () => Routes.toNamed(Routes.articleDetail, args: articleEntity),
 
         child: Row(
           children: [
@@ -67,7 +67,7 @@ class ArticleItemWidget extends StatelessWidget {
 
   /// 左侧图片
   Widget buildImage() {
-    final imgUrl = articleModel.envelopePic;
+    final imgUrl = articleEntity.envelopePic;
 
     if (isNotNullOrBlank(imgUrl)) {
       return CachedNetworkImage(
@@ -83,7 +83,7 @@ class ArticleItemWidget extends StatelessWidget {
   /// 标题
   buildTitleText() {
     return paddingText(
-        const EdgeInsets.only(bottom: 8), "${articleModel.title}",
+        const EdgeInsets.only(bottom: 8), "${articleEntity.title}",
         style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -93,11 +93,11 @@ class ArticleItemWidget extends StatelessWidget {
 
   /// 描述
   buildDescText() {
-    final desc = articleModel.desc;
+    final desc = articleEntity.desc;
 
     if (isNotNullOrBlank(desc)) {
       return paddingText(
-          const EdgeInsets.only(bottom: 12), "${articleModel.desc}",
+          const EdgeInsets.only(bottom: 12), "${articleEntity.desc}",
           style: const TextStyle(
               overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w500),
           maxLines: 5);
@@ -107,7 +107,7 @@ class ArticleItemWidget extends StatelessWidget {
 
   ///  标签
   Widget buildTagText() {
-    final tags = articleModel.tags;
+    final tags = articleEntity.tags;
     if (tags != null && tags.isNotEmpty) {
       return paddingText(const EdgeInsets.only(right: 12), "${tags[0].name}",
           style: TextStyle(color: AppTheme.getColorScheme().primary));
@@ -117,12 +117,12 @@ class ArticleItemWidget extends StatelessWidget {
 
   ///  作者
   Widget buildAuthorText() {
-    if (isNotNullOrBlank(articleModel.author)) {
+    if (isNotNullOrBlank(articleEntity.author)) {
       return paddingText(
-          const EdgeInsets.only(right: 12), "${articleModel.author}");
-    } else if (isNotNullOrBlank(articleModel.shareUser)) {
+          const EdgeInsets.only(right: 12), "${articleEntity.author}");
+    } else if (isNotNullOrBlank(articleEntity.shareUser)) {
       return paddingText(
-          const EdgeInsets.only(right: 12), "${articleModel.shareUser}");
+          const EdgeInsets.only(right: 12), "${articleEntity.shareUser}");
     }
 
     return const SizedBox.shrink();
@@ -130,17 +130,17 @@ class ArticleItemWidget extends StatelessWidget {
 
   /// 分类
   buildChapterText() {
-    if (isNotNullOrBlank(articleModel.superChapterName) &&
-        isNotNullOrBlank(articleModel.chapterName)) {
+    if (isNotNullOrBlank(articleEntity.superChapterName) &&
+        isNotNullOrBlank(articleEntity.chapterName)) {
       return paddingText(const EdgeInsets.only(right: 12),
-          "${articleModel.superChapterName} / ${articleModel.chapterName}");
+          "${articleEntity.superChapterName} / ${articleEntity.chapterName}");
     }
     return const SizedBox.shrink();
   }
 
   /// 发布时间
   buildTimeText() {
-    final date = articleModel.niceShareDate;
+    final date = articleEntity.niceShareDate;
     if (isNotNullOrBlank(date)) {
       return paddingText(const EdgeInsets.only(left: 12), date!.split(" ")[0]);
     }

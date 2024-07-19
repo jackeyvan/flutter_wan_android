@@ -1,36 +1,29 @@
 import 'package:flutter_wan_android/app/api/api_paths.dart';
 import 'package:flutter_wan_android/app/api/api_provider.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
-import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
+import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 
 abstract class IHomeProvider {
-  Future<List<BannerModel>> banner();
+  Future<List<BannerEntity>> banner();
 
-  Future<List<ArticleModel>> topArticle();
+  Future<List<ArticleEntity>> topArticle();
 
-  Future<ArticleListModel> homePageArticle(int page);
+  Future<ArticleListEntity> homePageArticle(int page);
 }
 
 class HomeProvider extends IHomeProvider {
   /// Banner数据
   @override
-  Future<List<BannerModel>> banner() => ApiProvider.to
-      .get(ApiPaths.banner)
-      .then((value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => BannerModel.fromJson(e))
-          .toList());
+  Future<List<BannerEntity>> banner() =>
+      ApiProvider.to.get<List<BannerEntity>>(ApiPaths.banner);
 
   /// 首页文章
   @override
-  Future<ArticleListModel> homePageArticle(int page) => ApiProvider.to
-      .get("${ApiPaths.articleList}$page/json")
-      .then((value) => ArticleListModel.fromJson(value));
+  Future<ArticleListEntity> homePageArticle(int page) => ApiProvider.to
+      .get<ArticleListEntity>("${ApiPaths.articleList}$page/json");
 
   ///  置顶文章
   @override
-  Future<List<ArticleModel>> topArticle() => ApiProvider.to
-      .get(ApiPaths.topArticle)
-      .then((value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => ArticleModel.fromJson(e))
-          .toList());
+  Future<List<ArticleEntity>> topArticle() =>
+      ApiProvider.to.get<List<ArticleEntity>>(ApiPaths.topArticle);
 }

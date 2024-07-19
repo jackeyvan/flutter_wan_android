@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
-import 'package:flutter_wan_android/app/modules/model/banner_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
+import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/app/modules/widget/article_item_widget.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
@@ -27,7 +27,7 @@ class HomePage extends GetRefreshPage<HomeController> {
           ),
         ];
       },
-      body: buildObxRefreshListPage<ArticleModel>(
+      body: buildObxRefreshListPage<ArticleEntity>(
         padding: const EdgeInsets.all(6),
         separatorBuilder: (item, index) => const SizedBox(height: 3),
         itemBuilder: (item, index) {
@@ -43,7 +43,7 @@ class HomePage extends GetRefreshPage<HomeController> {
     );
   }
 
-  Widget buildBanner(List<BannerModel> banner) => SizedBox(
+  Widget buildBanner(List<BannerEntity> banner) => SizedBox(
         height: 240,
         child: Card(
           shape: const RoundedRectangleBorder(
@@ -56,7 +56,7 @@ class HomePage extends GetRefreshPage<HomeController> {
                   fit: BoxFit.fill,
                 ),
                 onTap: () => Routes.toNamed(Routes.articleDetail,
-                    args: ArticleModel(
+                    args: ArticleEntity(
                         title: banner[index].title, link: banner[index].url)),
               );
             },

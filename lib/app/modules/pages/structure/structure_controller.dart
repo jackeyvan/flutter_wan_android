@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
-import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
-import 'package:flutter_wan_android/app/modules/pages/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
+import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 import 'package:get/get.dart';
 
-import 'tree_provider.dart';
+import 'structure_page.dart';
+import 'structure_provider.dart';
 
-class TreeDetailBinding extends Bindings {
+class StructureDetailBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => TreeDetailTabController());
+    Get.lazyPut(() => StructureDetailTabController());
   }
 }
 
-class TreeTabController extends BaseTabController<String> {
+class StructureTabController extends BaseTabController<String> {
   @override
   List<Widget> buildPages() {
-    return tabData.map((e) => keepWidgetAlive(TreeListPage(e))).toList();
+    return tabData.map((e) => keepWidgetAlive(StructureListPage(e))).toList();
   }
 
   @override
@@ -31,14 +31,14 @@ class TreeTabController extends BaseTabController<String> {
   String get title => "体系";
 }
 
-class TreeController extends GetRefreshListController<TreeModel> {
+class StructureController extends GetRefreshListController<StructureEntity> {
   final bool fromTree;
 
-  TreeController(this.fromTree);
+  StructureController(this.fromTree);
 
   @override
-  Future<List<TreeModel>> loadListData(int page, bool isRefresh) {
-    final provider = Get.find<TreeProvider>();
+  Future<List<StructureEntity>> loadListData(int page, bool isRefresh) {
+    final provider = Get.find<StructureProvider>();
     if (fromTree) {
       return provider.treeTabs();
     } else {
@@ -47,7 +47,7 @@ class TreeController extends GetRefreshListController<TreeModel> {
   }
 }
 
-class TreeDetailTabController extends BaseTabController<TreeModel> {
+class StructureDetailTabController extends BaseTabController<StructureEntity> {
   var index = 0;
 
   @override
@@ -58,9 +58,9 @@ class TreeDetailTabController extends BaseTabController<TreeModel> {
   }
 
   @override
-  Future<List<TreeModel>> loadTabs() {
+  Future<List<StructureEntity>> loadTabs() {
     var args = Get.arguments;
-    if (args is TreeModel) {
+    if (args is StructureEntity) {
       title = args.name;
       index = args.index;
       return Future.value(args.items);
@@ -71,7 +71,7 @@ class TreeDetailTabController extends BaseTabController<TreeModel> {
   @override
   List<Widget> buildPages() {
     return tabData
-        .map((tab) => keepWidgetAlive(TreeDetailListPage(tab.id)))
+        .map((tab) => keepWidgetAlive(StructureDetailListPage(tab.id)))
         .toList();
   }
 
@@ -79,14 +79,15 @@ class TreeDetailTabController extends BaseTabController<TreeModel> {
   List<Widget> buildTabs() => tabData.map((e) => Tab(text: e.name)).toList();
 }
 
-class TreeDetailListController extends GetRefreshListController<ArticleModel> {
+class StructureDetailListController
+    extends GetRefreshListController<ArticleEntity> {
   final int? id;
 
-  TreeDetailListController({required this.id});
+  StructureDetailListController({required this.id});
 
   @override
-  Future<List<ArticleModel>> loadListData(int page, bool isRefresh) {
-    return Get.find<TreeProvider>()
+  Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
+    return Get.find<StructureProvider>()
         .treeList(page, id ?? 0)
         .then((e) => e.datas ?? []);
   }

@@ -2,7 +2,8 @@ class NetError implements Exception {
   String? message;
   final int? code;
 
-  final String defaultError = "请求失败";
+  static String defaultError = "请求失败";
+  static String parseError = "数据解析异常";
 
   /// 获取原始错误信息
   final String? origin;

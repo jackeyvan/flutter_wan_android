@@ -5,8 +5,8 @@ import 'package:flutter_wan_android/app/modules/pages/platform/platform_provider
 import 'package:flutter_wan_android/app/modules/pages/project/project_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/project/project_provider.dart';
 import 'package:flutter_wan_android/app/modules/pages/root/root_controller.dart';
-import 'package:flutter_wan_android/app/modules/pages/tree/tree_controller.dart';
-import 'package:flutter_wan_android/app/modules/pages/tree/tree_provider.dart';
+import 'package:flutter_wan_android/app/modules/pages/structure/structure_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/structure/structure_provider.dart';
 import 'package:get/get.dart';
 
 /// 初始化的Binding
@@ -27,8 +27,8 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => ProjectTabController());
 
     /// 体系页面
-    Get.lazyPut(() => TreeProvider());
-    Get.lazyPut(() => TreeTabController());
+    Get.lazyPut(() => StructureProvider());
+    Get.lazyPut(() => StructureTabController());
 
     /// 公众号页面
     Get.lazyPut(() => PlatformProvider());

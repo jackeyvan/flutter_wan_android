@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_wan_android/generated/json/base/json_field.dart';
+import 'package:flutter_wan_android/generated/json/score_rank_entity.g.dart';
+
+export 'package:flutter_wan_android/generated/json/score_rank_entity.g.dart';
 
 @JsonSerializable()
 class ScoreRankListEntity {
@@ -15,9 +18,9 @@ class ScoreRankListEntity {
   ScoreRankListEntity();
 
   factory ScoreRankListEntity.fromJson(Map<String, dynamic> json) =>
-      $ScoreRankModelEntityFromJson(json);
+      $ScoreRankListEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => $ScoreRankModelEntityToJson(this);
+  Map<String, dynamic> toJson() => $ScoreRankListEntityToJson(this);
 
   @override
   String toString() {
@@ -37,9 +40,9 @@ class ScoreRankEntity {
   ScoreRankEntity();
 
   factory ScoreRankEntity.fromJson(Map<String, dynamic> json) =>
-      $ScoreRankModelDatasFromJson(json);
+      $ScoreRankEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => $ScoreRankModelDatasToJson(this);
+  Map<String, dynamic> toJson() => $ScoreRankEntityToJson(this);
 
   @override
   String toString() {

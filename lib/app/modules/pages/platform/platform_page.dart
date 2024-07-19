@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_page.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/widget/article_item_widget.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_page.dart';
 import 'package:get/get.dart';
@@ -28,7 +28,7 @@ class PlatformPage extends GetRefreshPage<PlatformController> {
 
   @override
   Widget buildPage(BuildContext context) =>
-      buildObxRefreshListPage<ArticleModel>(
+      buildObxRefreshListPage<ArticleEntity>(
         padding: const EdgeInsets.all(8),
         separatorBuilder: (item, index) => const SizedBox(height: 3),
         itemBuilder: (item, index) => ArticleItemWidget(item),

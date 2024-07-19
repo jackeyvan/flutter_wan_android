@@ -1,5 +1,5 @@
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -11,7 +11,7 @@ class ArticleDetailBinding extends Bindings {
   }
 }
 
-class ArticleDetailController extends ScaffoldController<ArticleModel> {
+class ArticleDetailController extends ScaffoldController<ArticleEntity> {
   late WebViewController _webViewController;
 
   final _progress = 0.obs;
@@ -46,7 +46,7 @@ class ArticleDetailController extends ScaffoldController<ArticleModel> {
     super.onReady();
     var args = Get.arguments;
 
-    if (args != null && args is ArticleModel) {
+    if (args != null && args is ArticleEntity) {
       title = args.title ?? "";
       data = args;
 

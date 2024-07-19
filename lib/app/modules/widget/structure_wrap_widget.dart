@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/modules/model/tree_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 
 /// 自定义体系和导航的Item组件
 class TreeWrap extends StatelessWidget {
   final String? title;
 
-  final List<TreeModel>? items;
-  final Function(TreeModel item, int index)? onItemTrap;
+  final List<StructureEntity>? items;
+  final Function(StructureEntity item, int index)? onItemTrap;
 
   const TreeWrap(
       {super.key, required this.title, required this.items, this.onItemTrap});
@@ -36,7 +36,7 @@ class TreeWrap extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
-  buildItems(List<TreeModel> data) {
+  buildItems(List<StructureEntity> data) {
     return data
         .map(
           (e) => OutlinedButton(

@@ -11,9 +11,9 @@ class ErrorPage extends StatelessWidget {
     var error = msg ?? "发生错误啦，请重试";
     return Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text(error),
+      Text(error, textAlign: TextAlign.center),
       onRetry == null
-          ? Container()
+          ? const SizedBox.shrink()
           : Column(children: [
               const SizedBox(height: 36),
               ElevatedButton(

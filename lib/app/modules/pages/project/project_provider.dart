@@ -1,24 +1,21 @@
 import 'package:flutter_wan_android/app/api/api_paths.dart';
 import 'package:flutter_wan_android/app/api/api_provider.dart';
-import 'package:flutter_wan_android/app/modules/model/article_model.dart';
-import 'package:flutter_wan_android/app/modules/model/article_tab_model.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
+import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
 
 abstract class IProjectProvider {
-  Future<List<ArticleTabModel>> projectTabs();
+  Future<List<ArticleTabEntity>> projectTabs();
 
-  Future<ArticleListModel> projectList(int id, int page);
+  Future<ArticleListEntity> projectList(int id, int page);
 }
 
 class ProjectProvider extends IProjectProvider {
   @override
-  Future<List<ArticleTabModel>> projectTabs() => ApiProvider.to
-      .get(ApiPaths.projectCategory)
-      .then((value) => List<Map<String, dynamic>>.from(value)
-          .map((e) => ArticleTabModel.fromJson(e))
-          .toList());
+  Future<List<ArticleTabEntity>> projectTabs() =>
+      ApiProvider.to.get<List<ArticleTabEntity>>(ApiPaths.projectCategory);
 
   @override
-  Future<ArticleListModel> projectList(int id, int page) => ApiProvider.to.get(
-      "${ApiPaths.projectList}$page/json",
-      params: {"cid": id}).then((value) => ArticleListModel.fromJson(value));
+  Future<ArticleListEntity> projectList(int id, int page) =>
+      ApiProvider.to.get<ArticleListEntity>("${ApiPaths.projectList}$page/json",
+          params: {"cid": id});
 }

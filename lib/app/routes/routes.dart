@@ -6,8 +6,8 @@ import 'package:flutter_wan_android/app/modules/pages/settings/language/language
 import 'package:flutter_wan_android/app/modules/pages/settings/language/language_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/theme/theme_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/theme/theme_page.dart';
-import 'package:flutter_wan_android/app/modules/pages/tree/tree_controller.dart';
-import 'package:flutter_wan_android/app/modules/pages/tree/tree_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/structure/structure_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/structure/structure_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/user/login_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/user/login_page.dart';
 import 'package:flutter_wan_android/app/test/test_page.dart';
@@ -46,8 +46,8 @@ class Routes {
         binding: ArticleDetailBinding()),
     GetPage(
         name: treeDetail,
-        page: () => const TreeDetailTabPage(),
-        binding: TreeDetailBinding()),
+        page: () => const StructureDetailTabPage(),
+        binding: StructureDetailBinding()),
     GetPage(
         name: themeChose,
         page: () => const ThemePage(),

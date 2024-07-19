@@ -74,6 +74,8 @@ dependencies:
 
   url_launcher: ^6.3.0
 
+#  meta: ^1.15.0
+
 
 
 dev_dependencies:

@@ -1,26 +1,27 @@
 import 'dart:convert';
 
+import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/generated/json/article_entity.g.dart';
 import 'package:flutter_wan_android/generated/json/base/json_field.dart';
 
 export 'package:flutter_wan_android/generated/json/article_entity.g.dart';
 
 @JsonSerializable()
-class ArticleEntity {
+class ArticleListEntity {
   int? curPage;
-  List<ArticleDatas>? datas;
+  List<ArticleEntity>? datas;
   int? offset;
   bool? over;
   int? pageCount;
   int? size;
   int? total;
 
-  ArticleEntity();
+  ArticleListEntity();
 
-  factory ArticleEntity.fromJson(Map<String, dynamic> json) =>
-      $ArticleEntityFromJson(json);
+  factory ArticleListEntity.fromJson(Map<String, dynamic> json) =>
+      $ArticleListEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => $ArticleEntityToJson(this);
+  Map<String, dynamic> toJson() => $ArticleListEntityToJson(this);
 
   @override
   String toString() {
@@ -29,7 +30,7 @@ class ArticleEntity {
 }
 
 @JsonSerializable()
-class ArticleDatas {
+class ArticleEntity {
   bool? adminAdd;
   String? apkLink;
   int? audit;
@@ -59,19 +60,26 @@ class ArticleDatas {
   String? shareUser;
   int? superChapterId;
   String? superChapterName;
-  List<ArticleDatasTags>? tags;
+  List<ArticleTags>? tags;
   String? title;
   int? type;
   int? userId;
   int? visible;
   int? zan;
 
-  ArticleDatas();
+  /// 兼容首页的Banner
+  List<BannerEntity>? banner;
 
-  factory ArticleDatas.fromJson(Map<String, dynamic> json) =>
-      $ArticleDatasFromJson(json);
+  ArticleEntity({
+    this.title,
+    this.link,
+    this.banner,
+  });
 
-  Map<String, dynamic> toJson() => $ArticleDatasToJson(this);
+  factory ArticleEntity.fromJson(Map<String, dynamic> json) =>
+      $ArticleEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => $ArticleEntityToJson(this);
 
   @override
   String toString() {
@@ -80,16 +88,16 @@ class ArticleDatas {
 }
 
 @JsonSerializable()
-class ArticleDatasTags {
+class ArticleTags {
   String? name;
   String? url;
 
-  ArticleDatasTags();
+  ArticleTags();
 
-  factory ArticleDatasTags.fromJson(Map<String, dynamic> json) =>
-      $ArticleDatasTagsFromJson(json);
+  factory ArticleTags.fromJson(Map<String, dynamic> json) =>
+      $ArticleTagsFromJson(json);
 
-  Map<String, dynamic> toJson() => $ArticleDatasTagsToJson(this);
+  Map<String, dynamic> toJson() => $ArticleTagsToJson(this);
 
   @override
   String toString() {
