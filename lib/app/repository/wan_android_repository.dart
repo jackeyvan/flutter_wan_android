@@ -3,62 +3,144 @@ import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
-import 'package:flutter_wan_android/app/repository/api_paths.dart';
-import 'package:flutter_wan_android/app/repository/api_provider.dart';
+import 'package:flutter_wan_android/app/repository/api/wan_android_api.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
+import 'package:get/get.dart';
+
+class WanAndroidApiPaths {
+  /// 基础url
+  static const baseUrl = "https://www.wanandroid.com/";
+
+  /// 文章列表
+  static const String articleList = "article/list/";
+
+  /// 置顶文章
+  static const String topArticle = "article/top/json";
+
+  /// 获取banner
+  static const String banner = "banner/json";
+
+  /// 登录
+  static const String login = "user/login";
+
+  /// 注册
+  static const String register = "user/register";
+
+  /// 退出登录
+  static const String logout = "user/logout/json";
+
+  /// 项目分类
+  static const String projectCategory = "project/tree/json";
+
+  /// 项目列表
+  static const String projectList = "project/list/";
+
+  /// 搜索
+  static const String searchForKeyword = "article/query/";
+
+  /// 广场页列表
+  static const String plazaArticleList = "user_article/list/";
+
+  /// 点击收藏
+  static const String collectArticle = "lg/collect/";
+
+  /// 取消收藏
+  static const String unCollectArticle = "lg/uncollect_originId/";
+
+  /// 获取搜索热词
+  static const String hotKeywords = "hotkey/json";
+
+  /// 获取收藏文章列表
+  static const String collectList = "lg/collect/list/";
+
+  /// 收藏网站列表
+  static const String collectWebaddressList = "lg/collect/usertools/json";
+
+  /// 我的分享
+  static const String sharedList = "user/lg/private_articles/";
+
+  /// 分享文章 post
+  static const String shareArticle = "lg/user_article/add/json";
+
+  /// todoList
+  static const String todoList = "lg/todo/v2/list/";
+
+  /// 公众号
+  static const String wxArticleTab = "wxarticle/chapters/json";
+
+  /// 某个公众号的文章列表  wxarticle/list/408/1/json
+  static const String wxArticleList = "wxarticle/list/";
+
+  /// 学习体系
+  static const String treeList = "tree/json";
+
+  /// 导航  navi/json
+  static const String naviList = "navi/json";
+
+  /// 用户信息
+  static const String userinfo = "user/lg/userinfo/json";
+}
 
 /// 接口仓库，提供玩安卓所有接口
 class WanAndroidRepository {
+  static final _api = Get.find<WanAndroidApi>();
+
   /// Banner数据
   static Future<List<BannerEntity>> banner() =>
-      ApiProvider.to.get<List<BannerEntity>>(ApiPaths.banner);
+      _api.get<List<BannerEntity>>(WanAndroidApiPaths.banner);
 
   /// 首页文章
-  static Future<ArticleListEntity> homePageArticle(int page) => ApiProvider.to
-      .get<ArticleListEntity>("${ApiPaths.articleList}$page/json");
+  static Future<ArticleListEntity> homePageArticle(int page) => _api
+      .get<ArticleListEntity>("${WanAndroidApiPaths.articleList}$page/json");
 
   ///  置顶文章
   static Future<List<ArticleEntity>> topArticle() =>
-      ApiProvider.to.get<List<ArticleEntity>>(ApiPaths.topArticle);
+      _api.get<List<ArticleEntity>>(WanAndroidApiPaths.topArticle);
 
+  /// 公众号列表
   static Future<ArticleListEntity> platformList(int id, int page) =>
-      ApiProvider.to
-          .get<ArticleListEntity>("${ApiPaths.wxArticleList}$id/$page/json");
+      _api.get<ArticleListEntity>(
+          "${WanAndroidApiPaths.wxArticleList}$id/$page/json");
 
+  /// 公众号Tab
   static Future<List<ArticleTabEntity>> platformTab() =>
-      ApiProvider.to.get<List<ArticleTabEntity>>(ApiPaths.wxArticleTab);
+      _api.get<List<ArticleTabEntity>>(WanAndroidApiPaths.wxArticleTab);
 
+  /// 项目Tab
   static Future<List<ArticleTabEntity>> projectTabs() =>
-      ApiProvider.to.get<List<ArticleTabEntity>>(ApiPaths.projectCategory);
+      _api.get<List<ArticleTabEntity>>(WanAndroidApiPaths.projectCategory);
 
+  /// 项目列表
   static Future<ArticleListEntity> projectList(int id, int page) =>
-      ApiProvider.to.get<ArticleListEntity>("${ApiPaths.projectList}$page/json",
+      _api.get<ArticleListEntity>("${WanAndroidApiPaths.projectList}$page/json",
           params: {"cid": id});
 
   /// 导航系列数据
-  static Future<List<StructureEntity>> naviTabs() => ApiProvider.to
-      .get<List<NavigateEntity>>(ApiPaths.naviList)
+  static Future<List<StructureEntity>> naviTabs() => _api
+      .get<List<NavigateEntity>>(WanAndroidApiPaths.naviList)
       .then((entities) =>
           entities.map((e) => StructureEntity.transFromNavi(e)).toList());
 
   /// 学习体系系列数据
-  static Future<List<StructureEntity>> treeTabs() => ApiProvider.to
-      .get<List<ArticleTabEntity>>(ApiPaths.treeList)
+  static Future<List<StructureEntity>> treeTabs() => _api
+      .get<List<ArticleTabEntity>>(WanAndroidApiPaths.treeList)
       .then((entities) =>
           entities.map((e) => StructureEntity.transFromTree(e)).toList());
 
+  /// 体系列表
   static Future<ArticleListEntity> treeList(int page, int id) =>
-      ApiProvider.to.get<ArticleListEntity>("${ApiPaths.articleList}$page/json",
+      _api.get<ArticleListEntity>("${WanAndroidApiPaths.articleList}$page/json",
           params: {"cid": id});
 
+  /// 登录接口
   static Future<User> login(bool isLogin, String account, String password,
       {String? rePassword}) {
     if (isLogin) {
-      return ApiProvider.to.post<User>(ApiPaths.login,
+      return _api.post<User>(WanAndroidApiPaths.login,
           cacheMode: CacheMode.remoteOnly,
           params: {"username": account, "password": password});
     } else {
-      return ApiProvider.to.post<User>(ApiPaths.register,
+      return _api.post<User>(WanAndroidApiPaths.register,
           cacheMode: CacheMode.remoteOnly,
           params: {
             "username": account,

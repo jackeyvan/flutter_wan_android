@@ -1,4 +1,4 @@
-import 'package:flutter_wan_android/app/repository/api_provider.dart';
+import 'package:flutter_wan_android/app/repository/api/wan_android_api.dart';
 import 'package:flutter_wan_android/core/init/init_service.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +7,7 @@ class AppService extends Service {
   @override
   Future<void> init() async {
     /// 本地网络框架，每个url对应一个Provider
-    Get.lazyPut(() => ApiProvider().init());
+    /// 玩安卓API
+    Get.put(WanAndroidApi(), permanent: true);
   }
 }
