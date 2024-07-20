@@ -49,7 +49,7 @@ class User {
   }
 
   User.fromJson(Map<String, dynamic> json) {
-    $UserEntityFromJson(json);
+    $UserFromJson(json);
 
     _user = this;
 
@@ -57,7 +57,7 @@ class User {
     Storage.write(Keys.userKey, _user);
   }
 
-  Map<String, dynamic> toJson() => $UserEntityToJson(this);
+  Map<String, dynamic> toJson() => $UserToJson(this);
 
   @override
   String toString() {
