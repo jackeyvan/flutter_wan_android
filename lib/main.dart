@@ -8,8 +8,6 @@ import 'package:get/get.dart';
 import 'app/service/app_service.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   /// run app before init dependencies and some config.
   await AppService().dependencies();
 

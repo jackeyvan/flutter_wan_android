@@ -1,4 +1,6 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';
@@ -18,7 +20,7 @@ class WanAndroidApi extends BaseApi {
         defaultExpireTime: const Duration(days: 7)));
 
     /// Cookie持久化
-    // dio.interceptors.add(CookieManager(PersistCookieJar()));
+    dio.interceptors.add(CookieManager(PersistCookieJar()));
 
     /// 添加业务拦截器，公共参数和解析等
     dio.interceptors.add((ApiInterceptor()));

@@ -32,9 +32,11 @@ final langMappings = {
 const zhCN = {
   'home': '首页',
   'languageSetting': '语言设置',
+  'label': '玩安卓',
 };
 
 const enUS = {
   'home': 'Home',
   'languageSetting': 'Language Setting',
+  'label': 'WanAndroid',
 };

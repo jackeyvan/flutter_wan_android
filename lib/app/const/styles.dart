@@ -15,8 +15,12 @@ class Strings {
   static const String github =
       "https://github.com/CarGuo/gsy_github_app_flutter";
 
-  static const String home = "";
-  static String languageSetting = "languageSetting";
+  static const String label = "label";
+  static const String home = "home";
+  static const String project = "project";
+  static const String platform = "platform";
+
+  static const String languageSetting = "languageSetting";
 
   static const lagerTextSize = 30.0;
   static const bigTextSize = 23.0;

@@ -6,19 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-/// 提供 WidgetsFlutterBinding 的同名方法
-void ensureAutoSizeInitialized() {
-  AutoSizeWidgetsFlutterBinding.ensureInitialized();
-}
-
 /// 替代 runApp()
 void runAutoSizeApp(Widget app) {
-  runAppCallback() {
-    ensureAutoSizeInitialized();
-  }
+  AutoSizeWidgetsFlutterBinding.ensureInitialized();
 
   /// 屏幕尺寸初始化较晚，此操作可限制在尺寸赋值后继续操作
-
   final dispatcher = WidgetsBinding.instance.platformDispatcher;
   final flutterView = dispatcher.implicitView;
 
@@ -30,11 +22,8 @@ void runAutoSizeApp(Widget app) {
           oldMetricsChanged();
         }
         dispatcher.onMetricsChanged = oldMetricsChanged;
-        runAppCallback();
       }
     };
-  } else {
-    runAppCallback();
   }
 }
 
