@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/pages/article/article_detail_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/article/article_detail_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/root/root_page.dart';
+import 'package:flutter_wan_android/app/modules/pages/search/search_controller.dart';
+import 'package:flutter_wan_android/app/modules/pages/search/search_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/language/language_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/language/language_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/theme/theme_controller.dart';
@@ -22,6 +24,7 @@ abstract class _Paths {
   static const themeChose = '/themeChose';
   static const login = '/login';
   static const language = '/language';
+  static const search = '/search';
   static const test = '/test';
 }
 
@@ -36,6 +39,7 @@ class Routes {
   static const test = _Paths.test;
   static const login = _Paths.login;
   static const language = _Paths.language;
+  static const search = _Paths.search;
 
   static final routes = [
     GetPage(name: root, page: () => const RootPage()),
@@ -58,6 +62,8 @@ class Routes {
         name: language,
         page: () => const LanguagePage(),
         binding: LanguageBinding()),
+    GetPage(
+        name: search, page: () => const SearchPage(), binding: SearchBinding()),
   ];
 
   /// 封装跳转页面方法

@@ -1,3 +1,4 @@
+import 'package:flutter_wan_android/app/repository/pgyer_api.dart';
 import 'package:flutter_wan_android/app/repository/wan_android_api.dart';
 import 'package:flutter_wan_android/core/init/init_service.dart';
 import 'package:get/get.dart';
@@ -9,5 +10,6 @@ class AppService extends Service {
     /// 本地网络框架，每个url对应一个Provider
     /// 玩安卓API
     Get.put(WanAndroidApi(), permanent: true);
+    Get.put(PgyerApi(), permanent: true);
   }
 }

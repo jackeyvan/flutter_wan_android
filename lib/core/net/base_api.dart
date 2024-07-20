@@ -89,9 +89,7 @@ abstract class BaseApi {
     if (method == Method.get) {
       future = _dio.get(url, queryParameters: params, options: options);
     } else {
-      future = _dio.post(url,
-          data: FormData.fromMap(params ?? <String, dynamic>{}),
-          options: options);
+      future = _dio.post(url, queryParameters: params, options: options);
     }
     return future
 

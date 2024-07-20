@@ -28,3 +28,16 @@ Map<String, dynamic> $NavigateEntityToJson(NavigateEntity entity) {
   data['name'] = entity.name;
   return data;
 }
+
+extension NavigateEntityExtension on NavigateEntity {
+  NavigateEntity copyWith({
+    List<ArticleEntity>? articles,
+    int? cid,
+    String? name,
+  }) {
+    return NavigateEntity()
+      ..articles = articles ?? this.articles
+      ..cid = cid ?? this.cid
+      ..name = name ?? this.name;
+  }
+}

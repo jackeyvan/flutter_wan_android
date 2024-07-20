@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
+import 'package:flutter_wan_android/app/repository/pgyer_repository.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
+import 'package:flutter_wan_android/core/utils/log_utils.dart';
 import 'package:get/get.dart';
 
 abstract class IRootProvider {
@@ -44,10 +46,21 @@ class RootController extends BaseController {
   @override
   void onReady() {
     loadUserinfo();
+    loadAppInfo();
     super.onReady();
   }
 
   loadUserinfo() {
     _provider.loadUserinfo().then((user) {});
+  }
+
+  void loadAppInfo() {
+    PgyerRepository.appInfo().then((info) {
+      // LogUtils.log(info);
+    }).catchError((
+      e,
+    ) {
+      LogUtils.log(e);
+    });
   }
 }

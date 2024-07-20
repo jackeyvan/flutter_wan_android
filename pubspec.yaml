@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+100
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -74,9 +74,13 @@ dependencies:
 
   url_launcher: ^6.3.0
 
-#  meta: ^1.15.0
+  # Cookie管理
   dio_cookie_manager: ^3.1.1
   cookie_jar: ^4.0.8
+
+  # 启动图标
+  flutter_launcher_icons: ^0.13.1
+
 
 
 
@@ -115,3 +119,28 @@ flutter:
   #         weight: 700
   #
 
+
+flutter_launcher_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "assets/icons/launcher_icon.png"
+  image_path_ios: "assets/icons/launcher_icon.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+#  adaptive_icon_background: "assets/images/christmas-background.png" # only available for Android 8.0 devices and above
+#  adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png" # only available for Android 8.0 devices and above
+#  adaptive_icon_monochrome: "assets/images/icon-monochrome-432x432.png" # only available for Android 13 devices and above
+  min_sdk_android: 21 # android min sdk min:16, default 21
+#  remove_alpha_ios: true
+#  background_color_ios: "#ffffff"
+#  web:
+#    generate: true
+#    image_path: "assets/images/icon-1024x1024.png"
+#    background_color: "#hexcode"
+#    theme_color: "#hexcode"
+#  windows:
+#    generate: true
+#    image_path: "assets/images/icon-1024x1024.png"
+#    icon_size: 48 # min:48, max:256, default: 48
+#  macos:
+#    generate: true
+#    image_path: "assets/images/icon-1024x1024.png"

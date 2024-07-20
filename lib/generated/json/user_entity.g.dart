@@ -1,66 +1,66 @@
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/generated/json/base/json_convert_content.dart';
 
-User $UserEntityFromJson(Map<String, dynamic> json) {
-  final User userEntity = User();
+User $UserFromJson(Map<String, dynamic> json) {
+  final User user = User();
   final bool? admin = jsonConvert.convert<bool>(json['admin']);
   if (admin != null) {
-    userEntity.admin = admin;
+    user.admin = admin;
   }
   final List<dynamic>? chapterTops =
       (json['chapterTops'] as List<dynamic>?)?.map((e) => e).toList();
   if (chapterTops != null) {
-    userEntity.chapterTops = chapterTops;
+    user.chapterTops = chapterTops;
   }
   final int? coinCount = jsonConvert.convert<int>(json['coinCount']);
   if (coinCount != null) {
-    userEntity.coinCount = coinCount;
+    user.coinCount = coinCount;
   }
   final List<dynamic>? collectIds =
       (json['collectIds'] as List<dynamic>?)?.map((e) => e).toList();
   if (collectIds != null) {
-    userEntity.collectIds = collectIds;
+    user.collectIds = collectIds;
   }
   final String? email = jsonConvert.convert<String>(json['email']);
   if (email != null) {
-    userEntity.email = email;
+    user.email = email;
   }
   final String? icon = jsonConvert.convert<String>(json['icon']);
   if (icon != null) {
-    userEntity.icon = icon;
+    user.icon = icon;
   }
   final int? id = jsonConvert.convert<int>(json['id']);
   if (id != null) {
-    userEntity.id = id;
+    user.id = id;
   }
   final String? nickname = jsonConvert.convert<String>(json['nickname']);
   if (nickname != null) {
-    userEntity.nickname = nickname;
+    user.nickname = nickname;
   }
   final String? password = jsonConvert.convert<String>(json['password']);
   if (password != null) {
-    userEntity.password = password;
+    user.password = password;
   }
   final String? publicName = jsonConvert.convert<String>(json['publicName']);
   if (publicName != null) {
-    userEntity.publicName = publicName;
+    user.publicName = publicName;
   }
   final String? token = jsonConvert.convert<String>(json['token']);
   if (token != null) {
-    userEntity.token = token;
+    user.token = token;
   }
   final int? type = jsonConvert.convert<int>(json['type']);
   if (type != null) {
-    userEntity.type = type;
+    user.type = type;
   }
   final String? username = jsonConvert.convert<String>(json['username']);
   if (username != null) {
-    userEntity.username = username;
+    user.username = username;
   }
-  return userEntity;
+  return user;
 }
 
-Map<String, dynamic> $UserEntityToJson(User entity) {
+Map<String, dynamic> $UserToJson(User entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['admin'] = entity.admin;
   data['chapterTops'] = entity.chapterTops;
@@ -78,7 +78,7 @@ Map<String, dynamic> $UserEntityToJson(User entity) {
   return data;
 }
 
-extension UserEntityExtension on User {
+extension UserExtension on User {
   User copyWith({
     bool? admin,
     List<dynamic>? chapterTops,
