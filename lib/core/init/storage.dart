@@ -21,5 +21,13 @@ class Storage {
 
   static Future<void> remove(String key) => _getStorage.remove(key);
 
-  static Future<void> clear() => _getStorage.erase();
+  static Future<void> clear({List<String>? keys}) {
+    if (keys != null && keys.isNotEmpty) {
+      ///  清除指定的 Key的集合
+      return Future.wait(keys.map((e) => remove(e)));
+    } else {
+      ///  全部清除
+      return _getStorage.erase();
+    }
+  }
 }

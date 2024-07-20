@@ -10,6 +10,6 @@ class AppService extends Service {
     /// 本地网络框架，每个url对应一个Provider
     /// 玩安卓API
     Get.put(WanAndroidApi(), permanent: true);
-    Get.put(PgyerApi(), permanent: true);
+    Get.put(PgyerApi(), permanent: false);
   }
 }

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 /// 资源管理静态类
 
 class LocalStyles {
-  static const IconData PUSH_ITEM_EDIT = Icons.mode_edit;
+  // static const IconData PUSH_ITEM_EDIT = Icons.mode_edit;
 }
 
 class LocalIcons {
-  static const String FONT_FAMILY = 'wxcIconFont';
+  // static const String FONT_FAMILY = 'wxcIconFont';
 }
 
 ///文本样式

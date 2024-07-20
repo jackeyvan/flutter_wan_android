@@ -46,7 +46,7 @@ class RootController extends BaseController {
   @override
   void onReady() {
     loadUserinfo();
-    loadAppInfo();
+    // loadAppInfo();
     super.onReady();
   }
 

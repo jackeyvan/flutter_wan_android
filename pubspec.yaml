@@ -74,8 +74,7 @@ dependencies:
 
   url_launcher: ^6.3.0
 
-  # Cookie管理
-  dio_cookie_manager: ^3.1.1
+  # Cookie
   cookie_jar: ^4.0.8
 
   # 启动图标
