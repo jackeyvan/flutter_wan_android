@@ -34,3 +34,7 @@ class Strings {
     fontSize: minTextSize,
   );
 }
+
+class FontSize {
+  // static const lagerTextSize = 30.0;
+}

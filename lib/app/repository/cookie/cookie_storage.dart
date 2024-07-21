@@ -17,7 +17,7 @@ class CookieStorage extends Storage {
   Future<void> init(bool persistSession, bool ignoreExpires) async {}
 
   @override
-  Future<String?> read(String key) {
+  Future<String?> read(String key) async {
     return platform.Storage.read(key);
   }
 
