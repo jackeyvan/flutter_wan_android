@@ -14,10 +14,6 @@ abstract class BaseApi {
   BaseApi() {
     BaseOptions options = BaseOptions();
 
-    options.connectTimeout = const Duration(seconds: 10);
-    options.receiveTimeout = const Duration(seconds: 10);
-    options.sendTimeout = const Duration(seconds: 10);
-
     _dio = Dio(options);
 
     /// 请求日志打印

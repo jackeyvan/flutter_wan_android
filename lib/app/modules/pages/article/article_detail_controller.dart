@@ -1,8 +1,8 @@
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class ArticleDetailBinding extends Bindings {
   @override
@@ -12,34 +12,13 @@ class ArticleDetailBinding extends Bindings {
 }
 
 class ArticleDetailController extends ScaffoldController<ArticleEntity> {
-  late WebViewController _webViewController;
+  InAppWebViewController? webViewController;
 
   final _progress = 0.obs;
 
-  WebViewController get webViewController => _webViewController;
+  int get progress => _progress.value;
 
-  get progress => _progress.value;
-
-  @override
-  void onInit() {
-    _webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            _progress.value = progress;
-          },
-          onHttpError: (HttpResponseError error) {
-            showErrorPage(error.toString());
-          },
-          onWebResourceError: (WebResourceError error) {
-            showErrorPage(error.description);
-          },
-        ),
-      );
-
-    super.onInit();
-  }
+  set progress(int progress) => _progress.value = progress;
 
   @override
   void onReady() {
@@ -49,16 +28,16 @@ class ArticleDetailController extends ScaffoldController<ArticleEntity> {
     if (args != null && args is ArticleEntity) {
       title = args.title ?? "";
       data = args;
-
+      final url = args.link ?? "";
       showSuccessPage();
-      _webViewController.loadRequest(Uri.parse(args.link ?? ""));
+      webViewController?.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
     } else {
       showEmptyPage();
     }
   }
 
   void reload() {
-    _webViewController.reload();
+    webViewController?.reload();
   }
 
   Future<void> launchInBrowser() async {

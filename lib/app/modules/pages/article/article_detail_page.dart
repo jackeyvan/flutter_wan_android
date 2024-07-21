@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/article/article_detail_controller.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class ArticleDetailPage extends ScaffoldPage<ArticleDetailController> {
   const ArticleDetailPage({super.key});
@@ -19,7 +19,18 @@ class ArticleDetailPage extends ScaffoldPage<ArticleDetailController> {
                         value: (controller.progress / 100).toDouble())),
               ),
               Expanded(
-                child: WebViewWidget(controller: controller.webViewController),
+                child: InAppWebView(
+                  initialUrlRequest:
+                      URLRequest(url: WebUri("https://www.google.cm/")),
+                  keepAlive: InAppWebViewKeepAlive(),
+                  onWebViewCreated: (c) => controller.webViewController = c,
+                  onProgressChanged: (controller, progress) =>
+                      this.controller.progress = progress,
+                  onReceivedError: (c, r, error) =>
+                      controller.showErrorPage(error.description),
+                  onReceivedHttpError: (c, r, error) =>
+                      controller.showErrorPage(error.toString()),
+                ),
               )
             ]));
   }
