@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/api/pgyer_repository.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
-import 'package:flutter_wan_android/app/repository/pgyer_repository.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:flutter_wan_android/core/utils/log_utils.dart';
 import 'package:get/get.dart';

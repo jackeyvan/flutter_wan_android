@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
+import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';

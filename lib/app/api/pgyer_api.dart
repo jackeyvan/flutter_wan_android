@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_wan_android/app/repository/pgyer_repository.dart';
+import 'package:flutter_wan_android/app/api/pgyer_repository.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/net/base_api.dart';
 import 'package:flutter_wan_android/generated/json/base/json_convert_content.dart';

@@ -75,7 +75,8 @@ class HomePage extends GetRefreshPage<HomeController> {
                           title: banner[itemIndex].title,
                           link: banner[itemIndex].url)),
                   child: CachedNetworkImage(
-                      imageUrl: banner[itemIndex].url ?? "")),
+                      fit: BoxFit.fill,
+                      imageUrl: banner[itemIndex].imagePath ?? "")),
             ),
           );
         });

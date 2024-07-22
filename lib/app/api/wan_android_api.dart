@@ -1,9 +1,9 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_wan_android/app/api/cookie/cookie_interceptor.dart';
+import 'package:flutter_wan_android/app/api/cookie/cookie_storage.dart';
+import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
-import 'package:flutter_wan_android/app/repository/cookie/cookie_interceptor.dart';
-import 'package:flutter_wan_android/app/repository/cookie/cookie_storage.dart';
-import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/net/base_api.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
@@ -21,7 +21,7 @@ class WanAndroidApi extends BaseApi {
 
     /// 缓存拦截器
     dio.interceptors.add(CacheInterceptor(
-        defaultCacheMode: CacheMode.cacheOnly,
+        defaultCacheMode: CacheMode.remoteFirstThenCache,
         defaultExpireTime: const Duration(days: 7)));
 
     /// Cookie持久化

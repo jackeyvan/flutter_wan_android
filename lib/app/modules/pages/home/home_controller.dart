@@ -1,6 +1,6 @@
+import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
-import 'package:flutter_wan_android/app/repository/wan_android_repository.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 
 class HomeController extends GetRefreshListController<ArticleEntity> {

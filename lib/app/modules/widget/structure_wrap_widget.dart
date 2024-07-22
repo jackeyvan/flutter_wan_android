@@ -23,10 +23,11 @@ class TreeWrap extends StatelessWidget {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
-            height: 6,
+            height: 8,
           ),
           Wrap(
-            spacing: 6,
+            spacing: 8,
+            runSpacing: 8,
             alignment: WrapAlignment.start,
             children: buildItems(data),
           ),
