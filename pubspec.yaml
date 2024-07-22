@@ -60,9 +60,7 @@ dependencies:
 
 
   # 无限轮播的卡片，实现Banner效果
-  # TODO 替换掉card_swiper
   carousel_slider: ^4.2.1
-  card_swiper: ^3.0.1
 
   # TODO 页面跳转动画
   animations: ^2.0.11
