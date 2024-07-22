@@ -11,5 +11,8 @@ class AppService extends Service {
     /// 玩安卓API
     Get.put(WanAndroidApi(), permanent: true);
     Get.put(PgyerApi(), permanent: true);
+
+    /// WebView相关配置
+    // InAppWebViewController.setWebContentsDebuggingEnabled(false);
   }
 }

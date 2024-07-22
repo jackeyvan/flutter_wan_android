@@ -10,28 +10,25 @@ class ArticleDetailPage extends ScaffoldPage<ArticleDetailController> {
   @override
   Widget buildBodyPage() {
     return buildObx(
-        builder: () => Column(children: [
+        builder: () => Stack(children: [
+              InAppWebView(
+                initialSettings: controller.settings,
+                initialUrlRequest: URLRequest(url: WebUri(controller.webUrl)),
+                keepAlive: InAppWebViewKeepAlive(),
+                onWebViewCreated: (c) => controller.controllerCreate(c),
+                onProgressChanged: (controller, progress) =>
+                    this.controller.progress = progress.toDouble(),
+                onReceivedError: (c, r, error) =>
+                    controller.showErrorPage(error.description),
+                onReceivedHttpError: (c, r, error) =>
+                    controller.showErrorPage(error.toString()),
+              ),
               Obx(
                 () => Offstage(
                     offstage: controller.progress == 100,
                     child: LinearProgressIndicator(
-                        minHeight: 2,
-                        value: (controller.progress / 100).toDouble())),
+                        minHeight: 2, value: (controller.progress / 100))),
               ),
-              Expanded(
-                child: InAppWebView(
-                  initialUrlRequest:
-                      URLRequest(url: WebUri("https://www.google.cm/")),
-                  keepAlive: InAppWebViewKeepAlive(),
-                  onWebViewCreated: (c) => controller.webViewController = c,
-                  onProgressChanged: (controller, progress) =>
-                      this.controller.progress = progress,
-                  onReceivedError: (c, r, error) =>
-                      controller.showErrorPage(error.description),
-                  onReceivedHttpError: (c, r, error) =>
-                      controller.showErrorPage(error.toString()),
-                ),
-              )
             ]));
   }
 

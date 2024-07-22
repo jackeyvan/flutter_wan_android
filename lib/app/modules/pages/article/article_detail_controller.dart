@@ -1,6 +1,7 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
+import 'package:flutter_wan_android/core/utils/log_utils.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,13 +13,21 @@ class ArticleDetailBinding extends Bindings {
 }
 
 class ArticleDetailController extends ScaffoldController<ArticleEntity> {
-  InAppWebViewController? webViewController;
+  InAppWebViewController? _webViewController;
 
-  final _progress = 0.obs;
+  final _progress = 0.0.obs;
 
-  int get progress => _progress.value;
+  double get progress => _progress.value;
 
-  set progress(int progress) => _progress.value = progress;
+  String webUrl = "";
+
+  set progress(double progress) => _progress.value = progress;
+
+  final InAppWebViewSettings settings = InAppWebViewSettings(
+      isInspectable: LogUtils.enableLog,
+      mediaPlaybackRequiresUserGesture: false,
+      allowsInlineMediaPlayback: true,
+      iframeAllowFullscreen: true);
 
   @override
   void onReady() {
@@ -28,16 +37,16 @@ class ArticleDetailController extends ScaffoldController<ArticleEntity> {
     if (args != null && args is ArticleEntity) {
       title = args.title ?? "";
       data = args;
-      final url = args.link ?? "";
+      webUrl = args.link ?? "";
       showSuccessPage();
-      webViewController?.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
     } else {
       showEmptyPage();
     }
   }
 
   void reload() {
-    webViewController?.reload();
+    _webViewController?.reload();
+    showSuccessPage();
   }
 
   Future<void> launchInBrowser() async {
@@ -56,5 +65,11 @@ class ArticleDetailController extends ScaffoldController<ArticleEntity> {
     if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  /// WebView Controller创建
+  void controllerCreate(InAppWebViewController controller) {
+    _webViewController = controller;
+    // controller.clearCache()
   }
 }
