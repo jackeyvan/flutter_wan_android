@@ -55,6 +55,5 @@ class RootPage extends BasePage<RootController> {
         keepWidgetAlive(const PlatformTabPage()),
       ],
     );
-    ;
   }
 }

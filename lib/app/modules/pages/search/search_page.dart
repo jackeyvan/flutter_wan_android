@@ -10,10 +10,10 @@ class SearchPage extends BasePage<SearchPageController> {
   Widget buildPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("标题"),
+        title: const Text("标题"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: SearchAnchor(builder: (context, controller) {
           return SearchBar(
             leading: const BackButton(),
@@ -25,13 +25,13 @@ class SearchPage extends BasePage<SearchPageController> {
           );
         }, suggestionsBuilder: (context, controller) {
           return [
-            ListTile(
+            const ListTile(
               title: Text("数据1"),
             ),
-            ListTile(
+            const ListTile(
               title: Text("数据2"),
             ),
-            ListTile(
+            const ListTile(
               title: Text("数据3"),
             ),
           ];

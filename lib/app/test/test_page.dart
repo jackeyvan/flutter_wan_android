@@ -36,7 +36,7 @@ class TestPage extends StatelessWidget {
               // leading: DrawerButton(),
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text("玩安卓"),
+                title: const Text("玩安卓"),
                 centerTitle: false,
                 background: Image.network(
                   'https://images.pexels.com/photos/443356/pexels-photo-443356.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',

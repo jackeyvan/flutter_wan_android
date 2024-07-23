@@ -51,7 +51,7 @@ class AutoSize {
   static AutoSize get instance => _getInstance();
   static late AutoSize _instance;
 
-  AutoSize._internal();
+  // AutoSize._internal();
 
   void initConfig({required double baseWidth}) {
     baseScreenWidth = baseWidth;
@@ -76,7 +76,7 @@ class AutoSize {
   }
 
   static AutoSize _getInstance() {
-    _instance ??= AutoSize._internal();
+    // _instance ??= AutoSize._internal();
     _instance._tryInit();
     return _instance;
   }
@@ -90,9 +90,6 @@ class AutoSize {
 
 class AutoSizeWidgetsFlutterBinding extends WidgetsFlutterBinding {
   static WidgetsBinding ensureInitialized() {
-    if (WidgetsBinding.instance == null) {
-      AutoSizeWidgetsFlutterBinding();
-    }
     return WidgetsBinding.instance;
   }
 
@@ -149,7 +146,7 @@ class AutoSizeWidgetsFlutterBinding extends WidgetsFlutterBinding {
     if (event is PointerDownEvent) {
       assert(!_hitTests.containsKey(event.pointer));
       result = HitTestResult();
-      hitTest(result, event.position);
+      // hitTest(result, event.position);
       _hitTests[event.pointer] = result;
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
       result = _hitTests.remove(event.pointer);
