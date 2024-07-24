@@ -2,6 +2,7 @@ import 'package:flutter_wan_android/app/api/wan_android_api.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
+import 'package:flutter_wan_android/app/modules/entity/hot_key_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
@@ -131,6 +132,17 @@ class WanAndroidRepository {
   static Future<ArticleListEntity> treeList(int page, int id) =>
       _api.get<ArticleListEntity>("${WanAndroidApiPaths.articleList}$page/json",
           params: {"cid": id});
+
+  /// 搜索热词
+  static Future<List<HotKeyEntity>> hotKeywords() =>
+      _api.get<List<HotKeyEntity>>(WanAndroidApiPaths.hotKeywords);
+
+  /// 搜索
+  static Future<List<ArticleEntity>> fetchSearchResult(
+          String query, int page) =>
+      _api.post<List<ArticleEntity>>(
+          "${WanAndroidApiPaths.searchForKeyword}$page/json",
+          params: {'k': query});
 
   /// 登录接口
   static Future<User> login(bool isLogin, String account, String password,

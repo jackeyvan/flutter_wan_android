@@ -13,6 +13,9 @@ class HotKeyEntity {
   double? order;
   double? visible;
 
+  /// 历史搜索记录
+  bool isHistory = false;
+
   HotKeyEntity();
 
   factory HotKeyEntity.fromJson(Map<String, dynamic> json) =>

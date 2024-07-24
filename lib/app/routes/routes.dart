@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/modules/pages/article/article_detail_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/article/article_detail_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/root/root_page.dart';
-import 'package:flutter_wan_android/app/modules/pages/search/search_controller.dart';
-import 'package:flutter_wan_android/app/modules/pages/search/search_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/language/language_controller.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/language/language_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/settings/theme/theme_controller.dart';
@@ -62,8 +60,6 @@ class Routes {
         name: language,
         page: () => const LanguagePage(),
         binding: LanguageBinding()),
-    GetPage(
-        name: search, page: () => const SearchPage(), binding: SearchBinding()),
   ];
 
   /// 封装跳转页面方法
