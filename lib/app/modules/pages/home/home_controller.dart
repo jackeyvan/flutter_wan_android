@@ -44,19 +44,11 @@ class HomeController extends GetRefreshListController<ArticleEntity> {
     }
   }
 
-  Future<List<HotKeyEntity>> hotKeywords() async {
-    final data = <HotKeyEntity>[];
+  Future<List<HotKeyEntity>> hotKeywords() =>
+      WanAndroidRepository.hotKeywords();
 
-    final remote = await WanAndroidRepository.hotKeywords();
-    if (remote.isNotEmpty) {
-      data.addAll(remote);
-    }
-
-    final histories = Storage.read<List<HotKeyEntity>>(Keys.searchHistory);
-    if (histories != null && histories.isNotEmpty) {
-      data.addAll(histories);
-    }
-
-    return data;
+  List<String> searchHistory() {
+    final history = Storage.read<List>(Keys.searchHistory);
+    return (history ?? []).map((e) => e as String).toList();
   }
 }
