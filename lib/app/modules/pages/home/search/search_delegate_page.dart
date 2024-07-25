@@ -43,4 +43,10 @@ class SearchBarDelegate extends SearchDelegate<HotKeyEntity> {
   Widget buildSuggestions(BuildContext context) {
     return SearchSuggestionsPage(controller, this);
   }
+
+  @override
+  void dispose() {
+    print("---------> dispose");
+    super.dispose();
+  }
 }
