@@ -12,14 +12,14 @@ class Storage {
   }
 
   /// GetStorage
-  static GetStorage get _getStorage => Get.find<GetStorage>();
+  static GetStorage get storage => Get.find<GetStorage>();
 
-  static T? read<T>(String key) => _getStorage.read<T>(key);
+  static T? read<T>(String key) => storage.read<T>(key);
 
   static Future<void> write(String key, dynamic value) =>
-      _getStorage.write(key, value);
+      storage.write(key, value);
 
-  static Future<void> remove(String key) => _getStorage.remove(key);
+  static Future<void> remove(String key) => storage.remove(key);
 
   static Future<void> clear({List<String>? keys}) {
     if (keys != null && keys.isNotEmpty) {
@@ -27,7 +27,7 @@ class Storage {
       return Future.wait(keys.map((e) => remove(e)));
     } else {
       ///  全部清除
-      return _getStorage.erase();
+      return storage.erase();
     }
   }
 }

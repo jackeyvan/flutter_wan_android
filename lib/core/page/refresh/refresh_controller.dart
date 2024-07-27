@@ -80,7 +80,7 @@ abstract class GetRefreshListController<T>
     page = initPage;
 
     loadListData(page, true).then((result) {
-      if (result != null && result.isNotEmpty) {
+      if (result.isNotEmpty) {
         data = result;
         showSuccessPage();
 
@@ -113,7 +113,7 @@ abstract class GetRefreshListController<T>
     page += 1;
 
     loadListData(page, false).then((result) {
-      if (result != null && result.isNotEmpty) {
+      if (result.isNotEmpty) {
         addData(result);
 
         /// 更新界面
@@ -134,10 +134,10 @@ abstract class GetRefreshListController<T>
 
   /// 加载数据的方法，子类去实现
   @override
-  Future<List<T>?> loadData() => loadListData(page, true);
+  Future<List<T>> loadData() => loadListData(page, true);
 
   /// 重新封装一下，专门加载List数据类型
-  Future<List<T>?> loadListData(int page, bool isRefresh);
+  Future<List<T>> loadListData(int page, bool isRefresh);
 
   /// 添加数据
   void addData(List<T> data) {

@@ -1,9 +1,6 @@
 import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
-import 'package:flutter_wan_android/app/const/keys.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
-import 'package:flutter_wan_android/app/modules/entity/hot_key_entity.dart';
-import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
 
 class HomeController extends GetRefreshListController<ArticleEntity> {
@@ -42,13 +39,5 @@ class HomeController extends GetRefreshListController<ArticleEntity> {
       return WanAndroidRepository.homePageArticle(page)
           .then((e) => Future.value(e?.datas));
     }
-  }
-
-  Future<List<HotKeyEntity>?> hotKeywords() =>
-      WanAndroidRepository.hotKeywords();
-
-  List<String> searchHistory() {
-    final history = Storage.read<List>(Keys.searchHistory);
-    return (history ?? []).map((e) => e as String).toList();
   }
 }

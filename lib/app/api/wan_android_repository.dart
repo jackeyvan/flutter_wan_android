@@ -1,10 +1,12 @@
 import 'package:flutter_wan_android/app/api/wan_android_api.dart';
+import 'package:flutter_wan_android/app/const/keys.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_tab_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/hot_key_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
+import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:flutter_wan_android/core/net/cache/cache.dart';
 import 'package:get/get.dart';
 
@@ -82,7 +84,9 @@ class WanAndroidApiPaths {
   static const String userinfo = "user/lg/userinfo/json";
 }
 
-/// 接口仓库，提供玩安卓所有接口
+/// =====================================================================================================================
+/// 接口封装，提供玩安卓所有远程接口
+/// =====================================================================================================================
 class WanAndroidRepository {
   static final _api = Get.find<WanAndroidApi>();
 
@@ -144,6 +148,13 @@ class WanAndroidRepository {
     if (result != null) {
       final data = _api.convert<List<HotKeyEntity>>(result);
       if (data != null) {
+        /// 随机一下数据,转成无序集合Set
+        // Set<HotKeyEntity> setData = {};
+        // for (var e in data) {
+        //   setData.add(e);
+        // }
+
+        /// 重新转回List
         return data;
       }
     }
@@ -173,5 +184,31 @@ class WanAndroidRepository {
             "repassword": rePassword
           });
     }
+  }
+}
+
+/// =====================================================================================================================
+/// 本地存储封装，提供所有本地数据
+/// =====================================================================================================================
+class WanAndroidStorage {
+  ///  搜索历史记录
+  static List<String> readSearchHistory() {
+    final history = Storage.read<List>(Keys.searchHistory);
+    return (history ?? []).map((e) => e as String).toList();
+  }
+
+  /// 添加搜索历史记录
+  static void writeSearchHistory(String value) {
+    final history = readSearchHistory();
+    if (history.contains(value)) {
+      history.remove(value);
+    }
+    history.insert(0, value);
+    Storage.write(Keys.searchHistory, history);
+  }
+
+  ///  清空历史记录
+  static void clearSearchHistory() {
+    Storage.remove(Keys.searchHistory);
   }
 }
