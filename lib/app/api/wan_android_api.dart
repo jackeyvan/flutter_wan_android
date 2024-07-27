@@ -6,7 +6,8 @@ import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';
 import 'package:flutter_wan_android/core/net/base_api.dart';
-import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
+import 'package:flutter_wan_android/core/net/cache/cache.dart';
+import 'package:flutter_wan_android/core/net/cache/cache_Interceptor.dart';
 import 'package:flutter_wan_android/generated/json/base/json_convert_content.dart';
 
 /// 玩安卓的API初始化
@@ -32,30 +33,26 @@ class WanAndroidApi extends BaseApi {
     dio.interceptors.add((ApiInterceptor()));
   }
 
+  ///  请求的host
+  String get baseUrl => dio.options.baseUrl;
+
   /// 数据转换
   @override
-  T convert<T>(Response response) {
+  T? convert<T>(dynamic json) {
     try {
-      final data = response.data;
-      final statusCode = response.statusCode;
+      var result = ApiResponse.fromJson(json);
+      if (result.success) {
+        final data = JsonConvert.fromJsonAsT<T>(result.data);
 
-      if (response.statusCode == 200 && data != null) {
-        var result = ApiResponse.fromJson(response.data);
-        if (result.success) {
-          final data = JsonConvert.fromJsonAsT<T>(result.data);
-
-          /// 返回成功，但是data没有具体数据，这里使用字符串作为PlaceHolder
-          return data ?? "" as T;
-        } else {
-          /// 请求不成功
-          if (result.code == -1001) {
-            /// Cookie过期，清除本地Cookie和用户信息
-            User.clear();
-          }
-          throw ApiError(message: result.msg, code: result.code);
-        }
+        /// 返回成功，但是data没有具体数据，这里使用字符串作为PlaceHolder
+        return data;
       } else {
-        throw ApiError(message: response.statusMessage, code: statusCode);
+        /// 请求不成功
+        if (result.code == -1001) {
+          /// Cookie过期，清除本地Cookie和用户信息
+          User.clear();
+        }
+        throw ApiError(message: result.msg, code: result.code);
       }
     } catch (error) {
       if (error is ApiError) {

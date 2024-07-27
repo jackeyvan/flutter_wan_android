@@ -14,8 +14,8 @@ abstract class BaseTabController<T> extends BaseController<List<T>>
     super.onReady();
     _tabController = TabController(vsync: this, length: 0);
 
-    loadTabs()?.then((tabs) {
-      if (tabs.isNotEmpty) {
+    loadTabs().then((tabs) {
+      if (tabs != null && tabs.isNotEmpty) {
         _tabController = TabController(vsync: this, length: tabs.length);
         data = tabs;
         showSuccessPage();
@@ -37,7 +37,7 @@ abstract class BaseTabController<T> extends BaseController<List<T>>
     onReady();
   }
 
-  Future<List<T>>? loadTabs();
+  Future<List<T>?> loadTabs();
 
   List<Widget> buildPages();
 

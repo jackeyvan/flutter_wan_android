@@ -87,6 +87,6 @@ class StructureDetailListController
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
     return WanAndroidRepository.treeList(page, id ?? 0)
-        .then((e) => e.datas ?? []);
+        .then((e) => e?.datas ?? []);
   }
 }

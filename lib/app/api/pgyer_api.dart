@@ -12,21 +12,14 @@ class PgyerApi extends BaseApi {
   }
 
   @override
-  T convert<T>(Response<dynamic> response) {
+  T? convert<T>(dynamic json) {
     try {
-      final data = response.data;
-      final statusCode = response.statusCode;
-
-      if (response.statusCode == 200 && data != null) {
-        var result = PgyerResponse.fromJson(response.data);
-        if (result.success) {
-          final data = JsonConvert.fromJsonAsT<T>(result.data);
-          return data ?? "" as T;
-        } else {
-          throw ApiError(message: result.msg, code: result.code);
-        }
+      var result = PgyerResponse.fromJson(json);
+      if (result.success) {
+        final data = JsonConvert.fromJsonAsT<T>(result.data);
+        return data ?? "" as T;
       } else {
-        throw ApiError(message: response.statusMessage, code: statusCode);
+        throw ApiError(message: result.msg, code: result.code);
       }
     } catch (error) {
       if (error is ApiError) rethrow;

@@ -16,7 +16,7 @@ class PgyerApiPaths {
 class PgyerRepository {
   static final _api = Get.find<PgyerApi>();
 
-  static Future<AppInfoEntity> appInfo() {
+  static Future<AppInfoEntity?> appInfo() {
     return _api.post<AppInfoEntity>(PgyerApiPaths.appInfo);
   }
 }

@@ -40,11 +40,11 @@ class HomeController extends GetRefreshListController<ArticleEntity> {
       });
     } else {
       return WanAndroidRepository.homePageArticle(page)
-          .then((e) => Future.value(e.datas));
+          .then((e) => Future.value(e?.datas));
     }
   }
 
-  Future<List<HotKeyEntity>> hotKeywords() =>
+  Future<List<HotKeyEntity>?> hotKeywords() =>
       WanAndroidRepository.hotKeywords();
 
   List<String> searchHistory() {

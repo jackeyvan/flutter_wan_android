@@ -37,7 +37,7 @@ abstract class GetRefreshController<T> extends BaseController {
   Future<void> onLoadMore() async {}
 
   /// 加载数据的方法，子类去实现
-  Future<T> loadData();
+  Future<T?> loadData();
 
   /// 重新刷新，默认使用LoadingPage，不想用这个可以自己重写本方法
   @override
@@ -80,7 +80,7 @@ abstract class GetRefreshListController<T>
     page = initPage;
 
     loadListData(page, true).then((result) {
-      if (result.isNotEmpty) {
+      if (result != null && result.isNotEmpty) {
         data = result;
         showSuccessPage();
 
@@ -89,7 +89,9 @@ abstract class GetRefreshListController<T>
           refreshController;
         }
       } else {
-        showEmptyPage();
+        if (data.isEmpty) {
+          showEmptyPage();
+        }
       }
 
       /// 刷新完成，这里要注意一定是先展示成功的页面，加载EasyRefresh控件
@@ -111,7 +113,7 @@ abstract class GetRefreshListController<T>
     page += 1;
 
     loadListData(page, false).then((result) {
-      if (result.isNotEmpty) {
+      if (result != null && result.isNotEmpty) {
         addData(result);
 
         /// 更新界面
@@ -132,10 +134,10 @@ abstract class GetRefreshListController<T>
 
   /// 加载数据的方法，子类去实现
   @override
-  Future<List<T>> loadData() => loadListData(page, true);
+  Future<List<T>?> loadData() => loadListData(page, true);
 
   /// 重新封装一下，专门加载List数据类型
-  Future<List<T>> loadListData(int page, bool isRefresh);
+  Future<List<T>?> loadListData(int page, bool isRefresh);
 
   /// 添加数据
   void addData(List<T> data) {

@@ -5,7 +5,7 @@ import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/hot_key_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
-import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
+import 'package:flutter_wan_android/core/net/cache/cache.dart';
 import 'package:get/get.dart';
 
 class WanAndroidApiPaths {
@@ -87,65 +87,78 @@ class WanAndroidRepository {
   static final _api = Get.find<WanAndroidApi>();
 
   /// Banner数据
-  static Future<List<BannerEntity>> banner() =>
+  static Future<List<BannerEntity>?> banner() =>
       _api.get<List<BannerEntity>>(WanAndroidApiPaths.banner);
 
   /// 首页文章
-  static Future<ArticleListEntity> homePageArticle(int page) => _api
+  static Future<ArticleListEntity?> homePageArticle(int page) => _api
       .get<ArticleListEntity>("${WanAndroidApiPaths.articleList}$page/json");
 
   ///  置顶文章
-  static Future<List<ArticleEntity>> topArticle() =>
+  static Future<List<ArticleEntity>?> topArticle() =>
       _api.get<List<ArticleEntity>>(WanAndroidApiPaths.topArticle);
 
   /// 公众号列表
-  static Future<ArticleListEntity> platformList(int id, int page) =>
+  static Future<ArticleListEntity?> platformList(int id, int page) =>
       _api.get<ArticleListEntity>(
           "${WanAndroidApiPaths.wxArticleList}$id/$page/json");
 
   /// 公众号Tab
-  static Future<List<ArticleTabEntity>> platformTab() =>
+  static Future<List<ArticleTabEntity>?> platformTab() =>
       _api.get<List<ArticleTabEntity>>(WanAndroidApiPaths.wxArticleTab);
 
   /// 项目Tab
-  static Future<List<ArticleTabEntity>> projectTabs() =>
+  static Future<List<ArticleTabEntity>?> projectTabs() =>
       _api.get<List<ArticleTabEntity>>(WanAndroidApiPaths.projectCategory);
 
   /// 项目列表
-  static Future<ArticleListEntity> projectList(int id, int page) =>
+  static Future<ArticleListEntity?> projectList(int id, int page) =>
       _api.get<ArticleListEntity>("${WanAndroidApiPaths.projectList}$page/json",
           params: {"cid": id});
 
   /// 导航系列数据
   static Future<List<StructureEntity>> naviTabs() => _api
       .get<List<NavigateEntity>>(WanAndroidApiPaths.naviList)
-      .then((entities) =>
-          entities.map((e) => StructureEntity.transFromNavi(e)).toList());
+      .then((entities) => (entities ?? [])
+          .map((e) => StructureEntity.transFromNavi(e))
+          .toList());
 
   /// 学习体系系列数据
   static Future<List<StructureEntity>> treeTabs() => _api
       .get<List<ArticleTabEntity>>(WanAndroidApiPaths.treeList)
-      .then((entities) =>
-          entities.map((e) => StructureEntity.transFromTree(e)).toList());
+      .then((entities) => (entities ?? [])
+          .map((e) => StructureEntity.transFromTree(e))
+          .toList());
 
   /// 体系列表
-  static Future<ArticleListEntity> treeList(int page, int id) =>
+  static Future<ArticleListEntity?> treeList(int page, int id) =>
       _api.get<ArticleListEntity>("${WanAndroidApiPaths.articleList}$page/json",
           params: {"cid": id});
 
   /// 搜索热词
-  static Future<List<HotKeyEntity>> hotKeywords() =>
-      _api.get<List<HotKeyEntity>>(WanAndroidApiPaths.hotKeywords);
+  static Future<List<HotKeyEntity>?> hotKeywords() async {
+    /// 本地做一下缓存加载
+    const path = WanAndroidApiPaths.hotKeywords;
 
-  /// 搜索
+    final result = Cache.readCache(Cache.cacheKey(path));
+    if (result != null) {
+      final data = _api.convert<List<HotKeyEntity>>(result);
+      if (data != null) {
+        return data;
+      }
+    }
+    return _api.get<List<HotKeyEntity>>(path);
+  }
+
+  /// 搜索结果
   static Future<List<ArticleEntity>> fetchSearchResult(
           String query, int page) =>
-      _api.post<List<ArticleEntity>>(
+      _api.post<ArticleListEntity>(
           "${WanAndroidApiPaths.searchForKeyword}$page/json",
-          params: {'k': query});
+          params: {'k': query}).then((e) => e?.datas ?? []);
 
   /// 登录接口
-  static Future<User> login(bool isLogin, String account, String password,
+  static Future<User?> login(bool isLogin, String account, String password,
       {String? rePassword}) {
     if (isLogin) {
       return _api.post<User>(WanAndroidApiPaths.login,

@@ -19,7 +19,7 @@ class SearchResultPage extends GetRefreshPage<SearchResultController> {
   @override
   void dependencies() {
     Get.lazyPut(() => SearchResultController(query), tag: query);
-    final history = Storage.read<List<String>>(Keys.searchHistory) ?? [];
+    final history = Storage.read<List>(Keys.searchHistory) ?? [];
     if (history.contains(query)) return;
     history.insert(0, query);
     Storage.write(Keys.searchHistory, history);

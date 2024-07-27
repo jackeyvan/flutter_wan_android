@@ -13,7 +13,7 @@ class ProjectTabController extends BaseTabController<ArticleTabEntity> {
       tabData.map((tab) => keepWidgetAlive(ProjectPage(id: tab.id))).toList();
 
   @override
-  Future<List<ArticleTabEntity>> loadTabs() =>
+  Future<List<ArticleTabEntity>?> loadTabs() =>
       WanAndroidRepository.projectTabs();
 
   @override
@@ -32,7 +32,7 @@ class ProjectController extends GetRefreshListController<ArticleEntity> {
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) =>
       WanAndroidRepository.projectList(id ?? 0, page).then((value) =>
-          value.datas?.map((e) {
+          value?.datas?.map((e) {
             /// 重置一下文章数据
             e.tags = null;
             e.superChapterName = null;

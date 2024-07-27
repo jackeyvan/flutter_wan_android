@@ -5,7 +5,6 @@ import 'package:flutter_wan_android/app/modules/pages/home/home_controller.dart'
 import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:flutter_wan_android/core/page/status/default_empty_page.dart';
 import 'package:flutter_wan_android/core/page/status/default_error_page.dart';
-import 'package:flutter_wan_android/core/page/status/default_loading_page.dart';
 import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
 
 import 'search_delegate_page.dart';
@@ -36,12 +35,13 @@ class SearchSuggestionsPage extends StatelessWidget {
   }
 
   Widget buildHotkeyItem(BuildContext context) {
-    return FutureBuilder<List<HotKeyEntity>>(
+    return FutureBuilder<List<HotKeyEntity>?>(
         future: controller.hotKeywords(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingPage();
-          } else if (snapshot.hasError) {
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return const LoadingPage();
+          // } else
+          if (snapshot.hasError) {
             return ErrorPage(msg: snapshot.error?.toString());
           } else if (snapshot.hasData) {
             final data = snapshot.data;

@@ -13,7 +13,7 @@ class PlatformTabController extends BaseTabController<ArticleTabEntity> {
       tabData.map((tab) => keepWidgetAlive(PlatformPage(id: tab.id))).toList();
 
   @override
-  Future<List<ArticleTabEntity>> loadTabs() =>
+  Future<List<ArticleTabEntity>?> loadTabs() =>
       WanAndroidRepository.platformTab();
 
   @override
@@ -32,6 +32,6 @@ class PlatformController extends GetRefreshListController<ArticleEntity> {
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
     return WanAndroidRepository.platformList(id ?? 0, page)
-        .then((e) => e.datas ?? []);
+        .then((e) => e?.datas ?? []);
   }
 }

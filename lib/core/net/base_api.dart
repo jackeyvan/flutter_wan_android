@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';
-import 'package:flutter_wan_android/core/net/cache_Interceptor.dart';
+import 'package:flutter_wan_android/core/net/cache/cache.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 enum Method {
@@ -28,11 +28,13 @@ abstract class BaseApi {
   /// 初始化
   void init(Dio dio);
 
+  Dio get dio => _dio;
+
   /// Json转换
-  T convert<T>(Response response);
+  T? convert<T>(dynamic json);
 
   /// 异步请求，同步Dio请求方法
-  Future<T> get<T>(
+  Future<T?> get<T>(
     String url, {
     Options? options,
     Map<String, dynamic>? params,
@@ -47,7 +49,7 @@ abstract class BaseApi {
           cacheMode: cacheMode,
           cacheExpire: cacheExpire);
 
-  Future<T> post<T>(
+  Future<T?> post<T>(
     String url, {
     Options? options,
     Map<String, dynamic>? params,
@@ -63,7 +65,7 @@ abstract class BaseApi {
           cacheExpire: cacheExpire);
 
   /// 底层封装的Dio请求
-  Future<T> _request<T>({
+  Future<T?> _request<T>({
     required String url,
     required Method method,
     Map<String, dynamic>? params,
@@ -90,7 +92,15 @@ abstract class BaseApi {
     return future
 
         /// 数据转换
-        .then((response) => convert<T>(response))
+        .then((response) {
+      /// 自己处理Response的错误
+      if (response.statusCode == 200) {
+        return convert<T>(response.data);
+      } else {
+        throw ApiError(
+            message: response.statusMessage, code: response.statusCode);
+      }
+    })
 
         /// 统一错误
         .onError((error, _) => throw ApiError(origin: error.toString()));
