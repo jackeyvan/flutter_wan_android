@@ -3,9 +3,31 @@ import 'package:flutter_wan_android/app/const/keys.dart';
 import 'package:flutter_wan_android/app/const/lang.dart';
 import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
+import 'package:flutter_wan_android/app/modules/base/scaffold_page.dart';
 import 'package:flutter_wan_android/core/init/storage.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:get/get.dart';
+
+class LanguagePage extends ScaffoldPage<LanguageController> {
+  const LanguagePage({super.key});
+
+  @override
+  Widget buildBodyPage() {
+    controller.setTitle();
+    return ListView(
+      padding: const EdgeInsets.all(0),
+      children: controller.languages.map((e) => buildItem(e)).toList(),
+    );
+  }
+
+  Widget buildItem(String item) {
+    return Obx(() => ListTile(
+        selectedTileColor: controller.selectColor,
+        selected: controller.isSelected(item),
+        onTap: () => controller.onItemClick(item),
+        title: Text(item)));
+  }
+}
 
 class LanguageBinding extends Bindings {
   @override
@@ -27,11 +49,6 @@ class LanguageController extends ScaffoldController {
     super.onInit();
   }
 
-  @override
-  void setTitle() {
-    title = Strings.languageSetting.tr;
-  }
-
   void onItemClick(String item) {
     language.value = item;
     final locale = langMappings[item];
@@ -47,5 +64,9 @@ class LanguageController extends ScaffoldController {
 
   Color get selectColor {
     return AppTheme.isDarkMode() ? Colors.white12 : Colors.black12;
+  }
+
+  void setTitle() {
+    title = Strings.languageSetting.tr;
   }
 }

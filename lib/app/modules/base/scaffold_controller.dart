@@ -7,12 +7,4 @@ abstract class ScaffoldController<T> extends BaseController<T> {
   String get title => _title.value;
 
   set title(String title) => _title.value = title;
-
-  @override
-  void onInit() {
-    setTitle();
-    super.onInit();
-  }
-
-  void setTitle() {}
 }
