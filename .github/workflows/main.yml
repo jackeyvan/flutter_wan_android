@@ -7,7 +7,8 @@ jobs:
   build:
     name: Build Web
     env:
-      my_secret: ${{secrets.SECRET_COMMIT}}
+      # 使用Github自动生成的令牌
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -29,7 +30,7 @@ jobs:
           git config --global user.name jackeyvan
           git status
           # https://github.com/jackeyvan/flutter_wan_android.git
-          git remote add origin https://${{secrets.SECRET_COMMIT}}@github.com/jackeyvan/flutter_wan_android.git
+          git remote add origin https://$GH_TOKEN@github.com/jackeyvan/flutter_wan_android.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
