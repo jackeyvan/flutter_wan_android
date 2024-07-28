@@ -1,7 +1,9 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/core/utils/log_utils.dart';
+import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,6 +14,7 @@ class ArticleDetailBinding extends Bindings {
   }
 }
 
+/// 文章详情，暂时没有设置背景颜色的API
 class ArticleDetailController extends ScaffoldController<ArticleEntity> {
   InAppWebViewController? _webViewController;
 
@@ -70,6 +73,11 @@ class ArticleDetailController extends ScaffoldController<ArticleEntity> {
   /// WebView Controller创建
   void controllerCreate(InAppWebViewController controller) {
     _webViewController = controller;
-    // controller.clearCache()
+  }
+
+  /// 复制
+  void copyUrl() {
+    Clipboard.setData(ClipboardData(text: webUrl));
+    OverlayUtils.showToast("复制成功");
   }
 }

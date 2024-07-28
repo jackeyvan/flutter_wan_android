@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_page.dart';
@@ -12,6 +14,9 @@ class ArticleDetailPage extends ScaffoldPage<ArticleDetailController> {
     return buildObx(
         builder: () => Stack(children: [
               InAppWebView(
+                gestureRecognizers: {}..add(
+                    Factory<VerticalDragGestureRecognizer>(
+                        () => VerticalDragGestureRecognizer())),
                 initialSettings: controller.settings,
                 initialUrlRequest: URLRequest(url: WebUri(controller.webUrl)),
                 keepAlive: InAppWebViewKeepAlive(),
@@ -41,7 +46,9 @@ class ArticleDetailPage extends ScaffoldPage<ArticleDetailController> {
       IconButton(
           onPressed: () => controller.launchInBrowserView(),
           icon: const Icon(Icons.open_in_browser_outlined)),
-      IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
+      IconButton(
+          onPressed: () => controller.copyUrl(),
+          icon: const Icon(Icons.copy_all_outlined)),
     ];
   }
 }
