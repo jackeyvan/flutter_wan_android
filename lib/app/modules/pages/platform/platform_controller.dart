@@ -31,7 +31,11 @@ class PlatformController extends GetRefreshListController<ArticleEntity> {
 
   @override
   Future<List<ArticleEntity>> loadListData(int page, bool isRefresh) {
-    return WanAndroidRepository.platformList(id ?? 0, page)
-        .then((e) => e?.datas ?? []);
+    return WanAndroidRepository.platformList(id ?? 0, page).then((e) {
+      return (e?.datas ?? []).map((d) {
+        d.tags = null;
+        return d;
+      }).toList();
+    });
   }
 }

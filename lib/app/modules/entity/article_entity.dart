@@ -92,7 +92,7 @@ class ArticleTags {
   String? name;
   String? url;
 
-  ArticleTags();
+  ArticleTags({this.name});
 
   factory ArticleTags.fromJson(Map<String, dynamic> json) =>
       $ArticleTagsFromJson(json);

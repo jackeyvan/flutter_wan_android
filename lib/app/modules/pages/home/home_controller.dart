@@ -24,7 +24,14 @@ class HomeController extends GetRefreshListController<ArticleEntity> {
         var topArticle = result[1] as List<ArticleEntity>?;
 
         if (topArticle != null) {
-          data.addAll(topArticle);
+          final value = topArticle.map((e) {
+            e.tags = [ArticleTags(name: "置顶")];
+            e.chapterName = null;
+            e.superChapterName = null;
+            return e;
+          }).toList();
+
+          data.addAll(value);
         }
 
         var listModel = (result[2] as ArticleListEntity).datas;
