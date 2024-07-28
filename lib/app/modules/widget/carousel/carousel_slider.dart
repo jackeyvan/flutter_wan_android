@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'carousel_controller.dart';
+import 'carousel_delegate.dart';
 import 'carousel_options.dart';
 import 'carousel_state.dart';
 import 'carousel_utils.dart';
 
-export 'carousel_controller.dart';
+export 'carousel_delegate.dart';
 export 'carousel_options.dart';
 
 typedef ExtendedIndexedWidgetBuilder = Widget Function(
@@ -29,7 +29,7 @@ class CarouselSlider extends StatefulWidget {
   final ExtendedIndexedWidgetBuilder? itemBuilder;
 
   /// A [MapController], used to control the map.
-  final CarouselControllerImpl carouselController;
+  final CarouselDelegateImpl carouselController;
 
   final int? itemCount;
 
@@ -37,13 +37,13 @@ class CarouselSlider extends StatefulWidget {
       {required this.items,
       required this.options,
       this.disableGesture,
-      CarouselController? carouselController,
+      CarouselDelegate? carouselController,
       super.key})
       : itemBuilder = null,
         itemCount = items != null ? items.length : 0,
         carouselController = carouselController != null
-            ? carouselController as CarouselControllerImpl
-            : CarouselController() as CarouselControllerImpl;
+            ? carouselController as CarouselDelegateImpl
+            : CarouselDelegate() as CarouselDelegateImpl;
 
   /// The on demand item builder constructor
   CarouselSlider.builder(
@@ -51,12 +51,12 @@ class CarouselSlider extends StatefulWidget {
       required this.itemBuilder,
       required this.options,
       this.disableGesture,
-      CarouselController? carouselController,
+      CarouselDelegate? carouselController,
       super.key})
       : items = null,
         carouselController = carouselController != null
-            ? carouselController as CarouselControllerImpl
-            : CarouselController() as CarouselControllerImpl;
+            ? carouselController as CarouselDelegateImpl
+            : CarouselDelegate() as CarouselDelegateImpl;
 
   @override
   CarouselSliderState createState() => CarouselSliderState();
@@ -64,7 +64,7 @@ class CarouselSlider extends StatefulWidget {
 
 class CarouselSliderState extends State<CarouselSlider>
     with TickerProviderStateMixin {
-  late CarouselControllerImpl carouselController;
+  late CarouselDelegateImpl carouselController;
 
   Timer? timer;
 
