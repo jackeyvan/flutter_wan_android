@@ -54,10 +54,6 @@ dependencies:
 
 #  path_provider: ^2.1.3
 
-
-  # 无限轮播的卡片，实现Banner效果
-  carousel_slider: ^4.2.1
-
   # TODO 页面跳转动画
   animations: ^2.0.11
 
