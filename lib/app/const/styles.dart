@@ -33,6 +33,34 @@ class Strings {
     // color: GSYColors.subLightTextColor,
     fontSize: minTextSize,
   );
+
+  /// 转义一下特殊字符
+  ///
+  /// "	双引号（英文）	&quot;
+  /// ‘	左单引号	&lsquo;
+  /// ’	右单引号	&rsquo;
+  /// ×	乘号	&times;
+  /// ÷	除号	&divide;
+  /// >	大于号	&gt;
+  /// <	小于号	&lt;
+  /// &	“与”符号	&amp;
+  /// —	长破折号	&mdash;
+  /// |	竖线	&#124;
+  ///
+  static String escape(String value) {
+    return value
+        .replaceAll(RegExp(r'<[^>]*>|&nbsp;'), '')
+        .replaceAll(RegExp(r'<[^>]*>|&quot;'), '""')
+        .replaceAll(RegExp(r'<[^>]*>|&amp;'), '&')
+        .replaceAll(RegExp(r'<[^>]*>|&times;'), '×')
+        .replaceAll(RegExp(r'<[^>]*>|&divide;'), '÷')
+        .replaceAll(RegExp(r'<[^>]*>|&lsquo;'), '"')
+        .replaceAll(RegExp(r'<[^>]*>|&rsquo;'), '"')
+        .replaceAll(RegExp(r'<[^>]*>|&gt;'), '>')
+        .replaceAll(RegExp(r'<[^>]*>|&lt;'), '<')
+        .replaceAll(RegExp(r'<[^>]*>|&#124;'), '|')
+        .replaceAll(RegExp(r'<[^>]*>|&mdash;'), '—');
+  }
 }
 
 class FontSize {

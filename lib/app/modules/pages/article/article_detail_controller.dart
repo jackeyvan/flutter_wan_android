@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/core/utils/log_utils.dart';
@@ -38,7 +39,7 @@ class ArticleDetailController extends ScaffoldController<ArticleEntity> {
     var args = Get.arguments;
 
     if (args != null && args is ArticleEntity) {
-      title = args.title ?? "";
+      title = Strings.escape(args.title ?? "");
       data = args;
       webUrl = args.link ?? "";
       showSuccessPage();

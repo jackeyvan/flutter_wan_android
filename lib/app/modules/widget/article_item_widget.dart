@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
@@ -152,7 +153,7 @@ class ArticleItemWidget extends StatelessWidget {
     return Padding(
         padding: padding,
         child: Text(
-          data,
+          Strings.escape(data),
           style: style,
           maxLines: maxLines,
         ));
