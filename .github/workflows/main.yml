@@ -28,8 +28,8 @@ jobs:
           # 改成你的提交用户名
           git config --global user.name jackeyvan
           git status
-          # git@github.com:jackeyvan/flutter_wan_android.git
-          git remote add origin https://${{secrets.SECRET_COMMIT}}@github.com:jackeyvan/flutter_wan_android.git
+          # https://github.com/jackeyvan/flutter_wan_android.git
+          git remote add origin https://${{secrets.SECRET_COMMIT}}@github.com/jackeyvan/flutter_wan_android.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
