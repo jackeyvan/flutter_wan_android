@@ -148,13 +148,6 @@ class WanAndroidRepository {
     if (result != null) {
       final data = _api.convert<List<HotKeyEntity>>(result);
       if (data != null) {
-        /// 随机一下数据,转成无序集合Set
-        // Set<HotKeyEntity> setData = {};
-        // for (var e in data) {
-        //   setData.add(e);
-        // }
-
-        /// 重新转回List
         return data;
       }
     }

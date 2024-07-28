@@ -18,8 +18,8 @@ abstract class BaseApi {
 
     /// 请求日志打印
     _dio.interceptors.add(PrettyDioLogger(
-      request: false,
-      responseBody: true,
+      request: true,
+      responseBody: false,
     ));
 
     init(_dio);

@@ -9,31 +9,32 @@ class CacheInterceptor extends Interceptor {
   CacheInterceptor(
       {required this.defaultCacheMode, required this.defaultExpireTime});
 
-  ///
-  /// 1、不能先返回缓存，然后再继续请求
-  /// 2、先返回缓存后，不能使用transform转换数据
-  ///
-  /// 解决：
-  /// 1、获取缓存要放在调用dio之前
-  /// 2、拦截器去掉拦截Request
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var cacheMode = options.extra['cacheMode'];
     final key = Cache.cacheKey(options.path, params: options.queryParameters);
     options.extra.addAll({"cacheKey": key});
 
     /// 设置默认的数据
-    cacheMode ??= defaultCacheMode.name;
-    if (cacheMode == CacheMode.cacheFirstThenRemote.name) {
-      /// 暂时不处理，转为[cacheOnly]模式
-      cacheMode = CacheMode.cacheOnly;
+    cacheMode ??= defaultCacheMode;
+    if (cacheMode == CacheMode.cacheFirstThenRemote) {
+      final json = Cache.readCache(key);
+
+      /// 缓存不为空才返回，缓存没有的话继续请求
+      if (json != null) {
+        return handler.resolve(Response(
+          statusCode: 200,
+          data: json,
+          statusMessage: "获取缓存数据成功",
+          requestOptions: RequestOptions(),
+        ));
+      }
     }
 
-    /// 只读取缓存数据，不请求网络数据
-    else if (cacheMode == CacheMode.cacheOnly.name) {
+    if (cacheMode == CacheMode.cacheOnly) {
+      /// 只读取缓存数据，不请求网络数据
       /// 无论是否有缓存，都直接返回
-      final json = await Cache.readCache(key);
+      final json = Cache.readCache(key);
       return handler.resolve(Response(
         statusCode: 200,
         data: json,

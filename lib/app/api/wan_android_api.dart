@@ -16,13 +16,13 @@ class WanAndroidApi extends BaseApi {
   void init(Dio dio) {
     dio.options.baseUrl = WanAndroidApiPaths.baseUrl;
 
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 5);
-    dio.options.sendTimeout = const Duration(seconds: 5);
+    dio.options.connectTimeout = const Duration(seconds: 15);
+    dio.options.receiveTimeout = const Duration(seconds: 15);
+    dio.options.sendTimeout = const Duration(seconds: 15);
 
     /// 缓存拦截器
     dio.interceptors.add(CacheInterceptor(
-        defaultCacheMode: CacheMode.remoteFirstThenCache,
+        defaultCacheMode: CacheMode.cacheFirstThenRemote,
         defaultExpireTime: const Duration(days: 7)));
 
     /// Cookie持久化

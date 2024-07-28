@@ -109,7 +109,8 @@ class SearchSuggestionsController extends BaseController {
   }
 
   void retryHotkeys() {
-    // 更新hotKeyData数据
-    // hotKeyData
+    /// 随机排序hotKeyData数据
+    hotKeyData.shuffle();
+    update();
   }
 }
