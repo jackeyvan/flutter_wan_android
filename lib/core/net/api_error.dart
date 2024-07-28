@@ -2,8 +2,8 @@ class ApiError implements Exception {
   String? message;
   final int? code;
 
-  static String defaultError = "请求失败";
-  static String parseError = "数据解析异常";
+  static const defaultError = "请求失败";
+  static const parseError = "数据解析异常";
 
   /// 获取原始错误信息
   final String? origin;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/pages/user/login_controller.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
@@ -45,14 +46,15 @@ class LoginPage extends BasePage<LoginController> {
                             children: [
                               buildLoginText(controller.loginText),
 
-                              buildTextField(
-                                  controller.accountController, "账号"),
+                              buildTextField(controller.accountController,
+                                  Strings.account.tr),
 
-                              buildTextField(controller.passController, "密码"),
+                              buildTextField(controller.passController,
+                                  Strings.password.tr),
 
                               /// 重复密码
-                              buildTextField(
-                                  controller.rePassController, "重复密码",
+                              buildTextField(controller.rePassController,
+                                  Strings.rePassword.tr,
                                   visible: controller.isLoginPage),
 
                               /// 登录注册按钮

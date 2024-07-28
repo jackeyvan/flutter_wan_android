@@ -17,6 +17,9 @@ enum CacheMode {
 }
 
 class Cache {
+  static const cacheSuccess = "获取缓存数据成功";
+  static const cacheError = "获取缓存数据失败";
+
   /// 读取缓存数据
   static T? readCache<T>(String key) {
     var cache = Storage.read<Map<String, dynamic>>(key);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:flutter_wan_android/core/net/api_error.dart';
@@ -25,11 +26,13 @@ class LoginController extends BaseController {
 
   final TextEditingController rePassController = TextEditingController();
 
-  String get loginText => isLoginPage ? "登录" : "注册";
+  String get loginText => isLoginPage ? Strings.login.tr : Strings.register.tr;
 
-  String get toLoginTips => isLoginPage ? "还没有账号？" : "已经有账号，";
+  String get toLoginTips =>
+      isLoginPage ? Strings.donHaveAccount.tr : Strings.haveAccount.tr;
 
-  String get toLoginButtonTips => isLoginPage ? "注册" : "登录";
+  String get toLoginButtonTips =>
+      isLoginPage ? Strings.register.tr : Strings.login.tr;
 
   /// 登录或者注册
   void toLogin() {
@@ -37,26 +40,26 @@ class LoginController extends BaseController {
     final password = passController.text;
 
     if (isNullOrBlank(account) || isNullOrBlank(password)) {
-      OverlayUtils.showToast("账号或密码为空");
+      OverlayUtils.showToast(Strings.accountOrPasswordIsNull.tr);
       return;
     }
 
     if (isLoginPage) {
       OverlayUtils.showOverlay(
               () => WanAndroidRepository.login(true, account, password))
-          .then((value) => offPage("登录成功"))
+          .then((value) => offPage(Strings.loginSuccess.tr))
           .catchError((error, _) => handleError(error));
     } else {
       final rePassword = rePassController.text;
 
       if (rePassword != password) {
-        OverlayUtils.showToast("两次密码不一致");
+        OverlayUtils.showToast(Strings.twicePasswordDiffer.tr);
         return;
       }
 
       OverlayUtils.showOverlay(() => WanAndroidRepository.login(
               false, account, password, rePassword: rePassword))
-          .then((e) => offPage("注册成功"))
+          .then((e) => offPage(Strings.registerSuccess.tr))
           .catchError((error, _) => handleError(error));
     }
   }

@@ -32,7 +32,7 @@ class HomePage extends GetRefreshPage<HomeController> {
                   onPressed: () => showSearch(
                       context: context,
                       delegate: SearchBarDelegate(
-                          controller: controller, hintText: "搜索")),
+                          controller: controller, hintText: Strings.search.tr)),
                   icon: const Icon(Icons.search))
             ],
           ),

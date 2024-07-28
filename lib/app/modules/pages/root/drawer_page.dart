@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
@@ -17,7 +18,7 @@ class DrawerController extends BaseController {
   StreamSubscription? subscription;
 
   String nickName() {
-    return isLogin() ? user.value?.username ?? "" : "点我登录";
+    return isLogin() ? user.value?.username ?? "" : Strings.clickToLogin.tr;
   }
 
   void nickNameOnTap() {
@@ -42,14 +43,15 @@ class DrawerController extends BaseController {
     showDialog(
         context: context,
         builder: (context) {
-          return OverlayUtils.buildDialog("请确认退出登录", onConfirm: () {
+          return OverlayUtils.buildDialog(Strings.logoutConfirm.tr,
+              onConfirm: () {
             WanAndroidRepository.logout().then((_) {
               User.clear();
-              OverlayUtils.showToast("退出成功");
+              OverlayUtils.showToast(Strings.logoutSuccess.tr);
               Routes.back();
               user.value = null;
             }).catchError((e, _) {
-              OverlayUtils.showToast("退出失败，请重试");
+              OverlayUtils.showToast(Strings.logoutFailure.tr);
             });
           });
         });
@@ -106,17 +108,17 @@ class DrawerPage extends BasePage<DrawerController> {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.color_lens_outlined),
-                      title: const Text('主题'),
+                      title: Text(Strings.theme.tr),
                       onTap: () => Routes.toNamed(Routes.themeChose),
                     ),
                     ListTile(
                       leading: const Icon(Icons.language_outlined),
-                      title: const Text('语言'),
+                      title: Text(Strings.language.tr),
                       onTap: () => Routes.toNamed(Routes.language),
                     ),
                     ListTile(
                       leading: const Icon(Icons.logout_outlined),
-                      title: const Text('登出'),
+                      title: Text(Strings.logout.tr),
                       onTap: () => Routes.toNamed(Routes.language),
                     ),
                   ],
@@ -133,7 +135,7 @@ class DrawerPage extends BasePage<DrawerController> {
               child: TextButton.icon(
                 onPressed: () => controller.logout(context),
                 icon: const Icon(Icons.logout_outlined),
-                label: const Text("登出"),
+                label: Text(Strings.logout.tr),
               ))
           : const SizedBox.shrink())
     ]);

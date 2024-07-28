@@ -25,7 +25,7 @@ class CacheInterceptor extends Interceptor {
         return handler.resolve(Response(
           statusCode: 200,
           data: json,
-          statusMessage: "获取缓存数据成功",
+          statusMessage: Cache.cacheSuccess,
           requestOptions: RequestOptions(),
         ));
       }
@@ -38,7 +38,7 @@ class CacheInterceptor extends Interceptor {
       return handler.resolve(Response(
         statusCode: 200,
         data: json,
-        statusMessage: json != null ? "获取缓存数据成功" : "获取缓存数据失败",
+        statusMessage: json != null ? Cache.cacheSuccess : Cache.cacheError,
         requestOptions: RequestOptions(),
       ));
     }
@@ -79,7 +79,7 @@ class CacheInterceptor extends Interceptor {
         handler.resolve(Response(
           statusCode: 200,
           data: json,
-          statusMessage: '获取缓存数据成功',
+          statusMessage: Cache.cacheSuccess,
           requestOptions: RequestOptions(),
         ));
         return;

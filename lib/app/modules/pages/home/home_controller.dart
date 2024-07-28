@@ -1,7 +1,9 @@
 import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/banner_entity.dart';
 import 'package:flutter_wan_android/core/page/refresh/refresh_controller.dart';
+import 'package:get/get.dart';
 
 class HomeController extends GetRefreshListController<ArticleEntity> {
   @override
@@ -25,7 +27,7 @@ class HomeController extends GetRefreshListController<ArticleEntity> {
 
         if (topArticle != null) {
           final value = topArticle.map((e) {
-            e.tags = [ArticleTags(name: "置顶")];
+            e.tags = [ArticleTags(name: Strings.putTop.tr)];
             e.chapterName = null;
             e.superChapterName = null;
             return e;

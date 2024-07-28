@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/base/tab_controller.dart';
 import 'package:flutter_wan_android/app/modules/entity/article_entity.dart';
 import 'package:flutter_wan_android/app/modules/entity/structure_entity.dart';
@@ -22,13 +23,14 @@ class StructureTabController extends BaseTabController<String> {
   }
 
   @override
-  Future<List<String>> loadTabs() => Future.value(["体系", "导航"]);
+  Future<List<String>> loadTabs() =>
+      Future.value([Strings.structure.tr, Strings.navigator.tr]);
 
   @override
   List<Widget> buildTabs() => tabData.map((e) => Tab(text: e)).toList();
 
   @override
-  String get title => "体系";
+  String get title => Strings.structure.tr;
 }
 
 class StructureController extends GetRefreshListController<StructureEntity> {

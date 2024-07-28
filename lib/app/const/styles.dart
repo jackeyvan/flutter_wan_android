@@ -1,5 +1,3 @@
-/// 资源管理静态类
-
 class LocalStyles {
   // static const IconData PUSH_ITEM_EDIT = Icons.mode_edit;
 }
@@ -17,9 +15,36 @@ class Strings {
   static const String home = "home";
   static const String project = "project";
   static const String platform = "platform";
-
+  static const String structure = "structure";
   static const String languageSetting = "languageSetting";
+  static const String language = "language";
   static const String themeSetting = "themeSetting";
+  static const String theme = "theme";
+
+  static const String clickToLogin = "clickToLogin";
+  static const String logout = "logout";
+  static const String login = "login";
+  static const String loginSuccess = "loginSuccess";
+  static const String register = "register";
+  static const String twicePasswordDiffer = "twicePasswordDiffer";
+  static const String registerSuccess = "registerSuccess";
+  static const String search = "search";
+  static const String putTop = "putTop";
+  static const String clearSuccess = "clearSuccess";
+  static const String clear = "clear";
+  static const String navigator = "navigator";
+  static const String change = "Refresh";
+  static const String hotSearch = "hotSearch";
+  static const String historySearch = "historySearch";
+  static const String logoutConfirm = "logoutConfirm";
+  static const String logoutSuccess = "logoutSuccess";
+  static const String logoutFailure = "logoutFailure";
+  static const String account = "account";
+  static const String donHaveAccount = "donHaveAccount";
+  static const String haveAccount = "haveAccount";
+  static const String accountOrPasswordIsNull = "accountOrPasswordIsNull";
+  static const String password = "password";
+  static const String rePassword = "rePassword";
 
   static const lagerTextSize = 30.0;
   static const bigTextSize = 23.0;

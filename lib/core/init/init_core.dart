@@ -3,9 +3,6 @@ import 'package:crypto/crypto.dart' as crypto;
 /// 顶级函数
 /// 初始化一些常用的方法
 /// 初始化一些常用的引用对象
-///
-///
-///
 
 String md5(String data) {
   return crypto.md5.convert(data.codeUnits).toString();

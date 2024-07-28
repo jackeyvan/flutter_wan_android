@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/entity/hot_key_entity.dart';
 import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
@@ -47,7 +48,10 @@ class SearchSuggestionsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  Text(isHotkey ? "热门搜索" : "历史搜索",
+                  Text(
+                      isHotkey
+                          ? Strings.hotSearch.tr
+                          : Strings.historySearch.tr,
                       style: const TextStyle(fontSize: 16)),
                   const Spacer(),
                   TextButton.icon(
@@ -58,7 +62,8 @@ class SearchSuggestionsPage extends StatelessWidget {
                         controller.clearHistory();
                       }
                     },
-                    label: Text(isHotkey ? "换一换" : "清空"),
+                    label:
+                        Text(isHotkey ? Strings.change.tr : Strings.clear.tr),
                     icon: Icon(isHotkey ? Icons.refresh : Icons.clear),
                   )
                 ]),
@@ -105,7 +110,7 @@ class SearchSuggestionsController extends BaseController {
     historyData.clear();
     update();
     WanAndroidStorage.clearSearchHistory();
-    OverlayUtils.showToast("清除成功");
+    OverlayUtils.showToast(Strings.clearSuccess.tr);
   }
 
   void retryHotkeys() {

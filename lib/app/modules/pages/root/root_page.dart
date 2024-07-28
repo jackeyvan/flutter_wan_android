@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/pages/home/home_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/platform/platform_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/project/project_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/root/drawer_page.dart';
 import 'package:flutter_wan_android/app/modules/pages/structure/structure_page.dart';
-import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
 import 'package:get/get.dart';
 
@@ -16,11 +16,6 @@ class RootPage extends BasePage<RootController> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Routes.toNamed(Routes.login);
-            },
-            child: const Icon(Icons.add)),
         drawer: const Drawer(child: DrawerPage()),
         bottomNavigationBar: Obx(() => _buildBottomNavigationBar()),
         body: buildBody());
@@ -29,12 +24,14 @@ class RootPage extends BasePage<RootController> {
   /// 生成底部Bar
   BottomNavigationBar _buildBottomNavigationBar() {
     final items = <BottomNavigationBarItem>[
-      const BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
-      const BottomNavigationBarItem(
-          icon: Icon(Icons.propane_outlined), label: "项目"),
-      const BottomNavigationBarItem(icon: Icon(Icons.call_split), label: "体系"),
-      const BottomNavigationBarItem(
-          icon: Icon(Icons.adjust_outlined), label: "公众号"),
+      BottomNavigationBarItem(
+          icon: const Icon(Icons.home), label: Strings.home.tr),
+      BottomNavigationBarItem(
+          icon: const Icon(Icons.propane_outlined), label: Strings.project.tr),
+      BottomNavigationBarItem(
+          icon: const Icon(Icons.call_split), label: Strings.structure.tr),
+      BottomNavigationBarItem(
+          icon: const Icon(Icons.adjust_outlined), label: Strings.platform.tr),
     ];
 
     return BottomNavigationBar(
