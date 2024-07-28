@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 /// 资源管理静态类
 
 class LocalStyles {
@@ -21,6 +19,7 @@ class Strings {
   static const String platform = "platform";
 
   static const String languageSetting = "languageSetting";
+  static const String themeSetting = "themeSetting";
 
   static const lagerTextSize = 30.0;
   static const bigTextSize = 23.0;
@@ -28,11 +27,6 @@ class Strings {
   static const middleTextWhiteSize = 16.0;
   static const smallTextSize = 14.0;
   static const minTextSize = 12.0;
-
-  static const minText = TextStyle(
-    // color: GSYColors.subLightTextColor,
-    fontSize: minTextSize,
-  );
 
   /// 转义一下特殊字符
   ///

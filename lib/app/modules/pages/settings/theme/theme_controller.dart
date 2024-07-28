@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/const/styles.dart';
 import 'package:flutter_wan_android/app/modules/base/scaffold_controller.dart';
 import 'package:flutter_wan_android/core/init/themes.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ class ThemeController extends ScaffoldController {
 
   @override
   void setTitle() {
-    title = "主题设置";
+    title = Strings.themeSetting.tr;
   }
 
   void onItemClick(ThemeModel model) {
@@ -31,14 +32,16 @@ class ThemeController extends ScaffoldController {
     }
 
     AppTheme.changeThemeFromModel(model);
+
+    update();
   }
 
   bool isSelected(ThemeModel model) {
     if (model.mode != null) {
       return themeMode.value == model.mode;
-    } else {
-      return name.value == model.name;
     }
+
+    return name.value == model.name;
   }
 
   Color get selectColor {

@@ -33,10 +33,12 @@ const zhCN = {
   'home': '首页',
   'languageSetting': '语言设置',
   'label': '玩安卓',
+  'themeSetting': '主题设置',
 };
 
 const enUS = {
   'home': 'Home',
   'languageSetting': 'Language Setting',
   'label': 'WanAndroid',
+  'themeSetting': 'Theme Setting',
 };
