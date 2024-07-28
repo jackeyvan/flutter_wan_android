@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_wan_android/app/const/keys.dart';
@@ -25,13 +26,17 @@ class User {
 
   User();
 
+  static final streamController = StreamController<User>();
+
   static User? _user;
 
   /// 获取用户信息
   static User? getUser() {
-    final value = Storage.read(Keys.userKey);
-    if (value != null) {
-      _user ??= User.fromJson(value);
+    if (_user != null) return _user;
+
+    final json = Storage.read(Keys.userKey);
+    if (json != null) {
+      _user = $UserFromJson(json);
     }
 
     return _user;
@@ -43,15 +48,15 @@ class User {
   }
 
   /// 清除用户信息
-  static Future<void> clear() {
+  static Future<void> clear() async {
     _user = null;
-    return Storage.remove(Keys.userKey);
+    Storage.remove(Keys.userKey);
   }
 
   User.fromJson(Map<String, dynamic> json) {
-    $UserFromJson(json);
+    _user = $UserFromJson(json);
 
-    _user = this;
+    streamController.add(_user!);
 
     /// 解析User数据时，保存到本地
     Storage.write(Keys.userKey, _user);

@@ -44,7 +44,7 @@ class WanAndroidApi extends BaseApi {
       if (result.success) {
         final data = JsonConvert.fromJsonAsT<T>(result.data);
 
-        /// 返回成功，但是data没有具体数据，这里使用字符串作为PlaceHolder
+        /// 返回成功，数据可能为null
         return data;
       } else {
         /// 请求不成功

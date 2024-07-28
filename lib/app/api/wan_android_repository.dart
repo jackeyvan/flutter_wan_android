@@ -178,6 +178,11 @@ class WanAndroidRepository {
           });
     }
   }
+
+  /// 退出登录
+  static Future logout() {
+    return _api.get(WanAndroidApiPaths.logout);
+  }
 }
 
 /// =====================================================================================================================

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/routes/routes.dart';
 import 'package:flutter_wan_android/core/init/init_core.dart';
 import 'package:fluttertoast/fluttertoast.dart' as f_toast;
 import 'package:get/get.dart';
@@ -6,7 +7,7 @@ import 'package:get/get.dart';
 /// 封装顶级弹窗工具类
 class OverlayUtils {
   /// 普通的提示对话框
-  static void showDialog(
+  static AlertDialog buildDialog(
     String content, {
     String? title,
     String? cancel,
@@ -14,13 +15,27 @@ class OverlayUtils {
     VoidCallback? onConfirm,
     VoidCallback? onCancel,
   }) {
-    Get.defaultDialog(
-      title: title ?? "温馨提示",
+    return AlertDialog(
+      title: Text(title ?? '温馨提示'),
       content: Text(content),
-      textCancel: cancel ?? "取消",
-      textConfirm: cancel ?? "取消",
-      onConfirm: onConfirm,
-      onCancel: onCancel,
+      actions: <Widget>[
+        TextButton(
+          child: Text(cancel ?? '取消'),
+          onPressed: () {
+            onCancel != null
+                ? onCancel.call()
+                : Routes.back(); // Dismiss alert dialog
+          },
+        ),
+        TextButton(
+          child: Text(confirm ?? '确认'),
+          onPressed: () {
+            onConfirm != null
+                ? onConfirm.call()
+                : Routes.back(); // Dismiss alert dialog
+          },
+        ),
+      ],
     );
   }
 

@@ -23,10 +23,7 @@ class LoginPage extends BasePage<LoginController> {
                       pinned: true,
                       expandedHeight: 240,
                       flexibleSpace: FlexibleSpaceBar(
-                        background: Image.asset(
-                          "assets/images/vector-1.png",
-                          fit: BoxFit.cover,
-                        ),
+                        background: Obx(() => controller.bgImg()),
                       ),
                       forceElevated: innerBoxIsScrolled,
                     ),

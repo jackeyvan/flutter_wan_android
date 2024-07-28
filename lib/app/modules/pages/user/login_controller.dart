@@ -20,13 +20,10 @@ class LoginController extends BaseController {
 
   bool get isLoginPage => _isLoginPage.value;
 
-  final TextEditingController accountController =
-      TextEditingController(text: "pgtwo");
-  final TextEditingController passController =
-      TextEditingController(text: "123456");
+  final TextEditingController accountController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
 
-  final TextEditingController rePassController =
-      TextEditingController(text: "123456");
+  final TextEditingController rePassController = TextEditingController();
 
   String get loginText => isLoginPage ? "登录" : "注册";
 
@@ -78,5 +75,12 @@ class LoginController extends BaseController {
   changeToRegisterPage() {
     _isLoginPage.value = !isLoginPage;
     update();
+  }
+
+  Widget bgImg() {
+    final url = isLoginPage
+        ? "assets/images/login_bg.png"
+        : "assets/images/register_bg.png";
+    return Image.asset(url, fit: BoxFit.cover);
   }
 }

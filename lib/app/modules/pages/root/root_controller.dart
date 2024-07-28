@@ -5,20 +5,7 @@ import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:flutter_wan_android/core/utils/log_utils.dart';
 import 'package:get/get.dart';
 
-abstract class IRootProvider {
-  Future<User> loadUserinfo();
-}
-
-class RootProvider extends IRootProvider {
-  @override
-  Future<User> loadUserinfo() {
-    return Future.value(User());
-  }
-}
-
 class RootController extends BaseController {
-  final _provider = RootProvider();
-
   final _currentBottomIndex = 0.obs;
 
   final pageController = PageController();
@@ -51,7 +38,7 @@ class RootController extends BaseController {
   }
 
   loadUserinfo() {
-    _provider.loadUserinfo().then((user) {});
+    // _provider.loadUserinfo().then((user) {});
   }
 
   void loadAppInfo() {
@@ -62,5 +49,11 @@ class RootController extends BaseController {
     ) {
       LogUtils.log(e);
     });
+  }
+
+  @override
+  void onClose() {
+    User.streamController.close();
+    super.onClose();
   }
 }

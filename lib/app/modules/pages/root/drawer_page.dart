@@ -1,71 +1,142 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wan_android/app/api/wan_android_repository.dart';
 import 'package:flutter_wan_android/app/modules/entity/user_entity.dart';
 import 'package:flutter_wan_android/app/routes/routes.dart';
+import 'package:flutter_wan_android/core/page/base/base_controller.dart';
 import 'package:flutter_wan_android/core/page/base/base_page.dart';
+import 'package:flutter_wan_android/core/utils/overlay_utils.dart';
+import 'package:get/get.dart';
 
-class DrawerPage extends BasePage {
+class DrawerController extends BaseController {
+  final user = User.getUser().obs;
+
+  StreamSubscription? subscription;
+
+  String nickName() {
+    return isLogin() ? user.value?.username ?? "" : "点我登录";
+  }
+
+  void nickNameOnTap() {
+    if (!isLogin()) Routes.toNamed(Routes.login);
+  }
+
+  @override
+  void onReady() {
+    subscription = User.streamController.stream.listen((user) {
+      this.user.value = user;
+    });
+  }
+
+  @override
+  void onClose() {
+    subscription?.cancel();
+    super.onClose();
+  }
+
+  /// 退出登录
+  void logout(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return OverlayUtils.buildDialog("请确认退出登录", onConfirm: () {
+            WanAndroidRepository.logout().then((_) {
+              User.clear();
+              OverlayUtils.showToast("退出成功");
+              Routes.back();
+              user.value = null;
+            }).catchError((e, _) {
+              OverlayUtils.showToast("退出失败，请重试");
+            });
+          });
+        });
+  }
+
+  bool isLogin() => user.value != null;
+}
+
+class DrawerPage extends BasePage<DrawerController> {
   static const _imgHeight = 96.0;
   static const _expandedHeight = 120.0;
 
   const DrawerPage({super.key});
 
   @override
+  void dependencies() {
+    Get.lazyPut(() => DrawerController());
+  }
+
+  @override
   Widget buildPage(BuildContext context) {
     final themeData = Theme.of(context);
-    return EasyRefresh(
-      header: buildRefreshHeader(themeData),
-      onRefresh: () {},
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: themeData.colorScheme.primary,
-            foregroundColor: themeData.colorScheme.onPrimary,
-            expandedHeight: _expandedHeight,
-            pinned: true,
-            automaticallyImplyLeading: false,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                getNickname(),
-                style: TextStyle(color: themeData.colorScheme.onPrimary),
-              ),
-              centerTitle: true,
-              titlePadding: const EdgeInsets.only(bottom: 18),
-            ),
-          ),
-          const HeaderLocator.sliver(paintExtent: 80),
-          SliverToBoxAdapter(
-            child: Card(
-              // elevation: 0,
-              margin: const EdgeInsets.only(top: 48, left: 16, right: 16),
-              color: themeData.colorScheme.primaryContainer,
-              // clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.color_lens_outlined),
-                    title: const Text('主题'),
-                    onTap: () => Routes.toNamed(Routes.themeChose),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.language_outlined),
-                    title: const Text('语言'),
-                    onTap: () => Routes.toNamed(Routes.language),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.logout_outlined),
-                    title: const Text('登出'),
-                    onTap: () => Routes.toNamed(Routes.language),
-                  ),
-                ],
+    return Stack(children: [
+      EasyRefresh(
+        header: buildRefreshHeader(themeData),
+        onRefresh: () {},
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: themeData.colorScheme.primary,
+              foregroundColor: themeData.colorScheme.onPrimary,
+              expandedHeight: _expandedHeight,
+              pinned: true,
+              automaticallyImplyLeading: false,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Obx(() => GestureDetector(
+                    onTap: () => controller.nickNameOnTap(),
+                    child: Text(
+                      controller.nickName(),
+                      style: TextStyle(color: themeData.colorScheme.onPrimary),
+                    ))),
+                centerTitle: true,
+                titlePadding: const EdgeInsets.only(bottom: 18),
               ),
             ),
-          ),
-        ],
+            const HeaderLocator.sliver(paintExtent: 80),
+            SliverToBoxAdapter(
+              child: Card(
+                // elevation: 0,
+                margin: const EdgeInsets.only(top: 48, left: 16, right: 16),
+                color: themeData.colorScheme.primaryContainer,
+                // clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.color_lens_outlined),
+                      title: const Text('主题'),
+                      onTap: () => Routes.toNamed(Routes.themeChose),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.language_outlined),
+                      title: const Text('语言'),
+                      onTap: () => Routes.toNamed(Routes.language),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout_outlined),
+                      title: const Text('登出'),
+                      onTap: () => Routes.toNamed(Routes.language),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    );
+      Obx(() => controller.isLogin()
+          ? Positioned(
+              bottom: 24,
+              right: 18,
+              child: TextButton.icon(
+                onPressed: () => controller.logout(context),
+                icon: const Icon(Icons.logout_outlined),
+                label: const Text("登出"),
+              ))
+          : const SizedBox.shrink())
+    ]);
   }
 
   BuilderHeader buildRefreshHeader(ThemeData themeData) {
@@ -117,7 +188,7 @@ class DrawerPage extends BasePage {
               bottom: 0,
               child: ClipOval(
                 child: Image.asset(
-                  "assets/images/user_head.jpg",
+                  "assets/icons/launcher_icon.png",
                   height: imgHeight,
                   width: imgHeight,
                 ),
@@ -127,11 +198,6 @@ class DrawerPage extends BasePage {
         );
       },
     );
-  }
-
-  String getNickname() {
-    final user = User.getUser();
-    return user != null ? user.nickname ?? "" : "请登录";
   }
 }
 
