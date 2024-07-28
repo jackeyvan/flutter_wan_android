@@ -58,19 +58,19 @@ class HomePage extends GetRefreshPage<HomeController> {
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) {
                   return Card(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: InkWell(
-                          onTap: () => Routes.toNamed(Routes.articleDetail,
-                              args: ArticleEntity(
-                                  title: banner[itemIndex].title,
-                                  link: banner[itemIndex].url)),
-                          child: CachedNetworkImage(
-                              fit: BoxFit.fill,
-                              imageUrl: banner[itemIndex].imagePath ?? "")),
+                    shape: RoundedRectangleBorder(borderRadius: borderRadius()),
+                    child: InkWell(
+                      borderRadius: borderRadius(),
+                      onTap: () => Routes.toNamed(Routes.articleDetail,
+                          args: ArticleEntity(
+                              title: banner[itemIndex].title,
+                              link: banner[itemIndex].url)),
+                      child: ClipRRect(
+                        borderRadius: borderRadius(),
+                        child: CachedNetworkImage(
+                            fit: BoxFit.fill,
+                            imageUrl: banner[itemIndex].imagePath ?? ""),
+                      ),
                     ),
                   );
                 });
@@ -81,4 +81,6 @@ class HomePage extends GetRefreshPage<HomeController> {
       ),
     );
   }
+
+  borderRadius() => const BorderRadius.all(Radius.circular(8));
 }
