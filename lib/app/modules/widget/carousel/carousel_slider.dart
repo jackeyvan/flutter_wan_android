@@ -11,7 +11,7 @@ import 'carousel_utils.dart';
 export 'carousel_controller.dart';
 export 'carousel_options.dart';
 
-typedef Widget ExtendedIndexedWidgetBuilder(
+typedef ExtendedIndexedWidgetBuilder = Widget Function(
     BuildContext context, int index, int realIndex);
 
 class CarouselSlider extends StatefulWidget {
@@ -29,7 +29,7 @@ class CarouselSlider extends StatefulWidget {
   final ExtendedIndexedWidgetBuilder? itemBuilder;
 
   /// A [MapController], used to control the map.
-  final CarouselControllerImpl _carouselController;
+  final CarouselControllerImpl carouselController;
 
   final int? itemCount;
 
@@ -38,13 +38,12 @@ class CarouselSlider extends StatefulWidget {
       required this.options,
       this.disableGesture,
       CarouselController? carouselController,
-      Key? key})
+      super.key})
       : itemBuilder = null,
         itemCount = items != null ? items.length : 0,
-        _carouselController = carouselController != null
+        carouselController = carouselController != null
             ? carouselController as CarouselControllerImpl
-            : CarouselController() as CarouselControllerImpl,
-        super(key: key);
+            : CarouselController() as CarouselControllerImpl;
 
   /// The on demand item builder constructor
   CarouselSlider.builder(
@@ -53,20 +52,20 @@ class CarouselSlider extends StatefulWidget {
       required this.options,
       this.disableGesture,
       CarouselController? carouselController,
-      Key? key})
+      super.key})
       : items = null,
-        _carouselController = carouselController != null
+        carouselController = carouselController != null
             ? carouselController as CarouselControllerImpl
-            : CarouselController() as CarouselControllerImpl,
-        super(key: key);
+            : CarouselController() as CarouselControllerImpl;
 
   @override
-  CarouselSliderState createState() => CarouselSliderState(_carouselController);
+  CarouselSliderState createState() => CarouselSliderState();
 }
 
 class CarouselSliderState extends State<CarouselSlider>
     with TickerProviderStateMixin {
-  final CarouselControllerImpl carouselController;
+  late CarouselControllerImpl carouselController;
+
   Timer? timer;
 
   CarouselOptions get options => widget.options;
@@ -78,10 +77,8 @@ class CarouselSliderState extends State<CarouselSlider>
   /// mode is related to why the page is being changed
   CarouselPageChangedReason mode = CarouselPageChangedReason.controller;
 
-  CarouselSliderState(this.carouselController);
-
-  void changeMode(CarouselPageChangedReason _mode) {
-    mode = _mode;
+  void changeMode(CarouselPageChangedReason mode) {
+    this.mode = mode;
   }
 
   @override
@@ -105,8 +102,10 @@ class CarouselSliderState extends State<CarouselSlider>
   @override
   void initState() {
     super.initState();
-    carouselState =
-        CarouselState(this.options, clearTimer, resumeTimer, this.changeMode);
+
+    carouselController = widget.carouselController;
+
+    carouselState = CarouselState(options, clearTimer, resumeTimer, changeMode);
 
     carouselState!.itemCount = widget.itemCount;
     carouselController.state = carouselState;
@@ -168,9 +167,7 @@ class CarouselSliderState extends State<CarouselSlider>
   }
 
   void resumeTimer() {
-    if (timer == null) {
-      timer = getTimer();
-    }
+    timer ??= getTimer();
   }
 
   void handleAutoPlay() {
@@ -187,7 +184,7 @@ class CarouselSliderState extends State<CarouselSlider>
   Widget getGestureWrapper(Widget child) {
     Widget wrapper;
     if (widget.options.height != null) {
-      wrapper = Container(height: widget.options.height, child: child);
+      wrapper = SizedBox(height: widget.options.height, child: child);
     } else {
       wrapper =
           AspectRatio(aspectRatio: widget.options.aspectRatio, child: child);
@@ -255,7 +252,7 @@ class CarouselSliderState extends State<CarouselSlider>
       double? scale,
       required double itemOffset}) {
     if (widget.options.enlargeStrategy == CenterPageEnlargeStrategy.height) {
-      return SizedBox(child: child, width: width, height: height);
+      return SizedBox(width: width, height: height, child: child);
     }
     if (widget.options.enlargeStrategy == CenterPageEnlargeStrategy.zoom) {
       late Alignment alignment;
@@ -265,11 +262,11 @@ class CarouselSliderState extends State<CarouselSlider>
       } else {
         alignment = horizontal ? Alignment.centerLeft : Alignment.topCenter;
       }
-      return Transform.scale(child: child, scale: scale!, alignment: alignment);
+      return Transform.scale(scale: scale!, alignment: alignment, child: child);
     }
     return Transform.scale(
         scale: scale!,
-        child: Container(child: child, width: width, height: height));
+        child: SizedBox(width: width, height: height, child: child));
   }
 
   void onStart() {
@@ -330,7 +327,7 @@ class CarouselSliderState extends State<CarouselSlider>
         return AnimatedBuilder(
           animation: carouselState!.pageController!,
           child: (widget.items != null)
-              ? (widget.items!.length > 0 ? widget.items![index] : Container())
+              ? (widget.items!.isNotEmpty ? widget.items![index] : Container())
               : widget.itemBuilder!(context, index, idx),
           builder: (BuildContext context, child) {
             double distortionValue = 1.0;
@@ -345,15 +342,15 @@ class CarouselSliderState extends State<CarouselSlider>
               if (position != null &&
                   position.hasPixels &&
                   position.hasContentDimensions) {
-                var _page = carouselState?.pageController?.page;
-                if (_page != null) {
-                  itemOffset = _page - idx;
+                var page = carouselState?.pageController?.page;
+                if (page != null) {
+                  itemOffset = page - idx;
                 }
               } else {
                 BuildContext storageContext = carouselState!
                     .pageController!.position.context.storageContext;
                 final double? previousSavedPosition =
-                    PageStorage.of(storageContext)?.readState(storageContext)
+                    PageStorage.of(storageContext).readState(storageContext)
                         as double?;
                 if (previousSavedPosition != null) {
                   itemOffset = previousSavedPosition - idx.toDouble();
